@@ -3,6 +3,7 @@
  * Author: stephan peischl
  *
  * Created on February 27, 2012, 5:37 PM
+ * Modified by Kim Gilbert, starting April 2017
  */
 
 #include <cstdlib>
@@ -22,30 +23,11 @@
 
 #include <unistd.h>
 
-//#include <boost\math\special_functions\binomial.hpp>
-//#include <boost\random\linear_congruential.hpp>
-//#include <boost\random\uniform_real.hpp>
-//#include <boost\random\variate_generator.hpp>
-//#include <boost\random\mersenne_twister.hpp>
-
-using namespace std;
-//using namespace boost::math;
-
-// Global declarations:
-//boost::mt19937 gen;		// Random generator recommended by Boost; declared globally so that it can be 
-							//	 seeded in main.cpp and then used elsewhere
-
 using namespace std;
 
 int main() {
     
-    // A static seed, useful for debuggin:
-    //
-    //gen.seed(42U);	
-	
-    // In real use, seed the random number generator from the system clock -- don't forget to do this!:
-    //
-    //gen.seed(static_cast<unsigned int>(time(NULL)));	
+// make input file setting to either read in random seed or generate a random one
    
    //Loro_09_04_13 Random number initialization
    long randSeed;
@@ -72,110 +54,113 @@ int main() {
    else curSeed = randSeed;
    
    
+   // read in inputs from file
+   // otherwise give error that no input file found
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   //__________________________________________________________________________
+   
    
    initializeRan3(curSeed);
 
-    //srand(1);
-    //long curRand = rand() % 1000;
- 
-    //long randSeed = ( getpid()) % 1000000;
-    //initializeRan3(randSeed);
        
     // parameters 
     
-    int anc_pop_size = 1000;                                                    // size of ancestral population - exists outside landscape, it's the pop that burns in for the burnin time defined below
-    int capacity = 200;                                                         // carrying capacity of a deme
-    int generations = 500;                                                      // number of generations that the expansion lasts
-    int burnin_time = 1;                                                        // number of burn in phase of the ancestral population
-    int IndSample = 100;                                                        // number of individuals that are sampled at the end of the simulation
-    double wf;                                                         			// ignore - it tells you what deme is most recently colonized
-    double s = 0.01;                                                            // selection coefficient
-    double m = 0.1;                                                             // migration rate
-    double mu = 0.05;                                                            // genome-wide mut rate U
-    int snapshot = 100;                                                          // number of generations between two snapshots of the whole metapopulation - it outputs data every 'snapshot' generations
-    int m1,m2;                                                                  // size of the 2D grid x = m2, y = m1 if you expand across the x-axis
-    int replicates = 2;                                                         // number of replicates of the simulation
-    int expansion_start = 100;                                                  // burnin time ON the grid - to mig-seln balance AFTER the ancestral pop burnin
-    
-    int selectionMode = 0;                                                      // SoftSelection = 0, HardSelection = 1
-    int expansionMode = 1;                                                      // 0 = linear expansion, 1 = radial expansion, 2 linear - starting from both ends of the habitat, 
+    int anc_pop_size;               // size of ancestral population - exists outside landscape, it's the pop that burns in for the burnin time defined below
+    int capacity;                   // carrying capacity of a deme
+    int generations;                // number of generations that the expansion lasts
+    int burnin_time;                // number of burn in phase of the ancestral population
+    double wf;                      // ignore - it tells you what deme is most recently colonized
+    double s;                       // selection coefficient
+    double m;                       // migration rate
+    double mu;                      // genome-wide mut rate U
+    int snapshot;                   // number of generations between two snapshots of the whole metapopulation - it outputs data every 'snapshot' generations
+    int m1,m2;                      // size of the 2D grid x = m2, y = m1 if you expand across the x-axis
+    int replicates;                 // number of replicates of the simulation
+    int expansion_start;            // burnin time ON the grid - to mig-seln balance AFTER the ancestral pop burnin
+    int selectionMode;              // SoftSelection = 0, HardSelection = 1
+    int expansionMode;              // 0 = linear expansion, 1 = radial expansion, 2 linear - starting from both ends of the habitat, 
+    int starting_demes;             // used to calculate number of initially colonized demes as landscape height times this number
           
-          
-    int rep = 0; 	// this is the counter for going through reps, see if runs after deleting this - we need the variable, but don't need it to have value 0
-    int i,j,k;		// other counters
+    // counters and other parameters for running
     
-    int loci = 1000;                                                                      // 3 first and last deme are colonized (at opposite edges), 4 = four corners of the habitat are colonized
+    int rep;                        // this is the counter for going through reps, see if runs after deleting this - we need the variable, but don't need it to have value 0
+    int i,j,k;                      // other counters
+    int tot_demes = m1*m2;          // total number of demes in the world
+    int initial_colonized;          // number of initially colonized demes (location of demes is determined via mode)
+        
+
+    
+    int loci = 1000;    // 3 first and last deme are colonized (at opposite edges), 4 = four corners of the habitat are colonized
     
 
    	// root dir for output files and  the starting name - fix this to come from param file
-    const char base[] = "C:/Users/gilbert/Documents/RangeShiftsProject/ExpLoad/out_test_";
+    const char base[] = "/home/gilbert/StephansProgram/out_test_";
+   	// root dir for log files and the starting name - fix this to come from param file
+    const char filename_log[] = "/home/gilbert/StephansProgram/out_test_log";
+
+
 
     
     char filename[150]; 
     char filename2[150]; 
     char filename3[150];  
-    char filename4[150];  
-  
-   	// root dir for log files and the starting name - fix this to come from param file
-    const char filename_log[] = "C:/Users/gilbert/Documents/RangeShiftsProject/ExpLoad/out_test_log";
-
-    
-
+    char filename4[150];
                                                            
                                             
     ofstream outputfile,outputfile2,outputfile3,outputfile4,logfile;                        // streams to outputfiles
     logfile.open(filename_log);
-    
     logfile << "Random number generator initialized with seed " << curSeed << "\n";
-    
-
-    
-    int initial_colonized;                                                 // number of initially colonized demes (location of demes is determined via mode)
-    
-    int tot_demes = m1*m2;                                                      // total number of demes in the world
     
     ifstream infile;
 
-    // this is the general input file, reads for whatever filename is listed here
-    infile.open ("C:/Users/gilbert/Documents/RangeShiftsProject/ExpLoad/parameters.txt", ifstream::in);                            
-    
+    // this is the default input file, looks in working directory for this file
+    infile.open ("input_parameters.txt", ifstream::in);                            
     
     double par;
     vector<double> params;
     
     while (infile >> par){
-                
         params.push_back(par);
-    
     }
-    
- 
     
     if (params.size() > 11)
     {
         m1 = params[0];
         m2 = params[1];
-        tot_demes = m1*m2;
-        expansionMode = params[2];
-        selectionMode = params[3];
+        starting_demes = params[2];
+        capacity = params[3];
         anc_pop_size = params[4];
-        burnin_time = params[5];
-        capacity = params[6];
-        mu = params[7];
-        m = params[8];
-        s = params[9];
-        expansion_start = params[10];
-        generations = params[11];
-        replicates = params[12];
-
-        initial_colonized = 10*m1; 
-       
         
+        burnin_time = params[5];
+        expansion_start = params[6];
+        generations = params[7];
+        snapshot = params[8];
+        replicates = params[9];
+
+        expansionMode = params[10];
+        selectionMode = params[11];
+        mu = params[12];
+        m = params[13];
+        s = params[14];
+
+        
+        tot_demes = m1*m2;
+        initial_colonized = starting_demes*m1; 
     }
-    
     else 
     {
-        logfile << "\n NO VALID PARAMETER FILE FOUND! USING DEFAULT PARAMETERS. \n";
+        logfile << "\n NO VALID INPUT PARAMETER FILE FOUND! EXITING SIMULATION. \n";
+        cout << "\n NO VALID INPUT PARAMETER FILE FOUND! EXITING SIMULATION. \n";
+        return 0;
     }
     
     logfile << "Simulating an expansion on a " << m1 << "x"<<m2<<" grid. \n";
@@ -221,7 +206,7 @@ int main() {
     World Grid2D(m1,m2,initial_colonized,anc_pop_size,burnin_time,capacity,expansionMode,mu,s,m);               // initialize world: grid size (m1,m2), number of initially colonized demes, 
                                                                                                                 // size of original population, burn in time of original population, capacity of demes, mode of intial colonization   
     
-    srand(time(NULL));		//might be an artifact -- CHECK - in case it overwrites the random number seed ???
+   // srand(time(NULL));		//might be an artifact -- CHECK - in case it overwrites the random number seed ???
     
     
     
@@ -243,9 +228,7 @@ int main() {
 //        for(i = 10; i < m2; i++)
 //        {
 //                Grid2D.startExpansion((m1/2)*m2+i,0);
-//
 //        }
-////        
 //       for (i = 0;i < m1; i++)
 //        {
 //             Grid2D.startExpansion((i)*m2+(initial_colonized/m1)+1,0);     //  Migration-barrier for burn in
@@ -267,9 +250,7 @@ int main() {
         
 //        Grid2D.startExpansion((m1/2)*m2+(initial_colonized/m1)+1,0);     
         
-        
         // Grid2D.startExpansion((m1/2)*m2+(initial_colonized/m1)+1,capacity);     // open 1 deme in Migration-barrier 
-        
         
 //        Grid2D.startExpansion((m1-1)*m2+(initial_colonized/m1)+1,capacity);             // open 1 deme in Migration-barrier, part of corridor ooA
 //        Grid2D.startExpansion((m1-1)*m2+(initial_colonized/m1)+2,capacity);             // open 1 deme in Migration-barrier
@@ -281,20 +262,16 @@ int main() {
 //       
         
         Grid2D.setCapacity(capacity);                                           // remove Migration-barrier completely (and any barrier that might've been drawn on the landscape) all are removed here
-
       
         //Grid2D.startExpansion((m1/2)*m2+(initial_colonized/m1)+1,0);   
 
         for(i = 0; i< (generations)/snapshot;i++)                                // loop through one set of generations to the first, 2nd, ... snapshot 
         {
-
                 outdata = Grid2D.getMeanFit();                                  // get mean fitness of the whole population
     
                 for (j = 0;j<tot_demes;j++)                                     // write it to file
                 { 
-        
                         outputfile << outdata[j] << " ";
-                
                 }
                 outputfile << "\n";
                 
@@ -308,7 +285,6 @@ int main() {
 //////                    for ( k = 0;k< loci;k++)
 //////                    {
 //////                        outputfile3 << outdata[j*loci+k] << " ";
-//////
 //////                    }
 //////                    outputfile3 << "\n";
 //////                }
@@ -337,22 +313,16 @@ int main() {
         }
     
         outdata = Grid2D.getMeanFit();                                          // write data to output file
-    
         
-    
         for (j = 0;j<tot_demes;j++) 
         { 
-        
                 outputfile << outdata[j] << " ";
                 //finaloutputfile << outdata[j] << " ";
-                
         }
-        
         
         outputfile << "\n";
              
 //        outdata = Grid2D.getGenotypeFrequencies(0,loci,0);              // get ancestral homozygotes
-//
 //
 //        sprintf(filename4,"%s%s%d",filename2,"_gen_",(i*snapshot));
 //        outputfile3.open(filename4);
@@ -361,7 +331,6 @@ int main() {
 //            for ( k = 0;k< loci;k++)
 //            {
 //                outputfile3 << outdata[j*loci+k] << " ";
-//
 //            }
 //            outputfile3 << "\n";
 //        }
@@ -376,7 +345,6 @@ int main() {
 //            for ( k = 0;k< loci;k++)
 //            {
 //                outputfile3 << outdata[j*loci+k] << " ";
-//
 //            }
 //            outputfile3 << "\n";
 //        }
@@ -389,13 +357,8 @@ int main() {
      
         Grid2D.clear(m1,m2,initial_colonized,anc_pop_size,burnin_time,capacity,expansionMode,mu,s,m); 		// clear for next rep             
     }
-    
-    
-    
-    
-    return 0;
-   
 
+    return 0;
 }
 
 

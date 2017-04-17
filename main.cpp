@@ -57,9 +57,10 @@ int main() {
    randSeed = ((tv.tv_sec ^ tv.tv_usec) ^ getpid()) % 1000000; //Implies only  one million possible seeds!
 
    #else
-   randomize();
+   random();
    long curRand = rand() % 1000;
    long curTime = time(NULL);
+   long curClock = time(0);
    randSeed = (long) (1.0 * curTime + curClock * curRand) % (200000 - curRand);
    #endif
 

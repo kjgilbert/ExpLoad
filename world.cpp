@@ -77,7 +77,7 @@ World::World(int length1,int length2,int initial_colonized,int initial_popsize,i
    for(i = 0; i < bn_length;i++)
        initial_population[0].reproduceSS(wavefrontID);
    
-   cout << "\n Ancestral went through bottlneck: " << bn_size <<  "individuals for " << bn_length << " generations. \n";
+   cout << "\n Ancestral went through bottleneck: " << bn_size <<  " individuals for " << bn_length << " generations. \n";
    
    initial_population[0].printStat();      
 
@@ -349,7 +349,7 @@ void World::clear(int length1,int length2,int initial_colonized,int initial_pops
    for(i = 0; i < bn_length;i++)
        initial_population[0].reproduceSS(wavefrontID);
    
-   cout << "\n Ancestral went through bottlneck: " << bn_size <<  "individuals for " << bn_length << " generations. \n";
+   cout << "\n Ancestral went through bottleneck: " << bn_size <<  " individuals for " << bn_length << " generations. \n";
    
    initial_population[0].printStat();      
 

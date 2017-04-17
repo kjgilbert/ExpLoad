@@ -741,12 +741,10 @@ vector<double> World::getHeterozygosity(int loci_begin,int loci_end)            
 
     for(it = demes.begin();it!=demes.end();it++)  
     {
-    
         data.push_back(it->getHeterozygosity(asc_loci,loci_begin,loci_end)); 
     }
     
     return(data);
-    
 }
 
 vector<double> World::getAlleleFrequenciesWF(int loci_begin,int loci_end,int age)                                        
@@ -756,10 +754,10 @@ vector<double> World::getAlleleFrequenciesWF(int loci_begin,int loci_end,int age
     vector<double> frequencies;
     int wf_size = 0;
 
-    int loci = loci_end-loci_begin;
-    data.resize(loci);
-    fill_n(data.begin(),loci,0);
-    frequencies.resize(loci);
+    int temp_loci = loci_end-loci_begin;
+    data.resize(temp_loci);
+    fill_n(data.begin(),temp_loci,0);
+    frequencies.resize(temp_loci);
 
 
     for(it = demes.begin();it!=demes.end();it++)  
@@ -767,25 +765,21 @@ vector<double> World::getAlleleFrequenciesWF(int loci_begin,int loci_end,int age
         if (it->getAge() < age && it->getAge() > 2)
         {
                 frequencies = (it->getFrequencies(loci_begin,loci_end)); 
-                for(int i=0;i<loci;i++) 
+                for(int i=0;i<temp_loci;i++) 
                 { 
                     data[i] = data[i] + frequencies[i];
-                   
                 }
                 wf_size++;
         }
     }
     
          
-    for(int i=0;i<loci;i++) 
+    for(int i=0;i<temp_loci;i++) 
     { 
         data[i]=data[i]/wf_size;
-       
     }
 
-
     return(data);
-    
 }
 
 vector<double> World::getAlleleFrequencies(int loci_begin,int loci_end)                                        
@@ -796,33 +790,23 @@ vector<double> World::getAlleleFrequencies(int loci_begin,int loci_end)
     int deme_counter = 0;
     
 
-    int loci = loci_end-loci_begin;
-    data.resize(loci*m1*m2);
-    
-    frequencies.resize(loci);
+    int temp_loci = loci_end-loci_begin;
+    data.resize(temp_loci*m1*m2);
+    frequencies.resize(temp_loci);
 
 
     for(it = demes.begin();it!=demes.end();it++)  
     {
-        
         frequencies = (it->getFrequencies(loci_begin,loci_end)); 
                 
-        for(int i=0;i<loci;i++) 
-                
+        for(int i=0;i<temp_loci;i++) 
         { 
-                    
-            data[(deme_counter*loci)+i] = frequencies[i];
-                   
-                
+            data[(deme_counter*temp_loci)+i] = frequencies[i];      
         }
         deme_counter++;        
-        
     }
-    
-    
 
     return(data);
-    
 }
 
 vector<double> World::getGenotypeFrequencies(int loci_begin,int loci_end,int genotype)                                        
@@ -833,32 +817,23 @@ vector<double> World::getGenotypeFrequencies(int loci_begin,int loci_end,int gen
     int deme_counter = 0;
     
 
-    int loci = loci_end-loci_begin;
-    data.resize(loci*m1*m2);
+    int temp_loci = loci_end-loci_begin;
+    data.resize(temp_loci*m1*m2);
     
-    frequencies.resize(loci);
-
+    frequencies.resize(temp_loci);
 
     for(it = demes.begin();it!=demes.end();it++)  
     {
-        
         frequencies = (it->getGenotypeFrequencies(loci_begin,loci_end,genotype)); 
                 
-        for(int i=0;i<loci;i++) 
-                
+        for(int i=0;i<temp_loci;i++) 
         { 
-                    
-            data[(deme_counter*loci)+i] = frequencies[i];
-                   
-                
+            data[(deme_counter*temp_loci)+i] = frequencies[i];
         }
         deme_counter++;        
-        
     }
-   
 
     return(data);
-    
 }
 
 vector<double> World::getInversionFrequency()                                        
@@ -872,42 +847,29 @@ vector<double> World::getInversionFrequency()
 
     for(it = demes.begin();it!=demes.end();it++)  
     {
-        
         frequency = it->getInversionFrequency(); 
         data[deme_counter] = frequency;
         deme_counter++;        
-        
     }
    
-
     return(data);
-    
 }
 
 
 void World::setParams(int K,double mu,double s,double m)
 {
-    
     demes[0].setParams(K,mu,s,m);
-    
 }
 
 
 void World::setCapacity(int K)
 {
-    
-    
     vector<Deme>::iterator it;
-  
     
     for(it = demes.begin();it!=demes.end();it++)  
     {
-    
         it->setParams(K);
     }
-    
-    
-    
     
 }
 
@@ -978,7 +940,6 @@ void World::setCapacity(int K)
 double World::sample_wfID(int location)
 {
     return(demes[location].sample_wfID(10));
-    
 }
 
 bool World::isColonized(int deme)

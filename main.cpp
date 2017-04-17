@@ -10,6 +10,8 @@
 #include <iostream> // For input/output
 #include <fstream>
 #include <string>
+#include <sstream>  // kjg adding to test input
+#include <vector>   // kjg adding to test input
 
 #include "range_expansion.h"
 //#include "rng.h"
@@ -188,7 +190,6 @@ int main(int argc, char* argv[]) {
     char filename4[150];  
     
     
-    
     double par;
     vector<double> params;          // character array to hold all the inputs from paramfile
     
@@ -206,7 +207,7 @@ int main(int argc, char* argv[]) {
     }
     
 
-    if(params.size() > 14)
+    if(params.size() < 16)
     {
         m1 = params[0];
         m2 = params[1];
@@ -230,10 +231,38 @@ int main(int argc, char* argv[]) {
         tot_demes = m1*m2;
         initial_colonized = starting_demes*m1;  
     }
+    else if(params.size() > 16)
+    {
+           // then there must have been a random seed specified
+       m1 = params[0];
+        m2 = params[1];
+        starting_demes = params[2];
+        capacity = params[3];
+        anc_pop_size = params[4];
+        
+        burnin_time = params[5];
+        expansion_start = params[6];
+        generations = params[7];
+        snapshot = params[8];
+        replicates = params[9];
+
+        expansionMode = params[10];
+        selectionMode = params[11];
+        mu = params[12];
+        m = params[13];
+        s = params[14];
+        loci = params[15];
+        
+        curSeed = params[16];
+
+        tot_demes = m1*m2;
+        initial_colonized = starting_demes*m1;  
+    }
     else
     {
         cout << "\n MISSING REQUIRED NUMBER OF PARAMETERS, EXITING SIMULATION.\n";
     }
+
     
     
 /*
@@ -326,10 +355,10 @@ int main(int argc, char* argv[]) {
     
     
     
-    for (rep = 0;rep<replicates;rep++)                                         // loop that simulates replicates for the same set of parameters and initial conditions
+    for (rep = 0;rep<replicates;rep++)                                  // loop that simulates replicates for the same set of parameters and initial conditions
     {
         Grid2D.setParams(capacity,mu,s,m);
-        sprintf(filename,"%s%d",base,rep);				// these is the name of the output per rep, only need the one line the 2 below are for different cases, but the others could create separate file outputs for diff summ stats
+        sprintf(filename,"%s%d",base,rep);                              // these is the name of the output per rep, only need the one line the 2 below are for different cases, but the others could create separate file outputs for diff summ stats
         //sprintf(filename2,"%s%s%d",base,"_hom_wt_",rep);
         //sprintf(filename3,"%s%s%d",base,"_het_",rep);
 

@@ -134,29 +134,23 @@ int main(int argc, char* argv[]) {
     char filename3[150];  
     char filename4[150];  
     
+    vector<char> params;          // character array to hold all the inputs from paramfile
     
-    // We assume argv[1] is a filename to open
     ifstream infile ( argv[1] );
-    //  check to see if file opening succeeded
     if ( !infile.is_open() )
     {
       cout << "Could not open file, exiting simulation.\n";
       return 0;
     }
-    else {
-      char contents;
-      // the_file.get ( contents ) returns false if the end of the file is reached or an error occurs
-      while ( infile.get ( contents ) )
-          cout << contents;
-        //  cout << argv[1];
+    else
+    {
+        char contents;
+        while ( infile.get ( contents ) )
+            params.push_back(contents);
     }
-    // the_file is closed implicitly here
     
     
     return 0;
-    
-    
-    
     
     
     

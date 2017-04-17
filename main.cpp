@@ -128,13 +128,16 @@ int main(int argc, char* argv[]) {
     //      // this is the default input file, looks in working directory for this file
     //      infile.open ("input_parameters.txt", ifstream::in);                            
     //___________________________________________________________________
-    char wd[250];           // the working directory defined in the input file
+//    char wd[250];           // the working directory defined in the input file
     char filename[150]; 
     char filename2[150]; 
     char filename3[150];  
     char filename4[150];  
     
-    vector<char> params;          // character array to hold all the inputs from paramfile
+    
+    
+    double par;
+    vector<double> params;          // character array to hold all the inputs from paramfile
     
     ifstream infile ( argv[1] );
     if ( !infile.is_open() )
@@ -145,15 +148,58 @@ int main(int argc, char* argv[]) {
     else
     {
         char contents;
-        while ( infile.get ( contents ) )
-            params.push_back(contents);
+        while ( infile >> par )
+            params.push_back(par);
+    }
+    
+
+    if(params.size() > 14)
+    {
+        m1 = params[0];
+        m2 = params[1];
+        starting_demes = params[2];
+        capacity = params[3];
+        anc_pop_size = params[4];
+        
+        burnin_time = params[5];
+        expansion_start = params[6];
+        generations = params[7];
+        snapshot = params[8];
+        replicates = params[9];
+
+        expansionMode = params[10];
+        selectionMode = params[11];
+        mu = params[12];
+        m = params[13];
+        s = params[14];
+
+        tot_demes = m1*m2;
+        initial_colonized = starting_demes*m1;  
+    }
+    else
+    {
+        cout << "\n MISSING REQUIRED NUMBER OF PARAMETERS, EXITING SIMULATION.\n";
     }
     
     
-    return 0;
-    
-    
-    
+/*
+ * This code works, but I have yet to figure out how to parse it when it contains both text and integers, so for now sticking to Stephan's original implementation for input files
+
+ *  // We assume argv[1] is a filename to open
+    ifstream the_file ( argv[1] );
+    // Always check to see if file opening succeeded
+    if ( !the_file.is_open() )
+      cout<<"Could not open file\n";
+    else {
+      char x;
+      // the_file.get ( x ) returns false if the end of the file
+      //  is reached or an error occurs
+      while ( the_file.get ( x ) )
+        cout<< x;
+    }
+    // the_file is closed implicitly here
+ */
+
     
     
     

@@ -27,6 +27,15 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
     
+    if ( argc != 2 )
+    {                   // argc should be length 2 for correct execution
+                        //spot 0 is the program name when running it in command line
+                        //spot 1 is the name of the input file that is going to be read
+       cout << "\n You must provide the input parameter file. \n";
+       return 0;
+    }
+    
+    
 // make input file setting to either read in random seed or generate a random one
    
    //Loro_09_04_13 Random number initialization
@@ -42,7 +51,7 @@ int main(int argc, char* argv[]) {
    random();
    long curRand = rand() % 1000;
    long curTime = time(NULL);
-   long curClock = time(0);
+   long curClock = time(0);     // I added this - check with Stephan on this line, what is curClock KJG
    randSeed = (long) (1.0 * curTime + curClock * curRand) % (200000 - curRand);
    #endif
 
@@ -97,71 +106,99 @@ int main(int argc, char* argv[]) {
     int tot_demes = m1*m2;          // total number of demes in the world
     int initial_colonized;          // number of initially colonized demes (location of demes is determined via mode)
         
-
     
     int loci = 1000;    // 3 first and last deme are colonized (at opposite edges), 4 = four corners of the habitat are colonized
     
+    
+    
+    
+    
+//__________________________________________________________________________
 
+    
+    
+    
+    
+    
+// read in the input file from the command line argument
+
+    //___________________________________________________________________
+    // Stephan's old code:
+    //      ifstream infile;
+    //      // this is the default input file, looks in working directory for this file
+    //      infile.open ("input_parameters.txt", ifstream::in);                            
+    //___________________________________________________________________
+    char wd[250];           // the working directory defined in the input file
+    char filename[150]; 
+    char filename2[150]; 
+    char filename3[150];  
+    char filename4[150];  
+    
+    
+    // We assume argv[1] is a filename to open
+    ifstream infile ( argv[1] );
+    //  check to see if file opening succeeded
+    if ( !infile.is_open() )
+    {
+      cout << "Could not open file, exiting simulation.\n";
+      return 0;
+    }
+    else {
+      char contents;
+      // the_file.get ( contents ) returns false if the end of the file is reached or an error occurs
+      while ( infile.get ( contents ) )
+          cout << contents;
+        //  cout << argv[1];
+    }
+    // the_file is closed implicitly here
+    
+    
+    return 0;
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+// set up all the log and output filenames and files
+    
    	// root dir for output files and  the starting name - fix this to come from param file
     const char base[] = "/home/gilbert/StephansProgram/out_test_";
    	// root dir for log files and the starting name - fix this to come from param file
     const char filename_log[] = "/home/gilbert/StephansProgram/out_test_log";
 
 
-
-    
-    char filename[150]; 
-    char filename2[150]; 
-    char filename3[150];  
-    char filename4[150];
+ 
                                                            
-                                            
     ofstream outputfile,outputfile2,outputfile3,outputfile4,logfile;                        // streams to outputfiles
     logfile.open(filename_log);
     logfile << "Random number generator initialized with seed " << curSeed << "\n";
-    
-    ifstream infile;
 
-    // this is the default input file, looks in working directory for this file
-    infile.open ("input_parameters.txt", ifstream::in);                            
     
-    double par;
-    vector<double> params;
+// parse the input parameters from the input file
     
-    while (infile >> par){
-        params.push_back(par);
-    }
-    
-    if (params.size() > 11)
-    {
-        m1 = params[0];
-        m2 = params[1];
-        starting_demes = params[2];
-        capacity = params[3];
-        anc_pop_size = params[4];
-        
-        burnin_time = params[5];
-        expansion_start = params[6];
-        generations = params[7];
-        snapshot = params[8];
-        replicates = params[9];
-
-        expansionMode = params[10];
-        selectionMode = params[11];
-        mu = params[12];
-        m = params[13];
-        s = params[14];
+ 
 
         
-        tot_demes = m1*m2;
-        initial_colonized = starting_demes*m1; 
-    }
-    else 
-    {
+
         logfile << "\n NO VALID INPUT PARAMETER FILE FOUND! EXITING SIMULATION. \n";
         cout << "\n NO VALID INPUT PARAMETER FILE FOUND! EXITING SIMULATION. \n";
-        return 0;
-    }
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
     
     logfile << "Simulating an expansion on a " << m1 << "x"<<m2<<" grid. \n";
     logfile << "Selection is ";

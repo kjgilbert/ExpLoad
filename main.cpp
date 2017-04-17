@@ -75,8 +75,6 @@ int main(int argc, char* argv[]) {
     std::string path = aux.substr(0,pos+1);
     std::string name = aux.substr(pos+1);
     // show results
-    std::cout << "Path: " << path << std::endl;
-    std::cout << "Name: " << name << std::endl;   
     
     
     
@@ -264,10 +262,11 @@ int main(int argc, char* argv[]) {
     
 // set up all the log and output filenames and files
     
-   	// root dir for output files and  the starting name - fix this to come from param file
-    const char base[] = "out_test_";
+    // root dir for output files and  the starting name - fix this to come from param file
+    // this doesn't work because it needs to know the size ahead of time :(   std::string full_path = path + "out_test_";
+    const char base[] = "Outputs/out_";
    	// root dir for log files and the starting name - fix this to come from param file
-    const char filename_log[] = "out_test_log";
+    const char filename_log[] = "Outputs/out_log";
 
 
  

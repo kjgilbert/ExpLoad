@@ -357,6 +357,8 @@ int main(int argc, char* argv[]) {
     
     for (rep = 0;rep<replicates;rep++)                                  // loop that simulates replicates for the same set of parameters and initial conditions
     {
+        cout << "Beginning replicate " << rep+1 << "/" << replicates << endl;
+                
         Grid2D.setParams(capacity,mu,s,m);
         sprintf(filename,"%s%d",base,rep);                              // these is the name of the output per rep, only need the one line the 2 below are for different cases, but the others could create separate file outputs for diff summ stats
         //sprintf(filename2,"%s%s%d",base,"_hom_wt_",rep);
@@ -411,7 +413,7 @@ int main(int argc, char* argv[]) {
         //Grid2D.startExpansion((m1/2)*m2+(initial_colonized/m1)+1,0);   
 
         for(i = 0; i< (generations)/snapshot;i++)                                // loop through one set of generations to the first, 2nd, ... snapshot 
-        {
+        {            
                 outdata = Grid2D.getMeanFit();                                  // get mean fitness of the whole population
     
                 for (j = 0;j<tot_demes;j++)                                     // write it to file

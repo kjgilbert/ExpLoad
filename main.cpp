@@ -36,6 +36,61 @@ int main(int argc, char* argv[]) {
     }
     
     
+    
+    
+    
+/* find the path of the executable:
+    
+    // Get the last position of '/'
+    std::string aux(argv[0]);
+
+    // get '/' or '\\' depending on unix/mac or windows.
+#if defined(_WIN32) || defined(WIN32)
+    int pos = aux.rfind('\\');
+#else
+    int pos = aux.rfind('/');
+#endif
+
+    // Get the path and the name
+    std::string path = aux.substr(0,pos+1);
+    std::string name = aux.substr(pos+1);
+    // show results
+    std::cout << "Path: " << path << std::endl;
+    std::cout << "Name: " << name << std::endl;
+*/
+    
+// find the path of the paramfile:
+// I think this one is the more useful because then I can put the outputs wherever the paramfile is stored
+   // Get the last position of '/'
+    std::string aux(argv[1]);
+
+    // get '/' or '\\' depending on unix/mac or windows.
+#if defined(_WIN32) || defined(WIN32)
+    int pos = aux.rfind('\\');
+#else
+    int pos = aux.rfind('/');
+#endif
+
+    // Get the path and the name
+    std::string path = aux.substr(0,pos+1);
+    std::string name = aux.substr(pos+1);
+    // show results
+    std::cout << "Path: " << path << std::endl;
+    std::cout << "Name: " << name << std::endl;   
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 // make input file setting to either read in random seed or generate a random one
    
    //Loro_09_04_13 Random number initialization
@@ -98,6 +153,8 @@ int main(int argc, char* argv[]) {
     int selectionMode;              // SoftSelection = 0, HardSelection = 1
     int expansionMode;              // 0 = linear expansion, 1 = radial expansion, 2 linear - starting from both ends of the habitat, 
     int starting_demes;             // used to calculate number of initially colonized demes as landscape height times this number
+    int loci;                       // number of loci to simulate
+//    int loci = 1000;    // 3 first and last deme are colonized (at opposite edges), 4 = four corners of the habitat are colonized
           
     // counters and other parameters for running
     
@@ -106,8 +163,6 @@ int main(int argc, char* argv[]) {
     int tot_demes = m1*m2;          // total number of demes in the world
     int initial_colonized;          // number of initially colonized demes (location of demes is determined via mode)
         
-    
-    int loci = 1000;    // 3 first and last deme are colonized (at opposite edges), 4 = four corners of the habitat are colonized
     
     
     
@@ -172,6 +227,7 @@ int main(int argc, char* argv[]) {
         mu = params[12];
         m = params[13];
         s = params[14];
+        loci = params[15];
 
         tot_demes = m1*m2;
         initial_colonized = starting_demes*m1;  
@@ -209,9 +265,9 @@ int main(int argc, char* argv[]) {
 // set up all the log and output filenames and files
     
    	// root dir for output files and  the starting name - fix this to come from param file
-    const char base[] = "/home/gilbert/StephansProgram/out_test_";
+    const char base[] = "out_test_";
    	// root dir for log files and the starting name - fix this to come from param file
-    const char filename_log[] = "/home/gilbert/StephansProgram/out_test_log";
+    const char filename_log[] = "out_test_log";
 
 
  

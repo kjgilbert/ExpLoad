@@ -12,7 +12,7 @@
 
 using namespace std;
 
-int Individual::loci = 1000;
+int Individual::loci = 1000;        // I THINK HERE IS WHERE LOCI NUMBER LINKED TO PARAM NEEDS TO BE FIXED KJG
 double Individual::rrate = 0.5; 
 vector<int> Individual::used_loci;
 vector<float> Individual::s_coeff;
@@ -29,7 +29,6 @@ inline int min(int a, int b) { return (a < b) ? a : b; }
 
 Individual::Individual()
 {
-    
     haplotypes.resize(2);
     //mutations.resize(2);
     
@@ -38,21 +37,16 @@ Individual::Individual()
     for(int i = 0; i < loci; i++)
     {
         used_loci[i] = i;
-        
-    
     }
     
     wf_ID = 1;
     
     ancestors = 0;
-    
-
 
     /*mutations_b.resize(2);
     mb_front.resize(2);
     mutations_d.resize(2);
     md_front.resize(2);*/
-    
     
     haplotypes[0].resize(loci);
     haplotypes[1].resize(loci);
@@ -97,12 +91,10 @@ Individual::~Individual()
 
 heritableUnit Individual::getNewGamete(double mu,double s,bool front)           // this function adds mutations to the genome. mutations and backmutations occur at the same rate. (this will ahve an effect on the DFE, need to investigate this)
 {
-   
     Loci hap_new;
     double rec_rate = rrate; 
         
     heritableUnit gam_new;
-
     
    int i;
     
@@ -131,9 +123,7 @@ heritableUnit Individual::getNewGamete(double mu,double s,bool front)           
   
 //   if(randreal(0,1) < 0.01)
 //   {
-// 
 //       hap_new[loci] = !hap_new[loci];
-//     
 //   }
    
     nmutations = 0;
@@ -142,26 +132,17 @@ heritableUnit Individual::getNewGamete(double mu,double s,bool front)           
     
     for(i =0; i < nmutations; i++)
     {   
-
         site = randint(0,loci-1); 
         hap_new[site] = !hap_new[site];
-       
     } 
     
-    
-    
-    gam_new.haplotype = hap_new;
+        gam_new.haplotype = hap_new;
    
-    
-    
-    return(gam_new);
-    
-    
+        return(gam_new); 
 }
 
 heritableUnit Individual::getNewGameteMM2(double mu1,double mu2,double s)
 {
-   
     Loci hap_new;
     vector<int>::iterator it;
     heritableUnit gam_new;
@@ -175,13 +156,10 @@ heritableUnit Individual::getNewGameteMM2(double mu1,double mu2,double s)
       
     for (i = 0; i < loci;i++)   // recombination
     {
-        
         if(randint(0,1)<rrate)   
         {
             site = (site+1)%2;
         }
-        
-        
         
         hap_new[i]=haplotypes[site][i]; 
         
@@ -194,22 +172,16 @@ heritableUnit Individual::getNewGameteMM2(double mu1,double mu2,double s)
 //                }
 //
 //        }
-        
-        
     }
     
     for (it = used_loci.begin(); it < used_loci.end();)
     {
-
-            if(randreal(0,1)<mu1) 
-            { 
-                    hap_new[*it]=1;
-
-                    it = used_loci.erase(it); 
-
-            }
-            else    {it++; }
-
+        if(randreal(0,1)<mu1) 
+        { 
+            hap_new[*it]=1;
+            it = used_loci.erase(it); 
+        }
+        else    {it++; }
     }
 //    
 //        if (hap_new[i]==0)
@@ -229,28 +201,18 @@ heritableUnit Individual::getNewGameteMM2(double mu1,double mu2,double s)
 //                        hap_new[i]=0;
 //                }
 //        }
-
-
-
-    
-    
     
     gam_new.haplotype = hap_new;
 
-    
-    return(gam_new);
-    
-    
+    return(gam_new); 
 }
 
 
 
 void Individual::setGenotype(heritableUnit g1,heritableUnit g2)
 {
-    
     haplotypes[0] = g1.haplotype;
     haplotypes[1] = g2.haplotype;
-    
     
 //    mutations[0] = g1.muts;
 //    mutations[1] = g2.muts;
@@ -264,16 +226,12 @@ void Individual::setGenotype(heritableUnit g1,heritableUnit g2)
     md_front[1] = g2.md_front;
     mutations_b[1] = g2.m_b;
     mb_front[1] = g2.mb_front;*/
-    
-    
-     
 }
  
  
  
 double Individual::getFitness(double s)                                         // this is no longer used
 {
-    
     double w = 1;
     int i;
     
@@ -288,24 +246,19 @@ double Individual::getFitness(double s)                                         
        //w = w * haplotypes[0][i] * haplotypes[1][i];    //additive
        //w = w * pow(max(haplotypes[0][i],haplotypes[1][i]),2);    //recessive-like 
        //w = w * (1 - (abs(haplotypes[0][i]-haplotypes[1][i])));    //underdominant-like 
-
     }
     
     return(w);
-    
- 
 }
 
 double Individual::getRelativeFitness(double s)
 {
-    
     double w = 1;
     int i;
     float h = 0;
     
     // calculate fitness from genotype
     
-
     for (i=0;i<loci/10;i++)                                                    // add up the effects of deleterious mutations        
     {
        
@@ -333,21 +286,15 @@ double Individual::getRelativeFitness(double s)
        { 
            w *= (1 + s);  
        }
-
     }
-    
 
-    
     return(w);
-    
- 
 }
 
 
 
 double Individual::getMaxFitness(double s)
 {
-    
     double w = 1;
     int i;
     return(1);
@@ -362,8 +309,6 @@ double Individual::getMaxFitness(double s)
     }
     
     return(w*w);
-    
- 
 }
 
 void Individual::print()
@@ -376,7 +321,7 @@ void Individual::print()
 
 void Individual::setParams(int number_loci)
 {
-    loci = number_loci;
+    loci = number_loci;         // HERE KJG
     
     haplotypes[0].resize(loci);
     haplotypes[1].resize(loci);
@@ -391,7 +336,6 @@ void Individual::setParams(int number_loci)
 
 /*Count Individual::getMutationCount()
 {
-    
     int i,j;
     Count c;
     c.resize(4);
@@ -402,7 +346,6 @@ void Individual::setParams(int number_loci)
     {
     
         for (i=0;i<loci;i++) 
-    
         {
                
             c[0] += mutations_d[j][i];
@@ -414,15 +357,11 @@ void Individual::setParams(int number_loci)
     }
     
     return(c);
-    
- 
 } 
 */
 
 /*void Individual::ResetMutationOrigin()
 {
-    
-    
     fill_n(md_front[0].begin(),loci,0);
    
     fill_n(mb_front[0].begin(),loci,0);
@@ -430,8 +369,6 @@ void Individual::setParams(int number_loci)
     fill_n(md_front[1].begin(),loci,0);
    
     fill_n(mb_front[1].begin(),loci,0);
-    
-
 }*/
 
 void Individual::setAncestors(int a)
@@ -470,9 +407,7 @@ vector<double> Individual::getSumAlleles(int loci_begin,int loci_end)
     for (int i = loci_begin;i<loci_end;i++)
     {
         p[i] += haplotypes[0][i]+haplotypes[1][i];
-        
     }
-       
       
     return(p);
 }
@@ -499,14 +434,11 @@ vector<double> Individual::getSumGenotypes(int loci_begin,int loci_end,int genot
 
 double Individual::getInversionCount()                                     // not used anymore
 {
-   
     return(haplotypes[0][loci]+haplotypes[1][loci]);
-
 }
 
 void Individual::normalizeFitness(double mean_fit)                              // not used anymore
 {
-    
     //double co = pow(mean_fit,1/(2*(double)loci));
     
     //cout << mean_fit << "   " << co <<  " \n";
@@ -519,10 +451,6 @@ void Individual::normalizeFitness(double mean_fit)                              
     //    haplotypes[0][i]/=co;
     //    haplotypes[1][i]/=co;  
     //}
-    
-    
-    
- 
 }
 
 unsigned long Individual::getNumberMutations()
@@ -536,7 +464,6 @@ unsigned long Individual::getNumberMutations()
     }
     
     return(n_mut);
-        
 }
 
 void Individual::set_selection_dist(double s)
@@ -546,17 +473,12 @@ void Individual::set_selection_dist(double s)
     for (i = 1;i<loci/2;i++)
     {
         s_coeff[i-1] = s;//*(-log(1-((float)i-1)/(loci/2)));
-        
     }
     
     for (i = loci/2;i<loci;i++)
     {
         s_coeff[i-1] = s;//s*(-log(1-((float)i-1)/loci));
-        
     }
     
     s_coeff[loci-1] = s;//s*(-log(1-((float)loci-1)/loci));
-    
-    
-
 }

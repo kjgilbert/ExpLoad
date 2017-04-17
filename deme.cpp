@@ -42,14 +42,12 @@ Deme::~Deme()
 }
 
 
-void Deme::initialize()
+void Deme::initialize()         // IS IT OVERWRITING THINGS HERE INCORRECTLY? KJG
 {
-    
     m = 0.01;
     capacity = 100;
     s = 0.01;
     mutation_rate = 0.01;
-
 }
 
 
@@ -61,11 +59,7 @@ void Deme::colonize()
     for(i = 0; i < capacity; i++) 
     {
       this_generation.push_back(ind);
-    }
-    
-    
-    
-       
+    }  
 }
 
 
@@ -83,7 +77,6 @@ void Deme::reproduce(int wf)
     bool front;
     long dum = 1;
     
- 
             
     front = (ID >= (wf - 1));    
     
@@ -133,8 +126,6 @@ void Deme::reproduce(int wf)
         // replace old generation by new
         this_generation = next_generation;
     }
-    
-    
 }
 
 void Deme::reproduceSS(int wf)
@@ -199,10 +190,8 @@ void Deme::reproduceSS(int wf)
    
         for (i = 0;i<realized_offspring;)
         {
- 
                 // generate new individual
 
-    
                 // create new gametes from parents
                 do
                 {
@@ -232,14 +221,10 @@ void Deme::reproduceSS(int wf)
 
                 next_generation.push_back(ind);
                 i++;    
-               
         }
-       
         // replace old generation by new
         this_generation = next_generation;
     }
-    
-    
 }
 
 void Deme::reproduceSSAM(int wf)                     // soft selection plus assortative mating with respect to fitness
@@ -315,23 +300,16 @@ void Deme::reproduceSSAM(int wf)                     // soft selection plus asso
                 ind.setGenotype(gamete_mom,gamete_dad);
                 
                 
-                
         
                 if (dad_fit > randreal(0,max_fit) && mom_fit > randreal(0,max_fit) && (pow(abs(dad_fit - mom_fit),a) < randreal(0,1)) ) 
                 {
-            
                         next_generation.push_back(ind);
                         i++;
                 }
-    
-
         }
-       
         // replace old generation by new
         this_generation = next_generation;
-    }
-    
-    
+    }  
 }
 
 
@@ -416,22 +394,16 @@ void Deme::reproduceHS1(double mean_fit,int wf)		// hard selection
                 
                 
                 
-        
                 if (dad_fit > randreal(0,max_fit) && mom_fit > randreal(0,max_fit)) 
                 {
             
                         next_generation.push_back(ind);
                         i++;
                 }
-    
-
         }
-       
         // replace old generation by new
         this_generation = next_generation;
     }
-    
-    
 }
 
 
@@ -442,22 +414,18 @@ void Deme::select()			// old function for viability seln
     double mean_fit = 1;
      
  
-    
-    
     for (it = this_generation.begin();it!=this_generation.end();)
     {
         fitness = it->getFitness(s);
         
         if (fitness < randreal(0,1)) 
         {
-            
             it = this_generation.erase(it);
         }
         else
         {
             it++;
         }
-
     }
 }
 
@@ -473,7 +441,6 @@ Migrants Deme::getMigrants()
         if (randreal(0,1)<m) {migrants.push_back(*it); it = this_generation.erase(it); }
         else    {it++; }
     }
-    
     
     return(migrants);
 }
@@ -492,7 +459,6 @@ Migrants Deme::sampleIndividuals(int samplesize)
     
     for (i =0 ; i < samplesize ; i++)
     {
-        
         it = this_generation.begin();
        
         advance(it,randint(0,tot_individuals-1));
@@ -502,13 +468,11 @@ Migrants Deme::sampleIndividuals(int samplesize)
         sampled_individuals.push_back(ind);
     }
     
-    
     return(sampled_individuals);
 }
 
 void Deme::print()
 {
-    
     cout << "\n" << "Individuals: " << this_generation.size() <<  "   ";
     list<Individual>::iterator it;
     
@@ -517,7 +481,6 @@ void Deme::print()
         //it->print();
         //cout << "\n Fitness: " << it->getFitness(s) << "\n";
     }
-    
 }
 
 void Deme::addMigrant(Individual ind)
@@ -535,21 +498,17 @@ void Deme::printStat()
     for (it = this_generation.begin();it!=this_generation.end();it++)
     {
         mean_fit += it->getRelativeFitness(s);
-    
     }
-    
 
     
     for (it = this_generation.begin();it!=this_generation.end();it++)
     {
         number_muts += it->getNumberMutations();
-    
     }
     
     
     if(this_generation.size()>0)
     {
-    
         mean_fit /= this_generation.size();
     }
     
@@ -580,8 +539,6 @@ double Deme::getMeanFit()
     }
     
     return(mean_fit);
-    
-    
 }
 
 double Deme::getVarFit(double mean_fit)
@@ -603,8 +560,6 @@ double Deme::getVarFit(double mean_fit)
     }
     
     return(var_fit);
-    
-    
 }
 
 double Deme::getHeterozygosity(vector<int> a_loci,int loci_begin,int loci_end)
@@ -632,9 +587,7 @@ double Deme::getHeterozygosity(vector<int> a_loci,int loci_begin,int loci_end)
         {
              p[a_loci[i]] = p[a_loci[i]] + q[a_loci[i]]; 
         }
-        
     }
-    
     
     
     for (int i = 0;i< a_loci.size(); i++)
@@ -642,14 +595,11 @@ double Deme::getHeterozygosity(vector<int> a_loci,int loci_begin,int loci_end)
        p[a_loci[i]] = p[a_loci[i]]/(2*this_generation.size()); 
        het += (2*p[a_loci[i]]*(1-p[a_loci[i]]));
        used_loci++;
-
     }
     
     het /= used_loci;
 
     return(het);
-    
-    
 }
 
 void Deme::setParams(int K,double mu,double sel,double mig)
@@ -674,7 +624,6 @@ void Deme::setID(int i)
 
 bool Deme::colonized()
 {
-
     if (this_generation.size() > 0)
         return true;
     else return false; 
@@ -759,7 +708,6 @@ double Deme::sample_wfID(int max_age)
     advance(it,randint(0,no_ind-1));
     
     return((it->getWFID()));
-    
 }
 
 void Deme::normalizeFitness()
@@ -773,8 +721,6 @@ void Deme::normalizeFitness()
     {
         it->normalizeFitness(mean_fit);
     }
-    
-    
 }
 
 vector<int> Deme::getAscLoci(int loci_begin,int loci_end)
@@ -798,7 +744,6 @@ vector<int> Deme::getAscLoci(int loci_begin,int loci_end)
         {
              p[i] = p[i] + q[i]; 
         }
-        
     }
     
     
@@ -809,14 +754,10 @@ vector<int> Deme::getAscLoci(int loci_begin,int loci_end)
        if (min(p[i],1-p[i])>=0.05)
        {
            a_loci.push_back(i);
-           
        }
-       
     }
     
- 
     return(a_loci);
-    
 }
 
 
@@ -866,7 +807,6 @@ vector<int> Deme::getAscLociSample(int loci_begin,int loci_end,int n)           
         {
              p[i] = p[i] + q[i]; 
         }
-        
     }
     
     
@@ -878,14 +818,10 @@ vector<int> Deme::getAscLociSample(int loci_begin,int loci_end,int n)           
        if (min(p[i],1-p[i])>=min_freq)
        {
            a_loci.push_back(i);
-           
        }
-       
     }
     
- 
     return(a_loci);
-    
 }
 
 vector<double> Deme::getFrequencies(int loci_begin,int loci_end)
@@ -908,9 +844,7 @@ vector<double> Deme::getFrequencies(int loci_begin,int loci_end)
         for (int i = 0;i< loci; i++)
         {
              p[i] = p[i] + q[i]; 
-             
         }
-        
     }
     
     
@@ -918,12 +852,8 @@ vector<double> Deme::getFrequencies(int loci_begin,int loci_end)
     for (int i = 0;i< loci; i++)
     {
        p[i] = p[i]/(max(1,2*this_generation.size())); 
-     
-       
     }
     return(p);
-    
-    
 }
 
 vector<double> Deme::getGenotypeFrequencies(int loci_begin,int loci_end,int genotype)
@@ -946,9 +876,7 @@ vector<double> Deme::getGenotypeFrequencies(int loci_begin,int loci_end,int geno
         for (int i = 0;i< loci; i++)
         {
              p[i] = p[i] + q[i]; 
-             
         }
-        
     }
     
     
@@ -956,18 +884,12 @@ vector<double> Deme::getGenotypeFrequencies(int loci_begin,int loci_end,int geno
     for (int i = 0;i< loci; i++)
     {
        p[i] = p[i]/(max(1,this_generation.size())); 
-     
-       
     }
-    
     return(p);
-    
-    
 }
 
 double Deme::getInversionFrequency()
 {
- 
     list<Individual>::iterator it;
     double f = 0;
           
@@ -978,7 +900,6 @@ double Deme::getInversionFrequency()
      
     f = double(f)/double(max(1,this_generation.size()));
     return(f);
-   
 }
 
 int Deme::getAge()
@@ -990,5 +911,4 @@ void Deme::set_selection_dist()
 {
     Individual ind;
     ind.set_selection_dist(s);
-    
 }

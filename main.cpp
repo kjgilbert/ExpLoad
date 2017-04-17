@@ -25,7 +25,7 @@
 
 using namespace std;
 
-int main() {
+int main(int argc, char* argv[]) {
     
 // make input file setting to either read in random seed or generate a random one
    
@@ -353,7 +353,7 @@ int main() {
         outputfile.close();
 //        outputfile2.close();
 //        outputfile3.close();
-       // outputfile4.close();
+//        outputfile4.close();
      
         Grid2D.clear(m1,m2,initial_colonized,anc_pop_size,burnin_time,capacity,expansionMode,mu,s,m); 		// clear for next rep             
     }

@@ -219,22 +219,6 @@ int main(int argc, char* argv[]) {
     ofstream outputfile,outputfile2,outputfile3,outputfile4,logfile;                        // streams to outputfiles
     logfile.open(filename_log);
     logfile << "Random number generator initialized with seed " << curSeed << "\n";
-
-    
-// parse the input parameters from the input file
-    
- 
-
-        
-
-        logfile << "\n NO VALID INPUT PARAMETER FILE FOUND! EXITING SIMULATION. \n";
-        cout << "\n NO VALID INPUT PARAMETER FILE FOUND! EXITING SIMULATION. \n";
-
-        
-        
-        
-        
-        
         
         
         

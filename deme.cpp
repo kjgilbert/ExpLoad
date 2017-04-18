@@ -258,7 +258,6 @@ void Deme::reproduceSSAM(int wf)                     // soft selection plus asso
     //cout << "test: " <<this_generation.size() << " " << no_ind;
     if (no_ind > 0)
     {
-    
         //calculate expected number of offspring 
         
         //expected_offspring = capacity;   //demes are filled immediately
@@ -396,7 +395,6 @@ void Deme::reproduceHS1(double mean_fit,int wf)		// hard selection
                 
                 if (dad_fit > randreal(0,max_fit) && mom_fit > randreal(0,max_fit)) 
                 {
-            
                         next_generation.push_back(ind);
                         i++;
                 }
@@ -517,7 +515,6 @@ void Deme::printStat()
     cout << "\n Number of individuals in ancestral population:  " << this_generation.size() << "\n";
     
     cout << " Number of mutations in ancestral population:  " << number_muts << "\n";
-    
 }
 
 double Deme::getMeanFit()
@@ -629,10 +626,6 @@ bool Deme::colonized()
     else return false; 
 }
 
-
-
-
-
     
 
 
@@ -667,24 +660,18 @@ int Deme::getSize()
     c[3] /= max(1,this_generation.size());
     
     return(c);
-    
-    
 }
 
 */
 
 /*void Deme::ResetMutationOrigin()
 {
-   
     list<Individual>::iterator it;
     
     for (it = this_generation.begin();it!=this_generation.end();it++)
     {
         it->ResetMutationOrigin();
     }
-    
-   
-    
 }
 */
 

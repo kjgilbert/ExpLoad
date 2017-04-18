@@ -77,9 +77,6 @@ Individual::Individual()
     fill_n(md_front[1].begin(),loci,0);
     fill_n(mutations_b[1].begin(),loci,0);
     fill_n(mb_front[1].begin(),loci,0);*/
-    
-    
-    
 }
 
 
@@ -168,9 +165,7 @@ heritableUnit Individual::getNewGameteMM2(double mu1,double mu2,double s)
 //                if(randreal(0,1)<mu1) 
 //                { 
 //                        hap_new[i]=1;
-//                        
 //                }
-//
 //        }
     }
     
@@ -189,9 +184,7 @@ heritableUnit Individual::getNewGameteMM2(double mu1,double mu2,double s)
 //                if(randreal(0,1)<mu1) 
 //                { 
 //                        hap_new[i]=1;
-//                        
 //                }
-//
 //        }
 //        
 //        if (hap_new[i]==1)                                                    //back mutation
@@ -281,7 +274,6 @@ double Individual::getRelativeFitness(double s)
     // remove this if you want neutral mutations
     for (i=loci/10; i<loci ;i++)                                                 // add up the effects of beneficial mutations   
     {
-
        if (haplotypes[0][i] && haplotypes[1][i])                              // completely recessive mutations
        { 
            w *= (1 + s);  
@@ -307,7 +299,6 @@ double Individual::getMaxFitness(double s)
            w *= (1 - s);  
        }
     }
-    
     return(w*w);
 }
 
@@ -347,15 +338,12 @@ void Individual::setParams(int number_loci)
     
         for (i=0;i<loci;i++) 
         {
-               
             c[0] += mutations_d[j][i];
             c[1] += md_front[j][i];
             c[2] += mutations_b[j][i];
             c[3] += mb_front[j][i];
-            
         }
     }
-    
     return(c);
 } 
 */
@@ -408,7 +396,6 @@ vector<double> Individual::getSumAlleles(int loci_begin,int loci_end)
     {
         p[i] += haplotypes[0][i]+haplotypes[1][i];
     }
-      
     return(p);
 }
 
@@ -462,7 +449,6 @@ unsigned long Individual::getNumberMutations()
 //        n_mut += mutations[0][i].size();
 //        n_mut += mutations[1][i].size();
     }
-    
     return(n_mut);
 }
 

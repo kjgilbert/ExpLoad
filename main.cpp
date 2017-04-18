@@ -234,7 +234,7 @@ int main(int argc, char* argv[]) {
     else if(params.size() > 16)
     {
            // then there must have been a random seed specified
-       m1 = params[0];
+        m1 = params[0];
         m2 = params[1];
         starting_demes = params[2];
         capacity = params[3];

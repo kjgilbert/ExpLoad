@@ -64,7 +64,6 @@ World::World(int length1,int length2,int initial_colonized,int initial_popsize,i
    
    for (i = 0; i < burnin_time ; i++)
    {
-       
        initial_population[0].reproduceSS(wavefrontID);
    }
    
@@ -84,9 +83,7 @@ World::World(int length1,int length2,int initial_colonized,int initial_popsize,i
    
    for(j=0;j<number_demes;j++)
    {    
-                   
        demes[j].setParams(capacity);
-                    
    }
    
      
@@ -123,22 +120,17 @@ World::World(int length1,int length2,int initial_colonized,int initial_popsize,i
         {
                 for(j=0;j<m1;j++)
                 {    
-                   
                     propagule = initial_population[0].sampleIndividuals(capacity);      
                     //demes[start+i*m2+m2/2+(j-width/2)].colonize();
                    
                     for(it = propagule.begin();it!=propagule.end();it++)
                     {    
                         demes[j*m2+i].addMigrant(*it);
-                        
                     }
                     
                      demes[j*m2+width+1].setParams(0);   
-                    
                 }
         }  
-        
-        
    }
    
    if (mode == 6)     // colonize first initial_size demes at left edge  of grid, a barrier to gene flow to the right of colonized area, barrier 5 demes-wide (to mimic sahara)
@@ -147,32 +139,25 @@ World::World(int length1,int length2,int initial_colonized,int initial_popsize,i
         {
                 for(j=0;j<m1;j++)
                 {    
-                   
                     propagule = initial_population[0].sampleIndividuals(capacity);      
                     //demes[start+i*m2+m2/2+(j-width/2)].colonize();
                    
                     for(it = propagule.begin();it!=propagule.end();it++)
                     {    
                         demes[j*m2+i].addMigrant(*it);
-                        
                     }
                     
                      demes[j*m2+width+1].setParams(0);   
                      demes[j*m2+width+2].setParams(0); 
                      demes[j*m2+width+3].setParams(0); 
-                
                 }
         }  
-        
-        
    }
    
    if (mode == 5)     // all demes colonized at the beginning without any founder effects (empty demes are colonized by sampling from left neighbour deme with replacement)
    {
-       
         for(i=0;i<m2;i++)
         {
-
                 for(j=0;j<m1;j++)
                 {    
                     if(i == 0)
@@ -190,15 +175,11 @@ World::World(int length1,int length2,int initial_colonized,int initial_popsize,i
                     for(it = propagule.begin();it!=propagule.end();it++)
                     {    
                         demes[j*m2+i].addMigrant(*it);
-                        
                     }
                     
                     //demes[j*m2+width+1].setParams(0);
-                    
                 }
         }  
-        
-        
    }
    
    if (mode == 2)     // colonize first initial_size demes at left and right edge  of grid 
@@ -207,14 +188,12 @@ World::World(int length1,int length2,int initial_colonized,int initial_popsize,i
         {
                 for(j=0;j<m1;j++)
                 {    
-                        
                     propagule = initial_population[0].sampleIndividuals(capacity);    
                     //demes[start+i*m2+m2/2+(j-width/2)].colonize();
                     
                     for(it = propagule.begin();it!=propagule.end();it++)
                     {
                         demes[j*m2+i].addMigrant(*it);
-                        
                     }
                     
                     propagule = initial_population[0].sampleIndividuals(capacity);    
@@ -222,10 +201,8 @@ World::World(int length1,int length2,int initial_colonized,int initial_popsize,i
                     
                     for(it = propagule.begin();it!=propagule.end();it++)
                     {
-                     
                         demes[(j+1)*m2-1 -i].addMigrant(*it);
                     }
-                   
                 }
         }  
    }
@@ -233,7 +210,6 @@ World::World(int length1,int length2,int initial_colonized,int initial_popsize,i
       
    if (mode == 3)     // colonize a single deme at opposing corners of the habitat
    {
-
         propagule = initial_population[0].sampleIndividuals(capacity);    
         for(it = propagule.begin();it!=propagule.end();it++)
         {
@@ -247,7 +223,6 @@ World::World(int length1,int length2,int initial_colonized,int initial_popsize,i
         propagule = initial_population[0].sampleIndividuals(capacity);    
         for(it = propagule.begin();it!=propagule.end();it++)
         {
-             
             for(int i = 0;i < m1;i++)    
             {
                 demes[(i+1)*m2-1].addMigrant((*it));
@@ -260,37 +235,30 @@ World::World(int length1,int length2,int initial_colonized,int initial_popsize,i
    
     if (mode == 4)     // colonize a single deme at opposing corners of the habitat
    {
-
         propagule = initial_population[0].sampleIndividuals(capacity);    
         for(it = propagule.begin();it!=propagule.end();it++)
         {
                 demes[0].addMigrant((*it));
-               
         }
         
         
         propagule = initial_population[0].sampleIndividuals(capacity);    
         for(it = propagule.begin();it!=propagule.end();it++)
         {
-             
                 demes[m1*m2-1].addMigrant(*it);
         }
         
         propagule = initial_population[0].sampleIndividuals(capacity);    
         for(it = propagule.begin();it!=propagule.end();it++)
         {
-             
                 demes[m1-1].addMigrant(*it);
         }
         
         propagule = initial_population[0].sampleIndividuals(capacity);    
         for(it = propagule.begin();it!=propagule.end();it++)
         {
-             
                 demes[m1*m2-1-m1].addMigrant(*it);
         }      
-        
-
    }
    
    
@@ -336,7 +304,6 @@ void World::clear(int length1,int length2,int initial_colonized,int initial_pops
    
    for (i = 0; i < burnin_time ; i++)
    {
-       
        initial_population[0].reproduceSS(wavefrontID);
    }
    
@@ -356,9 +323,7 @@ void World::clear(int length1,int length2,int initial_colonized,int initial_pops
    
    for(j=0;j<number_demes;j++)
    {    
-                   
        demes[j].setParams(capacity);
-                    
    }
    
      
@@ -397,22 +362,16 @@ void World::clear(int length1,int length2,int initial_colonized,int initial_pops
         {
                 for(j=0;j<m1;j++)
                 {    
-                   
                     propagule = initial_population[0].sampleIndividuals(capacity);      
                     //demes[start+i*m2+m2/2+(j-width/2)].colonize();
                    
                     for(it = propagule.begin();it!=propagule.end();it++)
                     {    
                         demes[j*m2+i].addMigrant(*it);
-                        
                     }
-                    
                      demes[j*m2+width+1].setParams(0);   
-                    
                 }
         }  
-        
-        
    }
    
    
@@ -422,14 +381,12 @@ void World::clear(int length1,int length2,int initial_colonized,int initial_pops
         {
                 for(j=0;j<m1;j++)
                 {    
-                        
                     propagule = initial_population[0].sampleIndividuals(capacity);    
                     //demes[start+i*m2+m2/2+(j-width/2)].colonize();
                     
                     for(it = propagule.begin();it!=propagule.end();it++)
                     {
                         demes[j*m2+i].addMigrant(*it);
-                        
                     }
                     
                     propagule = initial_population[0].sampleIndividuals(capacity);    
@@ -437,10 +394,8 @@ void World::clear(int length1,int length2,int initial_colonized,int initial_pops
                     
                     for(it = propagule.begin();it!=propagule.end();it++)
                     {
-                     
                         demes[(j+1)*m2-1 -i].addMigrant(*it);
                     }
-                   
                 }
         }  
    }
@@ -448,7 +403,6 @@ void World::clear(int length1,int length2,int initial_colonized,int initial_pops
       
    if (mode == 3)     // colonize a single deme at opposing corners of the habitat
    {
-
         propagule = initial_population[0].sampleIndividuals(capacity);    
         for(it = propagule.begin();it!=propagule.end();it++)
         {
@@ -462,14 +416,11 @@ void World::clear(int length1,int length2,int initial_colonized,int initial_pops
         propagule = initial_population[0].sampleIndividuals(capacity);    
         for(it = propagule.begin();it!=propagule.end();it++)
         {
-             
             for(int i = 0;i < m1;i++)    
             {
                 demes[(i+1)*m2-1].addMigrant((*it));
             }  
         }
-        
-
    }
    for(i=0;i<number_demes;i++) {demes[i].setID(i); }  
 }
@@ -478,20 +429,15 @@ void World::clear(int length1,int length2,int initial_colonized,int initial_pops
 
 void World::reproduce(int mode)
 {
- 
     vector<Deme>::iterator it;
     //updateWaveFront();
     if (mode == 0)
     {
         reproduceSS(); 
-
     }
-    
     else
     {   
-        
         reproduceHS1();
-        
     }
    
     
@@ -499,37 +445,29 @@ void World::reproduce(int mode)
 
 void World::reproduceSS()
 {
- 
     vector<Deme>::iterator it;
     //updateWaveFront();
 
-    
     for(it = demes.begin();it!=demes.end();it++)  
     {
         it->reproduceSS(wavefrontID); 
     }
-   
-    
 }
 
 
 void World::reproduceSSAM()
 {
- 
     vector<Deme>::iterator it;
     //updateWaveFront();
     for(it = demes.begin();it!=demes.end();it++)  
     {
         it->reproduceSSAM(wavefrontID); 
     }
-   
-    
 }
 
 
 void World::reproduceHS1()
 {
- 
     vector<Deme>::iterator it;
     double mean_fit;
     //updateWaveFront();
@@ -538,20 +476,16 @@ void World::reproduceHS1()
         mean_fit = it->getMeanFit();
         it->reproduceHS1(mean_fit,wavefrontID); 
     }
-   
-    
 }
        
 
 void World::migrate(int range)     
 { 
-   
    vector<Deme>::iterator it;
    Migrants::iterator m_it;
    Individual ind;
    int gridlength1 = m2;
    
-         
    int i=0;
    int j;
    int mig_distance,destination;   // number of demes an individual migrates and location to which an individual migrates
@@ -562,7 +496,6 @@ void World::migrate(int range)
    {    
        migrants[i] = it->getMigrants(); 
        it++;
-       
    }
    
 
@@ -590,7 +523,6 @@ void World::migrate(int range)
             
             
             
-            
             //if (destination<0) {destination=1;}                             // reflecting boundaries 
             //if (destination>=range) {destination = range-1;} 
   
@@ -604,12 +536,8 @@ void World::migrate(int range)
             //cout << "\n " << destination << "\n";
             ind = *m_it;
             demes[destination].addMigrant(*m_it);
-            
         }  
-         
    }
-   
-   
 }
 
 
@@ -627,7 +555,6 @@ void World::print()
 
     
     for(it = demes.begin();it!=demes.end();it++)  {it->print(); }
-    
 }
 
 
@@ -637,7 +564,6 @@ void World::printStat()
 
     
     for(it = demes.begin();it!=demes.end();it++)  {it->printStat(); }
-    
 }
 
 
@@ -648,12 +574,10 @@ vector<double> World::getMeanFit()                                              
     
     for(it = demes.begin();it!=demes.end();it++)  
     {
-    
         data.push_back(it->getMeanFit()); 
     }
     
     return(data);
-    
 }
 
 vector<double> World::getVarFit(vector<double> mean_fit)                                               // retuns vector with variance in fitness of all demes
@@ -664,12 +588,10 @@ vector<double> World::getVarFit(vector<double> mean_fit)                        
     
     for(it = demes.begin();it!=demes.end();it++)  
     {
-    
         data.push_back(it->getVarFit(mean_fit[i++])); 
     }
     
     return(data);
-    
 }
 
 
@@ -870,12 +792,10 @@ void World::setCapacity(int K)
     {
         it->setParams(K);
     }
-    
 }
 
 /*void World::updateWaveFront()
 {
-
     int i = 0;
     int wf=0;
     
@@ -889,7 +809,6 @@ void World::setCapacity(int K)
     //{
         
      //  i++;
-       
     
     //}
     
@@ -897,7 +816,6 @@ void World::setCapacity(int K)
     //cout<< '\n' << wavefrontID;
     
     //updateDistance();
-    
     
 }
 
@@ -913,25 +831,20 @@ void World::setCapacity(int K)
     
     for(it = demes.begin();it!=demes.end();it++)  
     {
-    
         data.push_back(it->getStatMut()); 
     }
     
     return(data);
-    
 }*/
 
 
 /*void World::ResetMutationOrigin()
 {
-
     vector<Deme>::iterator it;
-    
     
     
     for(it = demes.begin();it!=demes.end();it++)  
     {
-    
         it->ResetMutationOrigin(); 
     } 
     

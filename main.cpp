@@ -112,7 +112,7 @@ int main(int argc, char* argv[]) {
    randSeed = ((tv.tv_sec ^ tv.tv_usec) ^ getpid()) % 1000000; //Implies only  one million possible seeds!
 
    #else
-   int random();
+   int random();    // used to be an error saying random not declared in this scope... check -KJG
    long curRand = rand() % 1000;
    long curTime = time(NULL);
    long curClock = time(0);     // I added this - check with Stephan on this line, what is curClock KJG
@@ -356,6 +356,10 @@ int main(int argc, char* argv[]) {
     
     cout << endl;
  
+    
+    
+    
+    // INITIALIZE THE SIMULATION (AND ITS LANDSCAPE)
     vector<double> outdata(tot_demes);  
     
     World Grid2D(m1,m2,initial_colonized,anc_pop_size,burnin_time,capacity,expansionMode,mu,s,m);   // initialize world: grid size (m1,m2), number of initially colonized demes, 
@@ -364,21 +368,21 @@ int main(int argc, char* argv[]) {
    // srand(time(NULL));		//might be an artifact -- CHECK - in case it overwrites the random number seed ???
     
     
-    
+    // GO THROUGH REPS
     for (rep = 0;rep<replicates;rep++)                                  // loop that simulates replicates for the same set of parameters and initial conditions
     {
         cout << "Beginning replicate " << rep+1 << "/" << replicates << endl;
                 
         Grid2D.setParams(capacity,mu,s,m);
         sprintf(filename,"%s%d",base,rep);                              // these are the names of the outputs per rep, only need the one line the 2 below are for different cases, but the others could create separate file outputs for diff summ stats
-        //sprintf(filename2,"%s%s%d",base,"_hom_wt_",rep);
-        //sprintf(filename3,"%s%s%d",base,"_het_",rep);
+        sprintf(filename2,"%s%s%d",base,"_hom_wt_",rep);
+        sprintf(filename3,"%s%s%d",base,"_het_",rep);
 
         
         outputfile.open(filename);
         cout << " filename:" <<filename;
-//        outputfile2.open(filename2);
-//        outputfile3.open(filename3);
+        outputfile2.open(filename2);
+        outputfile3.open(filename3);
         
          // migration barrier along expansion axis:
         
@@ -422,7 +426,7 @@ int main(int argc, char* argv[]) {
       
         //Grid2D.startExpansion((m1/2)*m2+(initial_colonized/m1)+1,0);   
 
-        for(i = 0; i< (generations)/snapshot;i++)                                // loop through one set of generations to the first, 2nd, ... snapshot 
+        for(i = 0; i< (generations)/snapshot;i++)                               // loop through one set of generations to the first, 2nd, ... snapshot 
         {            
                 outdata = Grid2D.getMeanFit();                                  // get mean fitness of the whole population
     
@@ -432,34 +436,34 @@ int main(int argc, char* argv[]) {
                 }
                 outputfile << "\n";
                 
-//////                outdata = Grid2D.getGenotypeFrequencies(0,loci,1);              // get  heterozygotes
-//////                
-//////                sprintf(filename4,"%s%s%d",filename3,"_gen_",(i*snapshot));
-//////                outputfile3.open(filename4);
-//////                
-//////                for (j = 0;j<(tot_demes);j++)                                     
-//////                { 
-//////                    for ( k = 0;k< loci;k++)
-//////                    {
-//////                        outputfile3 << outdata[j*loci+k] << " ";
-//////                    }
-//////                    outputfile3 << "\n";
-//////                }
-//////                outputfile3.close();
-//////                
-//////                outdata = Grid2D.getGenotypeFrequencies(0,loci,0);              // get  wt homozygotes
-//////                
-//////                sprintf(filename4,"%s%s%d",filename2,"_gen_",(i*snapshot));
-//////                outputfile3.open(filename4);
-//////                for (j = 0;j<(tot_demes);j++)                                     
-//////                { 
-//////                    for ( k = 0;k< loci;k++)
-//////                    {
-//////                        outputfile3 << outdata[j*loci+k] << " ";
-//////                    }
-//////                    outputfile3 << "\n";
-//////                }
-//////                outputfile3.close();
+                outdata = Grid2D.getGenotypeFrequencies(0,loci,1);              // get  heterozygotes
+                
+                sprintf(filename4,"%s%s%d",filename3,"_gen_",(i*snapshot));
+                outputfile3.open(filename4);
+                
+                for (j = 0;j<(tot_demes);j++)                                     
+                { 
+                    for ( k = 0;k< loci;k++)
+                    {
+                        outputfile3 << outdata[j*loci+k] << " ";
+                    }
+                    outputfile3 << "\n";
+                }
+                outputfile3.close();
+                
+                outdata = Grid2D.getGenotypeFrequencies(0,loci,0);              // get  wt homozygotes
+                
+sprintf(filename4,"%s%s%d",filename2,"_gen_",(i*snapshot));
+                outputfile3.open(filename4);
+                for (j = 0;j<(tot_demes);j++)                                     
+                { 
+                    for ( k = 0;k< loci;k++)
+                    {
+                        outputfile3 << outdata[j*loci+k] << " ";
+                    }
+                    outputfile3 << "\n";
+                }
+                outputfile3.close();
         
                 
                 for (k = 0;k<snapshot;k++)                                      // now go through the first set of gens before the next snapshot, etc
@@ -479,38 +483,38 @@ int main(int argc, char* argv[]) {
         
         outputfile << "\n";
              
-//        outdata = Grid2D.getGenotypeFrequencies(0,loci,0);              // get ancestral homozygotes
-//
-//        sprintf(filename4,"%s%s%d",filename2,"_gen_",(i*snapshot));
-//        outputfile3.open(filename4);
-//        for (j = 0;j<(tot_demes);j++)                                     
-//        { 
-//            for ( k = 0;k< loci;k++)
-//            {
-//                outputfile3 << outdata[j*loci+k] << " ";
-//            }
-//            outputfile3 << "\n";
-//        }
-//        outputfile3.close();
-//
-//        outdata = Grid2D.getGenotypeFrequencies(0,loci,1);              // get  heterozygotes
-//
-//        sprintf(filename4,"%s%s%d",filename3,"_gen_",(i*snapshot));
-//        outputfile3.open(filename4);
-//        for (j = 0;j<(tot_demes);j++)                                     
-//        { 
-//            for ( k = 0;k< loci;k++)
-//            {
-//                outputfile3 << outdata[j*loci+k] << " ";
-//            }
-//            outputfile3 << "\n";
-//        }
-//        outputfile3.close();
+        outdata = Grid2D.getGenotypeFrequencies(0,loci,0);              // get ancestral homozygotes
+
+        sprintf(filename4,"%s%s%d",filename2,"_gen_",(i*snapshot));
+        outputfile3.open(filename4);
+        for (j = 0;j<(tot_demes);j++)                                     
+        { 
+            for ( k = 0;k< loci;k++)
+            {
+                outputfile3 << outdata[j*loci+k] << " ";
+            }
+            outputfile3 << "\n";
+        }
+        outputfile3.close();
+
+        outdata = Grid2D.getGenotypeFrequencies(0,loci,1);              // get  heterozygotes
+
+        sprintf(filename4,"%s%s%d",filename3,"_gen_",(i*snapshot));
+        outputfile3.open(filename4);
+        for (j = 0;j<(tot_demes);j++)                                     
+        { 
+            for ( k = 0;k< loci;k++)
+            {
+                outputfile3 << outdata[j*loci+k] << " ";
+            }
+            outputfile3 << "\n";
+        }
+        outputfile3.close();
 
         outputfile.close();
-//        outputfile2.close();
-//        outputfile3.close();
-//        outputfile4.close();
+        outputfile2.close();
+        outputfile3.close();
+        outputfile4.close();
      
         Grid2D.clear(m1,m2,initial_colonized,anc_pop_size,burnin_time,capacity,expansionMode,mu,s,m); 		// clear for next rep             
     }

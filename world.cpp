@@ -114,21 +114,21 @@ World::World(int length1,int length2,int initial_colonized,int initial_popsize,i
    
    width = floor(initial_colonized/m1);
 
-   if (mode == 0)     // colonize first initial_size demes at left edge  of grid, a barrier to gene flow to the right of colonized area 
+   if (mode == 0)     // colonize first initial_size demes at left edge of grid, a barrier to gene flow to the right of colonized area 
    {    
         for(i=0;i<width;i++)
         {
-                for(j=0;j<m1;j++)
+                for(j=0;j<m1;j++)   // m1 is the y-axis, or height of the landscape, go through each deme
                 {    
-                    propagule = initial_population[0].sampleIndividuals(capacity);      
+                    propagule = initial_population[0].sampleIndividuals(capacity);      // sample the ancestral pop? and seed the starting demes on the landscape    
                     //demes[start+i*m2+m2/2+(j-width/2)].colonize();
                    
-                    for(it = propagule.begin();it!=propagule.end();it++)
+                    for(it = propagule.begin();it!=propagule.end();it++)                // iterate again over something? along the x-axis?
                     {    
                         demes[j*m2+i].addMigrant(*it);
                     }
                     
-                     demes[j*m2+width+1].setParams(0);   
+                    demes[j*m2+width+1].setParams(0);                                   // make the barrier of carrying cap 0 at the edge of the starting demes?
                 }
         }  
    }

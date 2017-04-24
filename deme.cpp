@@ -3,6 +3,8 @@
 #include <string.h>  // For strcpy
 #include <time.h>  // For time
 #include <stdlib.h>  // For toupper and tolower
+#include <cstdlib>      // added by KJG trying to fix abs error line 303
+#include <cmath>        // added by KJG trying to fix abs error line 303
 #include <math.h>
 #include <vector>
 #include <list>

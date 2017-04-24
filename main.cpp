@@ -27,6 +27,10 @@
 
 using namespace std;
 
+
+
+
+
 int main(int argc, char* argv[]) {
     
     if ( argc != 2 )
@@ -38,7 +42,12 @@ int main(int argc, char* argv[]) {
     }
     
     
-    
+    string fn = argv[1]; //filename for parameter inputs
+    cout << fn; 
+//    fstream file;
+//    file.open(fn);
+    //your logic here
+//    file.close(); 
     
     
 /* find the path of the executable:
@@ -103,7 +112,7 @@ int main(int argc, char* argv[]) {
    randSeed = ((tv.tv_sec ^ tv.tv_usec) ^ getpid()) % 1000000; //Implies only  one million possible seeds!
 
    #else
-   random();
+   int random();
    long curRand = rand() % 1000;
    long curTime = time(NULL);
    long curClock = time(0);     // I added this - check with Stephan on this line, what is curClock KJG
@@ -184,10 +193,7 @@ int main(int argc, char* argv[]) {
     //      infile.open ("input_parameters.txt", ifstream::in);                            
     //___________________________________________________________________
 //    char wd[250];           // the working directory defined in the input file
-    char filename[150]; 
-    char filename2[150]; 
-    char filename3[150];  
-    char filename4[150];  
+
     
     
     double par;
@@ -258,7 +264,7 @@ int main(int argc, char* argv[]) {
         tot_demes = m1*m2;
         initial_colonized = starting_demes*m1;  
     }
-    else
+    else    // it's never going to get to this else statement the way I have it coded now, but it doesn't seem to count as only less than a number for param size?
     {
         cout << "\n MISSING REQUIRED NUMBER OF PARAMETERS, EXITING SIMULATION.\n";
     }
@@ -272,13 +278,13 @@ int main(int argc, char* argv[]) {
     ifstream the_file ( argv[1] );
     // Always check to see if file opening succeeded
     if ( !the_file.is_open() )
-      cout<<"Could not open file\n";
+      cout << "Could not open file\n";
     else {
-      char x;
-      // the_file.get ( x ) returns false if the end of the file
+      char contents;
+      // the_file.get ( contents ) returns false if the end of the file
       //  is reached or an error occurs
-      while ( the_file.get ( x ) )
-        cout<< x;
+      while ( the_file.get ( contents ) )
+        cout<< contents;
     }
     // the_file is closed implicitly here
  */
@@ -290,6 +296,10 @@ int main(int argc, char* argv[]) {
     
     
 // set up all the log and output filenames and files
+    char filename[150]; 
+    char filename2[150]; 
+    char filename3[150];  
+    char filename4[150];  
     
     // root dir for output files and  the starting name - fix this to come from param file
     // this doesn't work because it needs to know the size ahead of time :(   std::string full_path = path + "out_test_";
@@ -348,8 +358,8 @@ int main(int argc, char* argv[]) {
  
     vector<double> outdata(tot_demes);  
     
-    World Grid2D(m1,m2,initial_colonized,anc_pop_size,burnin_time,capacity,expansionMode,mu,s,m);               // initialize world: grid size (m1,m2), number of initially colonized demes, 
-                                                                                                                // size of original population, burn in time of original population, capacity of demes, mode of intial colonization   
+    World Grid2D(m1,m2,initial_colonized,anc_pop_size,burnin_time,capacity,expansionMode,mu,s,m);   // initialize world: grid size (m1,m2), number of initially colonized demes, 
+                                                                                                    // size of original population, burn in time of original population, capacity of demes, mode of intial colonization   
     
    // srand(time(NULL));		//might be an artifact -- CHECK - in case it overwrites the random number seed ???
     
@@ -360,7 +370,7 @@ int main(int argc, char* argv[]) {
         cout << "Beginning replicate " << rep+1 << "/" << replicates << endl;
                 
         Grid2D.setParams(capacity,mu,s,m);
-        sprintf(filename,"%s%d",base,rep);                              // these is the name of the output per rep, only need the one line the 2 below are for different cases, but the others could create separate file outputs for diff summ stats
+        sprintf(filename,"%s%d",base,rep);                              // these are the names of the outputs per rep, only need the one line the 2 below are for different cases, but the others could create separate file outputs for diff summ stats
         //sprintf(filename2,"%s%s%d",base,"_hom_wt_",rep);
         //sprintf(filename3,"%s%s%d",base,"_het_",rep);
 

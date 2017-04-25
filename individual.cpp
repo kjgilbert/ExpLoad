@@ -12,10 +12,11 @@
 
 using namespace std;
 
-int Individual::loci = 1000;        // I THINK HERE IS WHERE LOCI NUMBER LINKED TO PARAM NEEDS TO BE FIXED KJG
+int Individual::loci = 1000;
 double Individual::rrate = 0.5; 
 vector<int> Individual::used_loci;
 vector<float> Individual::s_coeff;
+double phi = 0.9;
 //unsigned long long Individual::counter = 0;
 
 //inline double rand_unif(double x0, double x1)
@@ -366,11 +367,10 @@ unsigned long Individual::getNumberMutations()
  
 }
 
-void Individual::set_selection_dist(double s)
+void Individual::set_selection_dist(double s)   // here we set the distribution of effect sizes for loci (bens and dels)
 {       
     Individual::s_coeff.resize(loci);
     int i;
-    double phi = 0.9;
     
     for (i = 0;i<int(loci*phi);i++)
     {
@@ -381,13 +381,13 @@ void Individual::set_selection_dist(double s)
     {
         s_coeff[i] = s;    
     }
-        
+
+    
+//    THIS IS THE OLD CODE FOR MAKING THE DISTRIBUTION OF MUTATION EFFECTS EXPONENTIAL
 //    for (i = 1;i<loci;i++)
 //    {
 //        s_coeff[i-1] = s;//*(-log(1-((float)i-1)/(loci)));
 //    }
-//    
-//  
 //    
 //    s_coeff[loci-1] = s;//s*(-log(1-((float)loci-1)/loci));
 }

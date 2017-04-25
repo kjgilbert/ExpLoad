@@ -162,6 +162,8 @@ int main(int argc, char* argv[]) {
     int selectionMode;              // SoftSelection = 0, HardSelection = 1
     int expansionMode;              // 0 = linear expansion, 1 = radial expansion, 2 linear - starting from both ends of the habitat, 
     int starting_demes;             // used to calculate number of initially colonized demes as landscape height times this number
+    int niche_width = 10;           // the width for a 1-D shift of the demes undergoing the shift, aka the niche
+    int theta = 5;                  // the patch will shift right by one deme every theta number of generations
     int loci;                       // number of loci to simulate
 //    int loci = 1000;    // 3 first and last deme are colonized (at opposite edges), 4 = four corners of the habitat are colonized
           
@@ -171,11 +173,7 @@ int main(int argc, char* argv[]) {
     int i,j,k;                      // other counters
     int tot_demes = m1*m2;          // total number of demes in the world
     int initial_colonized;          // number of initially colonized demes (location of demes is determined via mode)
-    int trailing_edge;
-    int niche_width = 10;
-    int theta = 5;
-    
-    
+    int trailing_edge;              // the identity of the deme (for 1-D shifts) at the far left of the landscape, it will always be zero, as is defined below in the code
     
     
     
@@ -422,22 +420,20 @@ int main(int argc, char* argv[]) {
 //        Grid2D.startExpansion((m1-2)*m2+(initial_colonized/m1)+3,capacity);             // open 1 deme in Migration-barrier
 //       
         
-        Grid2D.setCapacity(0);       // remove Migration-barrier completely (and any barrier that might've been drawn on the landscape) all are removed here
-        
+        Grid2D.setCapacity(0);      // remove Migration-barrier completely (and any barrier that might've been drawn on the landscape) all are removed here
+                                    // so here we set carrying capacity to 0 for all demes
+                                    // then in the next line, we put the carrying capacity back up to what we want, but only in the "niche" or shifting range we want
         for (int deme = 0;deme<niche_width;deme++)
         {
             Grid2D.setDemeCapacity(deme,capacity);
-            
         }
-        
-        trailing_edge = 0;
-                                                 // remove Migration-barrier completely (and any barrier that might've been drawn on the landscape) all are removed here
+        trailing_edge = 0;          // the trailing edge always starts at the leftmost deme, will have to modify this for 2-D shifts
 
-        //Grid2D.startExpansion((m1/2)*m2+(initial_colonized/m1)+1,0);   
+        //Grid2D.startExpansion((m1/2)*m2+(initial_colonized/m1)+1,0);  // old version for starting the expansion  
 
-        for(i = 0; i< generations;i++)                               // loop through one set of generations to the first, 2nd, ... snapshot 
+        for(i = 0; i< generations;i++)      // loop through all generations of the simulation
         {        
-            if(i % snapshot == 0)          /// write out all the data every snapshot
+            if(i % snapshot == 0)           // write out all the data every snapshot
             {
                 outdata = Grid2D.getMeanFit(); // get mean fitness of the whole population
 
@@ -473,19 +469,16 @@ int main(int argc, char* argv[]) {
                 outputfile3.close();
             }
 
-            if (i % theta == 0) /// move the 'patch' carrying capacity for a 1-D shift
+            if (i % theta == 0)             // move the 'patch' carrying capacity for a 1-D shift, it moves one deme at a time
             {
                 Grid2D.setDemeCapacity(trailing_edge,0);
                 Grid2D.setDemeCapacity(trailing_edge+niche_width,capacity);
                 trailing_edge += 1;
-                
             }
 
-
-
+            // then normal simulation routines proceed for the rest of this generation
             Grid2D.migrate(tot_demes); // migration        
             Grid2D.reproduce(selectionMode); // reproduction and selection     
-            
         }
     
         outdata = Grid2D.getMeanFit();                                          // write data to output file

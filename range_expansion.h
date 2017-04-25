@@ -101,7 +101,7 @@ class World
         void setCapacity(int K);
         //void updateWaveFront();
         void updateDistance();
-        void startExpansion(int bn_location, int capacity);
+        void setDemeCapacity(int bn_location, int capacity);
         //void ResetMutationOrigin();
         double sample_wfID(int location);
       

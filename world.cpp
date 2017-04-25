@@ -273,9 +273,9 @@ World::~World()
 {
 }
 
-void World::startExpansion(int bn_location,int capacity)
+void World::setDemeCapacity(int deme_location,int capacity)
 {
-    demes[bn_location].setParams(capacity);
+    demes[deme_location].setParams(capacity);
 }
 
 

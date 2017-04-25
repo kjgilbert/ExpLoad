@@ -225,43 +225,27 @@ void Individual::setGenotype(heritableUnit g1,heritableUnit g2)
  
 double Individual::getFitness(double s)                                         // this is no longer used
 {
-    double w = 1;
-    int i;
-    
-    // calculate fitness from genotype
-    
-    for (i=0;i<(loci-1);i++) 
-    {
-       //w = w*pow((1-s),haplotypes[0][i])*pow((1-s),haplotypes[1][i]);      //multiplicative   
-       //w = w-haplotype_1[i]*s - haplotype_2[i]*s;                       //additive        
-       //if(w < 0) {w = 0;}
-       //w = 0.00001;
-       //w = w * haplotypes[0][i] * haplotypes[1][i];    //additive
-       //w = w * pow(max(haplotypes[0][i],haplotypes[1][i]),2);    //recessive-like 
-       //w = w * (1 - (abs(haplotypes[0][i]-haplotypes[1][i])));    //underdominant-like 
-    }
-    
-    return(w);
+
 }
 
 double Individual::getRelativeFitness(double s)
 {
     double w = 1;
     int i;
-    float h = 0;
+    float h = 0.5;
     
     // calculate fitness from genotype
     
-    for (i=0;i<loci/10;i++)                                                    // add up the effects of deleterious mutations        
+    for (i=0;i<loci;i++)                                                    // add up the effects of deleterious mutations        
     {
        
        if ((haplotypes[0][i] && !haplotypes[1][i])||(!haplotypes[0][i] && haplotypes[1][i]))                              // completely recessive mutations
        { 
-           w *= (1 - h*s);//s_coeff[i]);  
+           w *= (1 + h*s_coeff[i]);  
        }
        else if (haplotypes[0][i] && haplotypes[1][i])                              // completely recessive mutations
        { 
-           w *= (1 - s);//s_coeff[i]);  
+           w *= (1 + s_coeff[i]);  
        }
 ////                                                                                // mutliplicative effects  
 //        if(haplotypes[0][i]) w *= (1-s);
@@ -271,14 +255,7 @@ double Individual::getRelativeFitness(double s)
 //         w *= (1-( (haplotypes[1][i]+haplotypes[0][i])* s_coeff[i]/2 ) );                       // additive effects
     }  
     
-    // remove this if you want neutral mutations
-    for (i=loci/10; i<loci ;i++)                                                 // add up the effects of beneficial mutations   
-    {
-       if (haplotypes[0][i] && haplotypes[1][i])                              // completely recessive mutations
-       { 
-           w *= (1 + s);  
-       }
-    }
+
 
     return(w);
 }
@@ -287,19 +264,7 @@ double Individual::getRelativeFitness(double s)
 
 double Individual::getMaxFitness(double s)
 {
-    double w = 1;
-    int i;
-    return(1);
-    // calculate fitness from genotype
-    
-    for (i=0;i<(2*loci/3);i++) 
-    {
-       if (haplotypes[0][i] ||  haplotypes[1][i])                                
-       { 
-           w *= (1 - s);  
-       }
-    }
-    return(w*w);
+
 }
 
 void Individual::print()
@@ -325,39 +290,8 @@ void Individual::setParams(int number_loci)
 
  
 
-/*Count Individual::getMutationCount()
-{
-    int i,j;
-    Count c;
-    c.resize(4);
-    fill_n(c.begin(),4,0);
-    
-    // calculate fitness from genotype
-    for (j = 0;j<2;j++)
-    {
-    
-        for (i=0;i<loci;i++) 
-        {
-            c[0] += mutations_d[j][i];
-            c[1] += md_front[j][i];
-            c[2] += mutations_b[j][i];
-            c[3] += mb_front[j][i];
-        }
-    }
-    return(c);
-} 
-*/
 
-/*void Individual::ResetMutationOrigin()
-{
-    fill_n(md_front[0].begin(),loci,0);
-   
-    fill_n(mb_front[0].begin(),loci,0);
-    
-    fill_n(md_front[1].begin(),loci,0);
-   
-    fill_n(mb_front[1].begin(),loci,0);
-}*/
+
 
 void Individual::setAncestors(int a)
 {
@@ -385,7 +319,6 @@ double Individual::getWFID()
 vector<double> Individual::getSumAlleles(int loci_begin,int loci_end)
 {
     vector<double> p;
-    int start = 0;
     
     
     p.resize(loci_end);
@@ -403,7 +336,6 @@ vector<double> Individual::getSumAlleles(int loci_begin,int loci_end)
 vector<double> Individual::getSumGenotypes(int loci_begin,int loci_end,int genotype)
 {
     vector<double> p;
-    int start = 0;
     
     
     p.resize(loci_end-loci_begin);
@@ -426,45 +358,36 @@ double Individual::getInversionCount()                                     // no
 
 void Individual::normalizeFitness(double mean_fit)                              // not used anymore
 {
-    //double co = pow(mean_fit,1/(2*(double)loci));
-    
-    //cout << mean_fit << "   " << co <<  " \n";
-    int i;
-    
-    // calculate fitness from genotype
-    
-    //for (i=0;i<loci;i++) 
-    //{
-    //    haplotypes[0][i]/=co;
-    //    haplotypes[1][i]/=co;  
-    //}
+
 }
 
 unsigned long Individual::getNumberMutations()
 {
-    int i;
-    unsigned long n_mut = 0;
-    for (i = 0;i<loci;i++)
-    {
-//        n_mut += mutations[0][i].size();
-//        n_mut += mutations[1][i].size();
-    }
-    return(n_mut);
+ 
 }
 
 void Individual::set_selection_dist(double s)
 {       
     Individual::s_coeff.resize(loci);
     int i;
-    for (i = 1;i<loci/2;i++)
+    double phi = 0.9;
+    
+    for (i = 0;i<int(loci*phi);i++)
     {
-        s_coeff[i-1] = s;//*(-log(1-((float)i-1)/(loci/2)));
+        s_coeff[i] = -s;    
     }
     
-    for (i = loci/2;i<loci;i++)
+    for (i = int(loci*phi) + 1;i<loci;i++)
     {
-        s_coeff[i-1] = s;//s*(-log(1-((float)i-1)/loci));
+        s_coeff[i] = s;    
     }
-    
-    s_coeff[loci-1] = s;//s*(-log(1-((float)loci-1)/loci));
+        
+//    for (i = 1;i<loci;i++)
+//    {
+//        s_coeff[i-1] = s;//*(-log(1-((float)i-1)/(loci)));
+//    }
+//    
+//  
+//    
+//    s_coeff[loci-1] = s;//s*(-log(1-((float)loci-1)/loci));
 }

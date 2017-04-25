@@ -162,8 +162,8 @@ int main(int argc, char* argv[]) {
     int selectionMode;              // SoftSelection = 0, HardSelection = 1
     int expansionMode;              // 0 = linear expansion, 1 = radial expansion, 2 linear - starting from both ends of the habitat, 
     int starting_demes;             // used to calculate number of initially colonized demes as landscape height times this number
-    int niche_width = 10;           // the width for a 1-D shift of the demes undergoing the shift, aka the niche
-    int theta = 5;                  // the patch will shift right by one deme every theta number of generations
+    int niche_width;           // the width for a 1-D shift of the demes undergoing the shift, aka the niche
+    int theta;                  // the patch will shift right by one deme every theta number of generations
     int loci;                       // number of loci to simulate
 //    int loci = 1000;    // 3 first and last deme are colonized (at opposite edges), 4 = four corners of the habitat are colonized
           
@@ -213,53 +213,55 @@ int main(int argc, char* argv[]) {
     }
     
 
-    if(params.size() < 16)
+    if(params.size() < 17)
     {
         m1 = params[0];
         m2 = params[1];
         starting_demes = params[2];
-        capacity = params[3];
-        anc_pop_size = params[4];
+        niche_width = params[3];
+        capacity = params[4];
+        anc_pop_size = params[5];
         
-        burnin_time = params[5];
-        expansion_start = params[6];
-        generations = params[7];
-        snapshot = params[8];
-        replicates = params[9];
+        burnin_time = params[6];
+        expansion_start = params[7];
+        theta = params[8];
+        generations = params[9];
+        snapshot = params[10];
+        replicates = params[11];
 
-        expansionMode = params[10];
-        selectionMode = params[11];
-        mu = params[12];
-        m = params[13];
-        s = params[14];
-        loci = params[15];
+        expansionMode = params[12];
+        selectionMode = params[13];
+        mu = params[14];
+        m = params[15];
+        s = params[16];
 
         tot_demes = m1*m2;
         initial_colonized = starting_demes*m1;  
     }
-    else if(params.size() > 16)
+    else if(params.size() > 17)
     {
            // then there must have been a random seed specified
         m1 = params[0];
         m2 = params[1];
         starting_demes = params[2];
-        capacity = params[3];
-        anc_pop_size = params[4];
+        niche_width = params[3];
+        capacity = params[4];
+        anc_pop_size = params[5];
         
-        burnin_time = params[5];
-        expansion_start = params[6];
-        generations = params[7];
-        snapshot = params[8];
-        replicates = params[9];
+        burnin_time = params[6];
+        expansion_start = params[7];
+        theta = params[8];
+        generations = params[9];
+        snapshot = params[10];
+        replicates = params[11];
 
-        expansionMode = params[10];
-        selectionMode = params[11];
-        mu = params[12];
-        m = params[13];
-        s = params[14];
-        loci = params[15];
+        expansionMode = params[12];
+        selectionMode = params[13];
+        mu = params[14];
+        m = params[15];
+        s = params[16];
         
-        curSeed = params[16];
+        curSeed = params[17];
 
         tot_demes = m1*m2;
         initial_colonized = starting_demes*m1;  
@@ -269,7 +271,7 @@ int main(int argc, char* argv[]) {
         cout << "\n MISSING REQUIRED NUMBER OF PARAMETERS, EXITING SIMULATION.\n";
     }
 
-    
+   loci = 1000;     // right now number of loci has to be hard coded in 
     
 /*
  * This code works, but I have yet to figure out how to parse it when it contains both text and integers, so for now sticking to Stephan's original implementation for input files

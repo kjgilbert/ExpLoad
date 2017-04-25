@@ -44,7 +44,7 @@ Deme::~Deme()
 }
 
 
-void Deme::initialize()         // IS IT OVERWRITING THINGS HERE INCORRECTLY? KJG
+void Deme::initialize()
 {
     m = 0.01;
     capacity = 100;
@@ -77,9 +77,7 @@ void Deme::reproduce(int wf)
     list<Individual>::iterator it;
     double r = 2;
     bool front;
-    long dum = 1;
-    
-            
+                
     front = (ID >= (wf - 1));    
     
     no_ind = this_generation.size();
@@ -90,12 +88,12 @@ void Deme::reproduce(int wf)
         
         //calculate expected number of offspring 
         
-        //expected_offspring = capacity;   //demes are filled immediately
+        //expected_offspring = capacity;   // Demes are filled immediately
     
         expected_offspring = no_ind * (r/(1 + (double)(no_ind*(r-1))/capacity));  // beverton-holt
         
         
-        //realized offspring is obtained from a poisson distribution
+        //realized offspring is obtained from a Poisson distribution
         realized_offspring = randpois(expected_offspring);    
         
         //realized_offspring = capacity;
@@ -141,8 +139,7 @@ void Deme::reproduceSS(int wf)
     list<Individual>::iterator it;
     double r = 2;
     double mom_fit,dad_fit;
-    double wf_cum = 0;
-    int ancestors_tot = 0;
+
     
     bool front;
     

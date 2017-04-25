@@ -171,7 +171,9 @@ int main(int argc, char* argv[]) {
     int i,j,k;                      // other counters
     int tot_demes = m1*m2;          // total number of demes in the world
     int initial_colonized;          // number of initially colonized demes (location of demes is determined via mode)
-        
+    int trailing_edge;
+    int niche_width = 10;
+    int theta = 5;
     
     
     
@@ -294,7 +296,6 @@ int main(int argc, char* argv[]) {
     
     
     
-    
 // set up all the log and output filenames and files
     char filename[150]; 
     char filename2[150]; 
@@ -365,8 +366,7 @@ int main(int argc, char* argv[]) {
     World Grid2D(m1,m2,initial_colonized,anc_pop_size,burnin_time,capacity,expansionMode,mu,s,m);   // initialize world: grid size (m1,m2), number of initially colonized demes, 
                                                                                                     // size of original population, burn in time of original population, capacity of demes, mode of intial colonization   
     
-   // srand(time(NULL));		//might be an artifact -- CHECK - in case it overwrites the random number seed ???
-    
+
     
     // GO THROUGH REPS
     for (rep = 0;rep<replicates;rep++)                                  // loop that simulates replicates for the same set of parameters and initial conditions
@@ -388,7 +388,7 @@ int main(int argc, char* argv[]) {
         
 //        for(i = 10; i < m2; i++)
 //        {
-//                Grid2D.startExpansion((m1/2)*m2+i,0);
+//               Grid2D.setDemeCapacity((m1/2)*m2+i,0);
 //        }
 //       for (i = 0;i < m1; i++)
 //        {
@@ -422,55 +422,70 @@ int main(int argc, char* argv[]) {
 //        Grid2D.startExpansion((m1-2)*m2+(initial_colonized/m1)+3,capacity);             // open 1 deme in Migration-barrier
 //       
         
-        Grid2D.setCapacity(capacity);                                           // remove Migration-barrier completely (and any barrier that might've been drawn on the landscape) all are removed here
-      
+        Grid2D.setCapacity(0);       // remove Migration-barrier completely (and any barrier that might've been drawn on the landscape) all are removed here
+        
+        for (int deme = 0;deme<niche_width;deme++)
+        {
+            Grid2D.setDemeCapacity(deme,capacity);
+            
+        }
+        
+        trailing_edge = 0;
+                                                 // remove Migration-barrier completely (and any barrier that might've been drawn on the landscape) all are removed here
+
         //Grid2D.startExpansion((m1/2)*m2+(initial_colonized/m1)+1,0);   
 
-        for(i = 0; i< (generations)/snapshot;i++)                               // loop through one set of generations to the first, 2nd, ... snapshot 
-        {            
-                outdata = Grid2D.getMeanFit();                                  // get mean fitness of the whole population
-    
-                for (j = 0;j<tot_demes;j++)                                     // write it to file
-                { 
-                        outputfile << outdata[j] << " ";
+        for(i = 0; i< generations;i++)                               // loop through one set of generations to the first, 2nd, ... snapshot 
+        {        
+            if(i % snapshot == 0)          /// write out all the data every snapshot
+            {
+                outdata = Grid2D.getMeanFit(); // get mean fitness of the whole population
+
+                for (j = 0; j < tot_demes; j++) // write it to file
+                {
+                    outputfile << outdata[j] << " ";
                 }
                 outputfile << "\n";
-                
-                outdata = Grid2D.getGenotypeFrequencies(0,loci,1);              // get  heterozygotes
-                
-                sprintf(filename4,"%s%s%d",filename3,"_gen_",(i*snapshot));
+
+                outdata = Grid2D.getGenotypeFrequencies(0, loci, 1); // get  heterozygotes
+
+                sprintf(filename4, "%s%s%d", filename3, "_gen_", (i * snapshot));
                 outputfile3.open(filename4);
-                
-                for (j = 0;j<(tot_demes);j++)                                     
-                { 
-                    for ( k = 0;k< loci;k++)
-                    {
-                        outputfile3 << outdata[j*loci+k] << " ";
+
+                for (j = 0; j < (tot_demes); j++) {
+                    for (k = 0; k < loci; k++) {
+                        outputfile3 << outdata[j * loci + k] << " ";
                     }
                     outputfile3 << "\n";
                 }
                 outputfile3.close();
-                
-                outdata = Grid2D.getGenotypeFrequencies(0,loci,0);              // get  wt homozygotes
-                
-sprintf(filename4,"%s%s%d",filename2,"_gen_",(i*snapshot));
+
+                outdata = Grid2D.getGenotypeFrequencies(0, loci, 0); // get  wt homozygotes
+
+                sprintf(filename4, "%s%s%d", filename2, "_gen_", (i * snapshot));
                 outputfile3.open(filename4);
-                for (j = 0;j<(tot_demes);j++)                                     
-                { 
-                    for ( k = 0;k< loci;k++)
-                    {
-                        outputfile3 << outdata[j*loci+k] << " ";
+                for (j = 0; j < (tot_demes); j++) {
+                    for (k = 0; k < loci; k++) {
+                        outputfile3 << outdata[j * loci + k] << " ";
                     }
                     outputfile3 << "\n";
                 }
                 outputfile3.close();
-        
+            }
+
+            if (i % theta == 0) /// move the 'patch' carrying capacity for a 1-D shift
+            {
+                Grid2D.setDemeCapacity(trailing_edge,0);
+                Grid2D.setDemeCapacity(trailing_edge+niche_width,capacity);
+                trailing_edge += 1;
                 
-                for (k = 0;k<snapshot;k++)                                      // now go through the first set of gens before the next snapshot, etc
-                {         
-                        Grid2D.migrate(tot_demes);                              // migration        
-                        Grid2D.reproduce(selectionMode);                        // reproduction and selection     
-                }                  
+            }
+
+
+
+            Grid2D.migrate(tot_demes); // migration        
+            Grid2D.reproduce(selectionMode); // reproduction and selection     
+            
         }
     
         outdata = Grid2D.getMeanFit();                                          // write data to output file

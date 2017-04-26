@@ -374,9 +374,12 @@ int main(int argc, char* argv[]) {
         cout << "Beginning replicate " << rep+1 << "/" << replicates << endl;
                 
         Grid2D.setParams(capacity,mu,s,m);
-        sprintf(filename,"%s%d",base,rep);                              // these are the names of the outputs per rep, only need the one line the 2 below are for different cases, but the others could create separate file outputs for diff summ stats
-        sprintf(filename2,"%s%s%d",base,"_hom_wt_",rep);
-        sprintf(filename3,"%s%s%d",base,"_het_",rep);
+// orig        sprintf(filename,"%s%d",base,rep);                              // these are the names of the outputs per rep, only need the one line the 2 below are for different cases, but the others could create separate file outputs for diff summ stats
+// orig        sprintf(filename2,"%s%s%d",base,"_hom-wt_rep_",rep);
+// orig        sprintf(filename3,"%s%s%d",base,"_het_rep_",rep);
+        sprintf(filename,"%s%s%d%s%d%s%d",base,"wid",niche_width,"_speed",theta,"_rep_",rep);
+        sprintf(filename2,"%s%s%d%s%d%s%d",base,"_hom-wt_wid",niche_width,"_speed",theta,"_rep_",rep);
+        sprintf(filename3,"%s%s%d%s%d%s%d",base,"_het_wid",niche_width,"_speed",theta,"_rep_",rep);
 
         
         outputfile.open(filename);
@@ -483,9 +486,9 @@ int main(int argc, char* argv[]) {
             Grid2D.reproduce(selectionMode); // reproduction and selection     
         }
     
-        outdata = Grid2D.getMeanFit();                                          // write data to output file
+        outdata = Grid2D.getMeanFit();                                          // write all data at the end of sim to object
         
-        for (j = 0;j<tot_demes;j++) 
+        for (j = 0;j<tot_demes;j++)                                             // put all the final data from that object into the output file
         { 
                 outputfile << outdata[j] << " ";
                 //finaloutputfile << outdata[j] << " ";

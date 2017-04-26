@@ -447,7 +447,7 @@ int main(int argc, char* argv[]) {
 
                 outdata = Grid2D.getGenotypeFrequencies(0, loci, 1); // get  heterozygotes
 
-                sprintf(filename4, "%s%s%d", filename3, "_gen_", (i * snapshot));
+                sprintf(filename4, "%s%s%d", filename3, "_gen_", (i));
                 outputfile3.open(filename4);
 
                 for (j = 0; j < (tot_demes); j++) {
@@ -460,7 +460,7 @@ int main(int argc, char* argv[]) {
 
                 outdata = Grid2D.getGenotypeFrequencies(0, loci, 0); // get  wt homozygotes
 
-                sprintf(filename4, "%s%s%d", filename2, "_gen_", (i * snapshot));
+                sprintf(filename4, "%s%s%d", filename2, "_gen_", (i));
                 outputfile3.open(filename4);
                 for (j = 0; j < (tot_demes); j++) {
                     for (k = 0; k < loci; k++) {
@@ -495,7 +495,7 @@ int main(int argc, char* argv[]) {
              
         outdata = Grid2D.getGenotypeFrequencies(0,loci,0);              // get ancestral homozygotes
 
-        sprintf(filename4,"%s%s%d",filename2,"_gen_",(i*snapshot));
+        sprintf(filename4,"%s%s%d",filename2,"_gen_",(i));
         outputfile3.open(filename4);
         for (j = 0;j<(tot_demes);j++)                                     
         { 
@@ -509,7 +509,7 @@ int main(int argc, char* argv[]) {
 
         outdata = Grid2D.getGenotypeFrequencies(0,loci,1);              // get  heterozygotes
 
-        sprintf(filename4,"%s%s%d",filename3,"_gen_",(i*snapshot));
+        sprintf(filename4,"%s%s%d",filename3,"_gen_",(i));
         outputfile3.open(filename4);
         for (j = 0;j<(tot_demes);j++)                                     
         { 

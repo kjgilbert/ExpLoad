@@ -378,8 +378,8 @@ int main(int argc, char* argv[]) {
 // orig        sprintf(filename2,"%s%s%d",base,"_hom-wt_rep_",rep);
 // orig        sprintf(filename3,"%s%s%d",base,"_het_rep_",rep);
         sprintf(filename,"%s%s%d%s%d%s%d",base,"wid",niche_width,"_speed",theta,"_rep_",rep);
-        sprintf(filename2,"%s%s%d%s%d%s%d",base,"_hom-wt_wid",niche_width,"_speed",theta,"_rep_",rep);
-        sprintf(filename3,"%s%s%d%s%d%s%d",base,"_het_wid",niche_width,"_speed",theta,"_rep_",rep);
+        sprintf(filename2,"%s%s%d%s%d%s%d",base,"hom-wt_wid",niche_width,"_speed",theta,"_rep_",rep);
+        sprintf(filename3,"%s%s%d%s%d%s%d",base,"het_wid",niche_width,"_speed",theta,"_rep_",rep);
 
         
         outputfile.open(filename);

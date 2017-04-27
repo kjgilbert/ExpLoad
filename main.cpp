@@ -502,7 +502,7 @@ int main(int argc, char* argv[]) {
         outputfile3.open(filename4);
         for (j = 0;j<(tot_demes);j++)                                     
         { 
-            for ( k = 0;k< loci;k++)
+            for (k = 0;k< loci;k++)
             {
                 outputfile3 << outdata[j*loci+k] << " ";
             }
@@ -530,6 +530,8 @@ int main(int argc, char* argv[]) {
         outputfile4.close();
      
         Grid2D.clear(m1,m2,initial_colonized,anc_pop_size,burnin_time,capacity,expansionMode,mu,s,m); 		// clear for next rep             
+
+        cout << "Finished replicate " << rep+1 << "/" << replicates << endl;
     }
 
     return 0;

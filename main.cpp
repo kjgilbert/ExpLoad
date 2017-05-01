@@ -213,7 +213,7 @@ int main(int argc, char* argv[]) {
     }
     
 
-    if(params.size() < 17)
+    if(params.size() > 16)
     {
         m1 = params[0];
         m2 = params[1];
@@ -234,34 +234,6 @@ int main(int argc, char* argv[]) {
         mu = params[14];
         m = params[15];
         s = params[16];
-
-        tot_demes = m1*m2;
-        initial_colonized = starting_demes*m1;  
-    }
-    else if(params.size() > 17)
-    {
-           // then there must have been a random seed specified
-        m1 = params[0];
-        m2 = params[1];
-        starting_demes = params[2];
-        niche_width = params[3];
-        capacity = params[4];
-        anc_pop_size = params[5];
-        
-        burnin_time = params[6];
-        expansion_start = params[7];
-        theta = params[8];
-        generations = params[9];
-        snapshot = params[10];
-        replicates = params[11];
-
-        expansionMode = params[12];
-        selectionMode = params[13];
-        mu = params[14];
-        m = params[15];
-        s = params[16];
-        
-        curSeed = params[17];
 
         tot_demes = m1*m2;
         initial_colonized = starting_demes*m1;  
@@ -313,12 +285,7 @@ int main(int argc, char* argv[]) {
                                                            
     ofstream outputfile,outputfile2,outputfile3,outputfile4,logfile;                        // streams to outputfiles
     logfile.open(filename_log);
-    logfile << "Random number generator initialized with seed " << curSeed << "\n";
-        
-        
-        
-        
-    
+    logfile << "Random number generator initialized with seed " << curSeed << "\n";    
     logfile << "Simulating an expansion on a " << m1 << "x"<<m2<<" grid. \n";
     logfile << "Selection is ";
     if(selectionMode == 0)
@@ -354,6 +321,7 @@ int main(int argc, char* argv[]) {
     cout << "\n  Ancestral population size: " << anc_pop_size << "\n";
     cout << "\n  Expansion Mode: " << expansionMode;
     cout << "\n  Number of replicates: " << replicates;
+    cout << "\n  Random number seed: " << curSeed;
     
     cout << endl;
  
@@ -367,6 +335,7 @@ int main(int argc, char* argv[]) {
                                                                                                     // size of original population, burn in time of original population, capacity of demes, mode of intial colonization   
     
 
+    srand(time(NULL));  // add back in, maybe this was what made reps different?
     
     // GO THROUGH REPS
     for (rep = 0;rep<replicates;rep++)                                  // loop that simulates replicates for the same set of parameters and initial conditions
@@ -381,7 +350,7 @@ int main(int argc, char* argv[]) {
         sprintf(filename2,"%s%s%d%s%d%s%d",base,"hom-wt_wid",niche_width,"_speed",theta,"_rep_",rep);
         sprintf(filename3,"%s%s%d%s%d%s%d",base,"het_wid",niche_width,"_speed",theta,"_rep_",rep);
 
-        
+ 
         outputfile.open(filename);
         cout << " filename:" <<filename;
         outputfile2.open(filename2);
@@ -424,6 +393,7 @@ int main(int argc, char* argv[]) {
 //        Grid2D.startExpansion((m1-2)*m2+(initial_colonized/m1)+2,capacity);             // open 1 deme in Migration-barrier
 //        Grid2D.startExpansion((m1-2)*m2+(initial_colonized/m1)+3,capacity);             // open 1 deme in Migration-barrier
 //       
+ 
         
         Grid2D.setCapacity(0);      // remove Migration-barrier completely (and any barrier that might've been drawn on the landscape) all are removed here
                                     // so here we set carrying capacity to 0 for all demes
@@ -434,6 +404,7 @@ int main(int argc, char* argv[]) {
         }
         trailing_edge = 0;          // the trailing edge always starts at the leftmost deme, will have to modify this for 2-D shifts
 
+        
         //Grid2D.startExpansion((m1/2)*m2+(initial_colonized/m1)+1,0);  // old version for starting the expansion  
 
         for(i = 0; i< generations;i++)      // loop through all generations of the simulation
@@ -474,6 +445,7 @@ int main(int argc, char* argv[]) {
                 outputfile3.close();
             }
 
+
             if (i % theta == 0)             // move the 'patch' carrying capacity for a 1-D shift, it moves one deme at a time
             {
                 Grid2D.setDemeCapacity(trailing_edge,0);
@@ -481,11 +453,14 @@ int main(int argc, char* argv[]) {
                 trailing_edge += 1;
             }
 
+
             // then normal simulation routines proceed for the rest of this generation
             Grid2D.migrate(tot_demes); // migration        
             Grid2D.reproduce(selectionMode); // reproduction and selection     
+ 
         }
-    
+
+
         outdata = Grid2D.getMeanFit();                                          // write all data at the end of sim to object
         
         for (j = 0;j<tot_demes;j++)                                             // put all the final data from that object into the output file
@@ -494,6 +469,7 @@ int main(int argc, char* argv[]) {
                 //finaloutputfile << outdata[j] << " ";
         }
         
+
         outputfile << "\n";
              
         outdata = Grid2D.getGenotypeFrequencies(0,loci,0);              // get ancestral homozygotes
@@ -509,6 +485,7 @@ int main(int argc, char* argv[]) {
             outputfile3 << "\n";
         }
         outputfile3.close();
+
 
         outdata = Grid2D.getGenotypeFrequencies(0,loci,1);              // get  heterozygotes
 
@@ -529,6 +506,7 @@ int main(int argc, char* argv[]) {
         outputfile3.close();
         outputfile4.close();
      
+
         Grid2D.clear(m1,m2,initial_colonized,anc_pop_size,burnin_time,capacity,expansionMode,mu,s,m); 		// clear for next rep             
 
         cout << "Finished replicate " << rep+1 << "/" << replicates << endl;

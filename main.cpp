@@ -31,11 +31,9 @@ using namespace std;
 
 
 
-int main(){//int argc, char* argv[]) {
+int main(int argc, char* argv[]) {
  
     
-     /* FOR DEBUG MODE   
-
     if ( argc != 2 )
     {                   // argc should be length 2 for correct execution
                         //spot 0 is the program name when running it in command line
@@ -47,11 +45,7 @@ int main(){//int argc, char* argv[]) {
     
     string fn = argv[1]; //filename for parameter inputs
     cout << fn; 
-      * 
-      * 
-      * 
-      * FOR DEBUG MODE  
- */  
+
 
       
 //    fstream file;
@@ -83,7 +77,7 @@ int main(){//int argc, char* argv[]) {
 // find the path of the paramfile:
 // I think this one is the more useful because then I can put the outputs wherever the paramfile is stored
    // Get the last position of '/'
-/*DEBUG MODE    std::string aux(argv[1]);
+    std::string aux(argv[1]);
 
     // get '/' or '\\' depending on unix/mac or windows.
 #if defined(_WIN32) || defined(WIN32)
@@ -98,7 +92,6 @@ int main(){//int argc, char* argv[]) {
     // show results
     
     
-  */   // USE COMMENT FOR DEBUG MODE
     
     
     
@@ -191,7 +184,6 @@ int main(){//int argc, char* argv[]) {
 
     
     
- /* FOR DEBUG MODE   
    
     
     
@@ -254,9 +246,8 @@ int main(){//int argc, char* argv[]) {
         cout << "\n MISSING REQUIRED NUMBER OF PARAMETERS, EXITING SIMULATION.\n";
     }
     
- */ //FOR DEBUG MODE   
 
-    
+ /*   uncomment this to debug and have hardcoded parameters
     m1 = 1;
     m2 = 500;
     starting_demes = 10;
@@ -279,6 +270,7 @@ int main(){//int argc, char* argv[]) {
 
     tot_demes = m1*m2;
     initial_colonized = starting_demes*m1;  
+  */
     
    loci = 1000;     // right now number of loci has to be hard coded in 
     
@@ -372,7 +364,7 @@ int main(){//int argc, char* argv[]) {
                                                                                                     // size of original population, burn in time of original population, capacity of demes, mode of intial colonization   
     
 
-    srand(time(NULL));  // add back in, maybe this was what made reps different
+    //srand(time(NULL));  // add back in, maybe this was what made reps different
     
     // GO THROUGH REPS
     for (rep = 0;rep<replicates;rep++)                                  // loop that simulates replicates for the same set of parameters and initial conditions

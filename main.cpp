@@ -279,6 +279,7 @@ int main(){//int argc, char* argv[]) {
 
     tot_demes = m1*m2;
     initial_colonized = starting_demes*m1;  
+    
    loci = 1000;     // right now number of loci has to be hard coded in 
     
 /*
@@ -430,6 +431,17 @@ int main(){//int argc, char* argv[]) {
 //        Grid2D.startExpansion((m1-2)*m2+(initial_colonized/m1)+3,capacity);             // open 1 deme in Migration-barrier
 //       
  
+        
+        // for open front edge, maybe can do it this way:
+        // Grid2D.setCapacity(capacity);        // set all demes up to size
+        // trailing_edge = 0;
+        // then in the loop below:
+        // if (i % theta == 0)             // move the trailing edge of K=0 up one deme at a time, for a 1-D shift
+        //    {
+        //       Grid2D.setDemeCapacity(trailing_edge,0);
+        //       trailing_edge += 1;
+        //    }
+        
         
         Grid2D.setCapacity(0);      // remove Migration-barrier completely (and any barrier that might've been drawn on the landscape) all are removed here
                                     // so here we set carrying capacity to 0 for all demes

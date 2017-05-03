@@ -33,7 +33,7 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
  
-    
+ // comment his out for debug, and the part in parenthesis of main above   
     if ( argc != 2 )
     {                   // argc should be length 2 for correct execution
                         //spot 0 is the program name when running it in command line
@@ -55,17 +55,14 @@ int main(int argc, char* argv[]) {
     
     
 /* find the path of the executable:
-    
     // Get the last position of '/'
     std::string aux(argv[0]);
-
     // get '/' or '\\' depending on unix/mac or windows.
 #if defined(_WIN32) || defined(WIN32)
     int pos = aux.rfind('\\');
 #else
     int pos = aux.rfind('/');
 #endif
-
     // Get the path and the name
     std::string path = aux.substr(0,pos+1);
     std::string name = aux.substr(pos+1);
@@ -74,10 +71,11 @@ int main(int argc, char* argv[]) {
     std::cout << "Name: " << name << std::endl;
 */
     
+    
 // find the path of the paramfile:
 // I think this one is the more useful because then I can put the outputs wherever the paramfile is stored
    // Get the last position of '/'
-    std::string aux(argv[1]);
+    std::string aux(argv[1]);       // comment this out for deubg
 
     // get '/' or '\\' depending on unix/mac or windows.
 #if defined(_WIN32) || defined(WIN32)
@@ -198,7 +196,7 @@ int main(int argc, char* argv[]) {
 //    char wd[250];           // the working directory defined in the input file
 
     
-    
+    // comment all this out for debug with hardcoded params
     double par;
     vector<double> params;          // character array to hold all the inputs from paramfile
     
@@ -334,7 +332,7 @@ int main(int argc, char* argv[]) {
     
     logfile << endl;
     
-    cout << "Simulating an expansion on a " << m1 << "x"<<m2<<" grid. \n";
+    cout << "\nSimulating an expansion on a " << m1 << "x"<<m2<<" grid. \n";
     cout << "Selection is ";
     if(selectionMode == 0)
         cout << "soft.\n";

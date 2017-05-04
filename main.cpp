@@ -34,6 +34,7 @@ using namespace std;
 int main(int argc, char* argv[]) {
  
  // comment his out for debug, and the part in parenthesis of main above   
+ 
     if ( argc != 2 )
     {                   // argc should be length 2 for correct execution
                         //spot 0 is the program name when running it in command line
@@ -75,7 +76,7 @@ int main(int argc, char* argv[]) {
 // find the path of the paramfile:
 // I think this one is the more useful because then I can put the outputs wherever the paramfile is stored
    // Get the last position of '/'
-    std::string aux(argv[1]);       // comment this out for deubg
+    std::string aux(argv[1]);       // comment this out for debug
 
     // get '/' or '\\' depending on unix/mac or windows.
 #if defined(_WIN32) || defined(WIN32)
@@ -197,6 +198,7 @@ int main(int argc, char* argv[]) {
 
     
     // comment all this out for debug with hardcoded params
+   
     double par;
     vector<double> params;          // character array to hold all the inputs from paramfile
     
@@ -245,7 +247,7 @@ int main(int argc, char* argv[]) {
     }
     
 
- /*   uncomment this to debug and have hardcoded parameters
+  /*   uncomment this to debug and have hardcoded parameters
     m1 = 1;
     m2 = 500;
     starting_demes = 10;
@@ -262,13 +264,13 @@ int main(int argc, char* argv[]) {
 
     expansionMode = 0;
     selectionMode = 0;
-    mu = 0.0001;
-    m = 0.1;
+    mu = 0.1;
+    m = 0.05;
     s = -0.005;
 
     tot_demes = m1*m2;
     initial_colonized = starting_demes*m1;  
-  */
+   */
     
    loci = 1000;     // right now number of loci has to be hard coded in 
     
@@ -470,7 +472,8 @@ int main(int argc, char* argv[]) {
                 }
                 outputfile3.close();
 
-                outdata = Grid2D.getGenotypeFrequencies(0, loci, 0); // get  wt homozygotes
+//                outdata = Grid2D.getGenotypeFrequencies(0, loci, 0); // get  wt homozygotes
+                outdata = Grid2D.getGenotypeFrequencies(0, loci, 2); // get  mutant homozygotes
 
                 sprintf(filename4, "%s%s%d", filename2, "_gen_", (i));
                 outputfile3.open(filename4);

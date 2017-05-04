@@ -402,7 +402,8 @@ int main(int argc, char* argv[]) {
 
 
         
-        
+// controlled width range shift in following section
+/* start 1        
         Grid2D.setCapacity(0);      // remove Migration-barrier completely (and any barrier that might've been drawn on the landscape) all are removed here
                                     // so here we set carrying capacity to 0 for all demes
                                     // then in the next line, we put the carrying capacity back up to what we want, but only in the "niche" or shifting range we want
@@ -411,7 +412,14 @@ int main(int argc, char* argv[]) {
             Grid2D.setDemeCapacity(deme,capacity);
         }
         trailing_edge = 0;          // the trailing edge always starts at the leftmost deme, will have to modify this for 2-D shifts
+*/ // end 1
 
+// open front range shift
+///* start 2
+        Grid2D.setCapacity(capacity);        // set all demes up to size
+        trailing_edge = 0;
+ 
+//*/ // end 2
         
         //Grid2D.startExpansion((m1/2)*m2+(initial_colonized/m1)+1,0);  // old version for starting the expansion  
 
@@ -474,7 +482,7 @@ int main(int argc, char* argv[]) {
             if (i % theta == 0)             // move the 'patch' carrying capacity for a 1-D shift, it moves one deme at a time
             {
                 Grid2D.setDemeCapacity(trailing_edge,0);
-                Grid2D.setDemeCapacity(trailing_edge+niche_width,capacity);
+//                Grid2D.setDemeCapacity(trailing_edge+niche_width,capacity); // comment this out for open front expansion, include it for controlled expansion
                 trailing_edge += 1;
             }
 

@@ -75,7 +75,7 @@ void Deme::reproduce(int wf)
     int mom,dad;
     heritableUnit gamete_mom,gamete_dad;
     list<Individual>::iterator it;
-    double r = 2;
+    double r = 2; // logistic growth rate parameter here
     bool front;
                 
     front = (ID >= (wf - 1));    

@@ -588,6 +588,21 @@ vector<double> World::getVarFit(vector<double> mean_fit)                        
     return(data);
 }
 
+// KJG adding
+///*
+vector<double> World::getDemeDensity()                                              // returns vector with pop density of all demes
+{
+    vector<Deme>::iterator it;
+    vector<double> data;
+    
+    for(it = demes.begin();it!=demes.end();it++)  
+    {
+        data.push_back(it->getDemeDensity());   // go to deme.cpp for this function
+    }
+    
+    return(data);
+}
+//*/
 
 vector<double> World::getHeterozygosity(int loci_begin,int loci_end)                                               // retuns vector with variance in fitness of all demes
 {

@@ -558,6 +558,29 @@ double Deme::getVarFit(double mean_fit)
     return(var_fit);
 }
 
+///* KJG adding
+double Deme::getDemeDensity()
+{
+    double deme_density=0;
+    
+    list<Individual>::iterator it;
+    
+//    for (it = this_generation.begin();it!=this_generation.end();it++)   // DO I NEED THIS FOR LOOP? I THINK I CAN DELETE
+//    {
+//        mean_fit += it->getRelativeFitness(s);
+//    }
+    
+    deme_density = this_generation.size();
+    
+    if (deme_density != deme_density) 
+    {
+        deme_density = -1;
+    }
+    
+    return(deme_density);
+}
+//*/
+
 double Deme::getHeterozygosity(vector<int> a_loci,int loci_begin,int loci_end)
 {
     double het=0;

@@ -513,7 +513,8 @@ int main(int argc, char* argv[]) {
 
         outputfile << "\n";
              
-        outdata = Grid2D.getGenotypeFrequencies(0,loci,0);              // get ancestral homozygotes
+//        outdata = Grid2D.getGenotypeFrequencies(0,loci,0);              // get ancestral homozygotes
+        outdata = Grid2D.getGenotypeFrequencies(0,loci,2);              // get mutant homozygotes
 
         sprintf(filename4,"%s%s%d",filename2,"_gen_",(i));
         outputfile3.open(filename4);

@@ -400,34 +400,7 @@ int main(int argc, char* argv[]) {
     
         cout << "\n Burn-in finished, expansion into new territory starts.";
 
-//        for (i = 0;i < m1; i++)
-//        {
-//             Grid2D.startExpansion((i)*m2+(initial_colonized/m1)+1,capacity);     // remove Migration-barrier after burn in
-//        }
-        
-//        Grid2D.startExpansion((m1/2)*m2+(initial_colonized/m1)+1,0);     
-        
-        // Grid2D.startExpansion((m1/2)*m2+(initial_colonized/m1)+1,capacity);     // open 1 deme in Migration-barrier 
-        
-//        Grid2D.startExpansion((m1-1)*m2+(initial_colonized/m1)+1,capacity);             // open 1 deme in Migration-barrier, part of corridor ooA
-//        Grid2D.startExpansion((m1-1)*m2+(initial_colonized/m1)+2,capacity);             // open 1 deme in Migration-barrier
-//        Grid2D.startExpansion((m1-1)*m2+(initial_colonized/m1)+3,capacity);             // open 1 deme in Migration-barrier
-//        
-//        Grid2D.startExpansion((m1-2)*m2+(initial_colonized/m1)+1,capacity);             // open 1 deme in Migration-barrier, part of corridor ooA
-//        Grid2D.startExpansion((m1-2)*m2+(initial_colonized/m1)+2,capacity);             // open 1 deme in Migration-barrier
-//        Grid2D.startExpansion((m1-2)*m2+(initial_colonized/m1)+3,capacity);             // open 1 deme in Migration-barrier
-//       
- 
-        
-        // for open front edge, maybe can do it this way:
-        // Grid2D.setCapacity(capacity);        // set all demes up to size
-        // trailing_edge = 0;
-        // then in the loop below:
-        // if (i % theta == 0)             // move the trailing edge of K=0 up one deme at a time, for a 1-D shift
-        //    {
-        //       Grid2D.setDemeCapacity(trailing_edge,0);
-        //       trailing_edge += 1;
-        //    }
+
         
         
         Grid2D.setCapacity(0);      // remove Migration-barrier completely (and any barrier that might've been drawn on the landscape) all are removed here

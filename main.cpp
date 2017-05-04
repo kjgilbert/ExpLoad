@@ -462,8 +462,6 @@ int main(int argc, char* argv[]) {
                 outputfile3.close();
                 
                 
-                
- ///*               
                 /// GET POP DENSITY ACROSS DEMES
                 outdata = Grid2D.getDemeDensity(); // get mean fitness of the whole population  // NEED TO CREATE THIS FILE, PUT IT SOMEWHERE IN WORLD.CPP
 
@@ -475,7 +473,7 @@ int main(int argc, char* argv[]) {
                 }
                 outputfile << "\n";
                 outputfile4.close();
-//*/
+
             }
 
 
@@ -501,6 +499,72 @@ int main(int argc, char* argv[]) {
                 outputfile << outdata[j] << " ";
                 //finaloutputfile << outdata[j] << " ";
         }
+
+/* // this is the normal range expansion setup, replace all of above from the cout before looping through generations
+  
+        Grid2D.setCapacity(capacity);      // remove Migration-barrier completely (and any barrier that might've been drawn on the landscape) all are removed here
+
+        for(i = 0; i< (generations)/snapshot;i++)                                // loop through one set of generations to the first, 2nd, ... snapshot 
+        {
+ 
+                outdata = Grid2D.getMeanFit();                                  // get mean fitness of the whole population
+     
+                for (j = 0;j<tot_demes;j++)                                     // write it to file
+                { 
+                    outputfile << outdata[j] << " ";
+                }
+                outputfile << "\n";
+
+                outdata = Grid2D.getGenotypeFrequencies(0, loci, 1); // get  heterozygotes
+
+                sprintf(filename4, "%s%s%d", filename3, "_gen_", (i*snapshot));
+                outputfile3.open(filename4);
+
+                for (j = 0; j < (tot_demes); j++)
+                {
+                    for (k = 0; k < loci; k++)
+                    {
+                        outputfile3 << outdata[j * loci + k] << " ";
+                    }
+                    outputfile3 << "\n";
+                }
+                outputfile3.close();
+
+//                outdata = Grid2D.getGenotypeFrequencies(0, loci, 0); // get  wt homozygotes
+                outdata = Grid2D.getGenotypeFrequencies(0, loci, 2); // get  mutant homozygotes
+
+                sprintf(filename4, "%s%s%d", filename2, "_gen_", (i*snapshot));
+                outputfile3.open(filename4);
+                for (j = 0; j < (tot_demes); j++)
+                {
+                    for (k = 0; k < loci; k++)
+                    {
+                        outputfile3 << outdata[j * loci + k] << " ";
+                    }
+                    outputfile3 << "\n";
+                }
+                outputfile3.close();
+
+                /// GET POP DENSITY ACROSS DEMES
+                outdata = Grid2D.getDemeDensity(); // get mean fitness of the whole population  // NEED TO CREATE THIS FILE, PUT IT SOMEWHERE IN WORLD.CPP
+
+                sprintf(filename4, "%s%s%d", filename5, "_gen_", (i));
+                outputfile4.open(filename5);
+                for (j = 0; j < tot_demes; j++) // write it to file
+                {
+                    outputfile4 << outdata[j] << " ";
+                }
+                outputfile << "\n";
+                outputfile4.close();
+
+
+                for (k = 0;k<snapshot;k++)                                      // now go through the first set of gens before the next snapshot, etc
+                {         
+                        Grid2D.migrate(tot_demes);                              // migration        
+                        Grid2D.reproduce(selectionMode);                        // reproduction and selection     
+                }                  
+        }
+ */ // end normal range expansion setup
         
 
         outputfile << "\n";

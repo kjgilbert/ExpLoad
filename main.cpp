@@ -302,6 +302,7 @@ int main(int argc, char* argv[]) {
     char filename2[150]; 
     char filename3[150];  
     char filename4[150];  
+    char filename5[150];  
     
     // root dir for output files and  the starting name - fix this to come from param file
     // this doesn't work because it needs to know the size ahead of time :(   std::string full_path = path + "out_test_";
@@ -312,7 +313,7 @@ int main(int argc, char* argv[]) {
 
  
                                                            
-    ofstream outputfile,outputfile2,outputfile3,outputfile4,logfile;                        // streams to outputfiles
+    ofstream outputfile,outputfile2,outputfile3,outputfile4,outputfile5,logfile;                        // streams to outputfiles
     logfile.open(filename_log);
     logfile << "Random number generator initialized with seed " << curSeed << "\n";    
     logfile << "Simulating an expansion on a " << m1 << "x"<<m2<<" grid. \n";
@@ -376,14 +377,16 @@ int main(int argc, char* argv[]) {
 // orig        sprintf(filename2,"%s%s%d",base,"_hom-wt_rep_",rep);
 // orig        sprintf(filename3,"%s%s%d",base,"_het_rep_",rep);
         sprintf(filename,"%s%s%d%s%d%s%d",base,"wid",niche_width,"_speed",theta,"_rep_",rep);
-        sprintf(filename2,"%s%s%d%s%d%s%d",base,"hom-wt_wid",niche_width,"_speed",theta,"_rep_",rep);
+        sprintf(filename2,"%s%s%d%s%d%s%d",base,"hom-mut_wid",niche_width,"_speed",theta,"_rep_",rep);
         sprintf(filename3,"%s%s%d%s%d%s%d",base,"het_wid",niche_width,"_speed",theta,"_rep_",rep);
+        sprintf(filename5,"%s%s%d%s%d%s%d",base,"popdens_wid",niche_width,"_speed",theta,"_rep_",rep);
 
  
         outputfile.open(filename);
         cout << " filename:" <<filename;
         outputfile2.open(filename2);
         outputfile3.open(filename3);
+        outputfile4.open(filename5);
         
          // migration barrier along expansion axis:
         
@@ -484,6 +487,22 @@ int main(int argc, char* argv[]) {
                     outputfile3 << "\n";
                 }
                 outputfile3.close();
+                
+                
+                
+ /*               
+                /// GET POP DENSITY ACROSS DEMES
+                outdata = Grid2D.getDemeDensity(); // get mean fitness of the whole population  // NEED TO CREATE THIS FILE, PUT IT SOMEWHERE IN WORLD.CPP
+
+                sprintf(filename4, "%s%s%d", filename5, "_gen_", (i));
+                outputfile4.open(filename5);
+                for (j = 0; j < tot_demes; j++) // write it to file
+                {
+                    outputfile4 << outdata[j] << " ";
+                }
+                outputfile << "\n";
+                outputfile4.close();
+*/
             }
 
 

@@ -87,7 +87,7 @@ Individual::~Individual()
 }
 
 
-heritableUnit Individual::getNewGamete(double mu,double s,bool front)           // this function adds mutations to the genome. mutations and backmutations occur at the same rate. (this will ahve an effect on the DFE, need to investigate this)
+heritableUnit Individual::getNewGamete(double mu,double s,bool front)           // this function adds mutations to the genome. mutations and backmutations occur at the same rate. (this will have an effect on the DFE, need to investigate this)
 {
     Loci hap_new;
     double rec_rate = rrate; 
@@ -125,10 +125,10 @@ heritableUnit Individual::getNewGamete(double mu,double s,bool front)           
 //   }
    
     nmutations = 0;
-    if (mu > 0) {nmutations = randpois(mu); }
+    if (mu > 0) {nmutations = randpois(mu); }       // draw poisson distributed number of mutations around mean mu
+                                                    // this is the number of mutations per gamete, so mu is indeed U, the genome-wide mutation rate per generation
     
-    
-    for(i =0; i < nmutations; i++)
+    for(i = 0; i < nmutations; i++)
     {   
         site = randint(0,loci-1); 
         hap_new[site] = !hap_new[site];

@@ -465,14 +465,11 @@ int main(int argc, char* argv[]) {
                 /// GET POP DENSITY ACROSS DEMES
                 outdata = Grid2D.getDemeDensity(); // get mean fitness of the whole population  // NEED TO CREATE THIS FILE, PUT IT SOMEWHERE IN WORLD.CPP
 
-                sprintf(filename4, "%s%s%d", filename5, "_gen_", (i));
-                outputfile4.open(filename5);
                 for (j = 0; j < tot_demes; j++) // write it to file
                 {
                     outputfile4 << outdata[j] << " ";
                 }
                 outputfile4 << "\n";
-                outputfile4.close();
 
             }
 
@@ -548,14 +545,11 @@ int main(int argc, char* argv[]) {
                 /// GET POP DENSITY ACROSS DEMES
                 outdata = Grid2D.getDemeDensity(); // get mean fitness of the whole population  // NEED TO CREATE THIS FILE, PUT IT SOMEWHERE IN WORLD.CPP
 
-                sprintf(filename4, "%s%s%d", filename5, "_gen_", (i));
-                outputfile4.open(filename5);
                 for (j = 0; j < tot_demes; j++) // write it to file
                 {
                     outputfile4 << outdata[j] << " ";
                 }
                 outputfile4 << "\n";
-                outputfile4.close();
 
 
                 for (k = 0;k<snapshot;k++)                                      // now go through the first set of gens before the next snapshot, etc

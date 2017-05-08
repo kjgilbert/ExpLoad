@@ -471,7 +471,7 @@ int main(int argc, char* argv[]) {
                 {
                     outputfile4 << outdata[j] << " ";
                 }
-                outputfile << "\n";
+                outputfile4 << "\n";
                 outputfile4.close();
 
             }

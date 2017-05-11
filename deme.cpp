@@ -179,11 +179,6 @@ void Deme::reproduceSS(int wf)
             realized_offspring = 0;
         }
         
-        // fixed pop size:
-        realized_offspring = capacity;
-        
-        //no stochastic fluctuations in demography
-        //realized_offspring = expected_offspring;
     
         next_generation.clear();
    

@@ -367,17 +367,17 @@ unsigned long Individual::getNumberMutations()
  
 }
 
-void Individual::set_selection_dist(double s)   // here we set the distribution of effect sizes for loci (bens and dels)
+void Individual::set_selection_dist(double s,double mut_prop)   // here we set the distribution of effect sizes for loci (bens and dels)
 {       
     Individual::s_coeff.resize(loci);
     int i;
     
-    for (i = 0;i<int(loci*phi);i++)
+    for (i = 0;i<int(loci*mut_prop);i++)
     {
         s_coeff[i] = s;    
     }
     
-    for (i = int(loci*phi) + 1;i<loci;i++)
+    for (i = int(loci*mut_prop) + 1;i<loci;i++)
     {
         s_coeff[i] = -s;    
     }

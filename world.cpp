@@ -18,6 +18,7 @@ int World::number_demes = 700;
 int World::colonized_demes = 1;
 int World::m1 = 100;
 int World::m2 = 100;
+double World::phi;
 
 const int bn_size = 1000;
 const int bn_length = 10;
@@ -39,13 +40,14 @@ World::World()
    
 }
        
-World::World(int length1,int length2,int initial_colonized,int initial_popsize,int burnin_time,int capacity,int mode,double mutation_rate,double s,double migration_rate)
+World::World(int length1,int length2,int initial_colonized,int initial_popsize,int burnin_time,int capacity,int mode,double mutation_rate,double s,double migration_rate,double mut_prop)
 {
      
    int i,j;
    number_demes = length1*length2;
    m1 = length1;
    m2 = length2;
+   phi = mut_prop;
    demes.resize(number_demes);
    migrants.resize(number_demes);
    Migrants propagule;
@@ -58,8 +60,8 @@ World::World(int length1,int length2,int initial_colonized,int initial_popsize,i
    initial_population[0].setParams(initial_popsize,mutation_rate,s,migration_rate);
       
    initial_population[0].colonize();
-   initial_population[0].set_selection_dist();
-   demes[1].set_selection_dist();
+   initial_population[0].set_selection_dist(phi);
+   demes[1].set_selection_dist(phi);
    
    
    for (i = 0; i < burnin_time ; i++)
@@ -273,9 +275,12 @@ void World::setDemeCapacity(int deme_location,int capacity)
 }
 
 
-void World::clear(int length1,int length2,int initial_colonized,int initial_popsize,int burnin_time,int capacity,int mode,double mutation_rate,double s,double migration_rate)
+void World::clear(int length1,int length2,int initial_colonized,int initial_popsize,int burnin_time,int capacity,int mode,double mutation_rate,double s,double migration_rate,double mut_prop)
 {
     int i,j;
+    
+    phi = mut_prop;
+    
     demes.clear();
     migrants.clear();
     initial_population.clear();
@@ -293,8 +298,8 @@ void World::clear(int length1,int length2,int initial_colonized,int initial_pops
    initial_population[0].setParams(initial_popsize,mutation_rate,s,migration_rate);
       
    initial_population[0].colonize();
-   initial_population[0].set_selection_dist();
-   demes[1].set_selection_dist();
+   initial_population[0].set_selection_dist(phi);
+   demes[1].set_selection_dist(phi);
    
    for (i = 0; i < burnin_time ; i++)
    {

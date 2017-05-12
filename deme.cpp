@@ -911,8 +911,8 @@ int Deme::getAge()
     return(age);
 }
 
-void Deme::set_selection_dist()
+void Deme::set_selection_dist(double mut_prop)
 {
     Individual ind;
-    ind.set_selection_dist(s);
+    ind.set_selection_dist(s,mut_prop);
 }

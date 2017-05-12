@@ -158,6 +158,7 @@ int main(int argc, char* argv[]) {
     double s;                       // selection coefficient
     double m;                       // migration rate
     double mu;                      // genome-wide mut rate U
+    double phi;                     // the proportion of occurring mutations that are DELETERIOUS - the rest will have the opposite seln coefficient (i.e. be beneficial)
     int snapshot;                   // number of generations between two snapshots of the whole metapopulation - it outputs data every 'snapshot' generations
     int m1,m2;                      // size of the 2D grid x = m2, y = m1 if you expand across the x-axis
     int replicates;                 // number of replicates of the simulation
@@ -177,8 +178,6 @@ int main(int argc, char* argv[]) {
     int tot_demes = m1*m2;          // total number of demes in the world
     int initial_colonized;          // number of initially colonized demes (location of demes is determined via mode)
     int trailing_edge;              // the identity of the deme (for 1-D shifts) at the far left of the landscape, it will always be zero, as is defined below in the code
-    
-    
     
 //__________________________________________________________________________
 
@@ -217,7 +216,7 @@ int main(int argc, char* argv[]) {
     }
     
 
-    if(params.size() > 16)
+    if(params.size() > 17)
     {
         m1 = params[0];
         m2 = params[1];
@@ -238,6 +237,7 @@ int main(int argc, char* argv[]) {
         mu = params[14];
         m = params[15];
         s = params[16];
+        phi = params[17];
 
         tot_demes = m1*m2;
         initial_colonized = starting_demes*m1;  
@@ -362,7 +362,7 @@ int main(int argc, char* argv[]) {
     // INITIALIZE THE SIMULATION (AND ITS LANDSCAPE)
     vector<double> outdata(tot_demes);  
     
-    World Grid2D(m1,m2,initial_colonized,anc_pop_size,burnin_time,capacity,expansionMode,mu,s,m);   // initialize world: grid size (m1,m2), number of initially colonized demes, 
+    World Grid2D(m1,m2,initial_colonized,anc_pop_size,burnin_time,capacity,expansionMode,mu,s,m,phi);   // initialize world: grid size (m1,m2), number of initially colonized demes, 
                                                                                                     // size of original population, burn in time of original population, capacity of demes, mode of intial colonization   
     
 
@@ -599,7 +599,7 @@ int main(int argc, char* argv[]) {
         outputfile4.close();
      
 
-        Grid2D.clear(m1,m2,initial_colonized,anc_pop_size,burnin_time,capacity,expansionMode,mu,s,m); 		// clear for next rep             
+        Grid2D.clear(m1,m2,initial_colonized,anc_pop_size,burnin_time,capacity,expansionMode,mu,s,m,phi); 		// clear for next rep             
 
         cout << "Finished replicate " << rep+1 << "/" << replicates << endl;
     }

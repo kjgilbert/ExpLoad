@@ -72,13 +72,14 @@ class World
          int wavefrontID;
          int deltaWF;    
          vector<int> asc_loci;
+         static double phi;
          
  public:
         World();
-        World(int length1,int length2,int initial_colonized,int initial_popsize,int burnin_time,int capacity,int mode,double mu, double s, double m);                
+        World(int length1,int length2,int initial_colonized,int initial_popsize,int burnin_time,int capacity,int mode,double mu, double s, double m,double mut_prop);                
         ~World();
         bool isColonized(int deme);
-        void clear(int length1,int length2,int initial_colonized,int initial_popsize,int burnin_time,int capacity,int mode,double mutation_rate,double s,double migration_rate);
+        void clear(int length1,int length2,int initial_colonized,int initial_popsize,int burnin_time,int capacity,int mode,double mutation_rate,double s,double migration_rate,double mut_prop);
         void reproduce(int mode);
         void reproduceSS();                     //reproduction plus soft selection
         void reproduceSSAM(); 
@@ -127,7 +128,7 @@ class Deme
         ~Deme();
         void initialize();
         void colonize();     
-        void set_selection_dist();
+        void set_selection_dist(double mut_prop);
         void reproduce(int wf); 
         void reproduceSS(int wf); 
         void reproduceSSAM(int wf); 
@@ -188,7 +189,7 @@ class Individual
  public:
         Individual();
         ~Individual();
-        void set_selection_dist(double s);
+        void set_selection_dist(double s,double mut_prop);
         heritableUnit getNewGamete(double mu,double s,bool front);         // infinite sites within recombining regions
         heritableUnit getNewGameteMM2(double mu1,double mu2,double s);     // mutation model with 2 alleles per locus
         void setGenotype(heritableUnit g1,heritableUnit g2);

@@ -16,7 +16,7 @@ int Individual::loci = 1000;
 double Individual::rrate = 0.5; 
 vector<int> Individual::used_loci;
 vector<float> Individual::s_coeff;
-double phi = 0.9;                   // right now it is hard-coded that every mutation is deleterious
+//double phi = 0.9;                   // right now it is hard-coded that every mutation is deleterious
 //unsigned long long Individual::counter = 0;
 
 //inline double rand_unif(double x0, double x1)

@@ -165,6 +165,7 @@ int main(int argc, char* argv[]) {
     int expansion_start;            // burnin time ON the grid - to mig-seln balance AFTER the ancestral pop burnin
     int selectionMode;              // SoftSelection = 0, HardSelection = 1
     int expansionMode;              // 0 = linear expansion, 1 = radial expansion, 2 linear - starting from both ends of the habitat, 
+    int expansionModeKim;           // 0 = normal range expansion, 1 = open front shift with receding trailing edge, 2 = controlled shift at expanding and receding edge
     int starting_demes;             // used to calculate number of initially colonized demes as landscape height times this number
     int niche_width;           // the width for a 1-D shift of the demes undergoing the shift, aka the niche
     int theta;                  // the patch will shift right by one deme every theta number of generations
@@ -216,7 +217,7 @@ int main(int argc, char* argv[]) {
     }
     
 
-    if(params.size() > 17)
+    if(params.size() > 18)
     {
         m1 = params[0];
         m2 = params[1];
@@ -233,11 +234,12 @@ int main(int argc, char* argv[]) {
         replicates = params[11];
 
         expansionMode = params[12];
-        selectionMode = params[13];
-        mu = params[14];
-        m = params[15];
-        s = params[16];
-        phi = params[17];
+        expansionModeKim = params[13];
+        selectionMode = params[14];
+        mu = params[15];
+        m = params[16];
+        s = params[17];
+        phi = params[18];
 
         tot_demes = m1*m2;
         initial_colonized = starting_demes*m1;  
@@ -264,10 +266,12 @@ int main(int argc, char* argv[]) {
     replicates = 2;
 
     expansionMode = 0;
+    expansionModeKim = 0;
     selectionMode = 0;
     mu = 0.1;
     m = 0.05;
     s = -0.005;
+ phi = 0.9;
 
     tot_demes = m1*m2;
     initial_colonized = starting_demes*m1;  
@@ -403,23 +407,22 @@ int main(int argc, char* argv[]) {
 
         
 // controlled width range shift in following section
-/* start 1        
-        Grid2D.setCapacity(0);      // remove Migration-barrier completely (and any barrier that might've been drawn on the landscape) all are removed here
-                                    // so here we set carrying capacity to 0 for all demes
-                                    // then in the next line, we put the carrying capacity back up to what we want, but only in the "niche" or shifting range we want
-        for (int deme = 0;deme<niche_width;deme++)
-        {
-            Grid2D.setDemeCapacity(deme,capacity);
-        }
-        trailing_edge = 0;          // the trailing edge always starts at the leftmost deme, will have to modify this for 2-D shifts
-*/ // end 1
-
+        if(expansionModeKim == 2){
+            Grid2D.setCapacity(0);      // remove Migration-barrier completely (and any barrier that might've been drawn on the landscape) all are removed here
+                                       // so here we set carrying capacity to 0 for all demes
+                                        // then in the next line, we put the carrying capacity back up to what we want, but only in the "niche" or shifting range we want
+            for (int deme = 0;deme<niche_width;deme++)
+            {
+                Grid2D.setDemeCapacity(deme,capacity);
+            }
+            trailing_edge = 0;          // the trailing edge always starts at the leftmost deme, will have to modify this for 2-D shifts
+            }
+        
 // open front range shift
-///* start 2
-        Grid2D.setCapacity(capacity);        // set all demes up to size
-        trailing_edge = 0;
- 
-//*/ // end 2
+        if(expansionModeKim == 1){
+            Grid2D.setCapacity(capacity);        // set all demes up to size
+            trailing_edge = 0;
+        }
         
         //Grid2D.startExpansion((m1/2)*m2+(initial_colonized/m1)+1,0);  // old version for starting the expansion  
 
@@ -477,7 +480,7 @@ int main(int argc, char* argv[]) {
             if (i % theta == 0)             // move the 'patch' carrying capacity for a 1-D shift, it moves one deme at a time
             {
                 Grid2D.setDemeCapacity(trailing_edge,0);
-//                Grid2D.setDemeCapacity(trailing_edge+niche_width,capacity); // comment this out for open front expansion, include it for controlled expansion
+                if(expansionModeKim == 2) Grid2D.setDemeCapacity(trailing_edge+niche_width,capacity); // comment this out for open front expansion, include it for controlled expansion
                 trailing_edge += 1;
             }
 

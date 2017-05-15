@@ -463,7 +463,7 @@ int main(int argc, char* argv[]) {
                 
                 
                 /// GET POP DENSITY ACROSS DEMES
-                outdata = Grid2D.getDemeDensity(); // get mean fitness of the whole population  // NEED TO CREATE THIS FILE, PUT IT SOMEWHERE IN WORLD.CPP
+                outdata = Grid2D.getDemeDensity(); // get deme density across the whole population
 
                 for (j = 0; j < tot_demes; j++) // write it to file
                 {
@@ -496,6 +496,15 @@ int main(int argc, char* argv[]) {
                 outputfile << outdata[j] << " ";
                 //finaloutputfile << outdata[j] << " ";
         }
+        
+        
+        outdata = Grid2D.getDemeDensity(); // get deme density across the whole population at the end of the sim
+
+        for (j = 0; j < tot_demes; j++) // write it to file
+        {
+             outputfile4 << outdata[j] << " ";
+        }
+        outputfile4 << "\n";
 
 /* // this is the normal range expansion setup, replace all of above from the cout before looping through generations
   

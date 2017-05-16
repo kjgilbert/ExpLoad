@@ -483,7 +483,9 @@ int main(int argc, char* argv[]) {
             {
                 Grid2D.setDemeCapacity(trailing_edge,0);
                 if(expansionModeKim == 2) Grid2D.setDemeCapacity(trailing_edge+niche_width,capacity); // comment this out for open front expansion, include it for controlled expansion
-                trailing_edge += 1;
+                if(trailing_edge < (m2 - niche_width)){     // once the trailing edge reaches the far right of the landscape, stop so can look at recovery -- CHECK IF I'M OFF BY 1 HERE AND NEED TO STOP IT SOONER?
+                    trailing_edge += 1;
+                }
             }
 
 

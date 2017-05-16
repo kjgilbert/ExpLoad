@@ -425,6 +425,8 @@ int main(int argc, char* argv[]) {
         }
         
         //Grid2D.startExpansion((m1/2)*m2+(initial_colonized/m1)+1,0);  // old version for starting the expansion  
+    
+    if(expansionModeKim != 0){
 
         for(i = 0; i< generations;i++)      // loop through all generations of the simulation
         {        
@@ -508,9 +510,9 @@ int main(int argc, char* argv[]) {
              outputfile4 << outdata[j] << " ";
         }
         outputfile4 << "\n";
-
-/* // this is the normal range expansion setup, replace all of above from the cout before looping through generations
-  
+}   // end expansionModeKim 1 or 2
+ // this is the normal range expansion setup, replace all of above from the cout before looping through generations
+ if(expansionModeKim == 0){ 
         Grid2D.setCapacity(capacity);      // remove Migration-barrier completely (and any barrier that might've been drawn on the landscape) all are removed here
 
         for(i = 0; i< (generations)/snapshot;i++)                                // loop through one set of generations to the first, 2nd, ... snapshot 
@@ -570,8 +572,7 @@ int main(int argc, char* argv[]) {
                         Grid2D.reproduce(selectionMode);                        // reproduction and selection     
                 }                  
         }
- */ // end normal range expansion setup
-        
+ }    // end expansionModeKim0    
 
         outputfile << "\n";
              

@@ -131,7 +131,7 @@ heritableUnit Individual::getNewGamete(double mu,double s,bool front)           
     for(i = 0; i < nmutations; i++)
     {   
         site = randint(0,loci-1); 
-        hap_new[site] = !hap_new[site]; // this is where back-mutation happens, to get rid of it, set it as 1 so it doens't back mutate
+        hap_new[site] = 1;//!hap_new[site]; // this is where back-mutation happens, to get rid of it, set it as 1 so it doens't back mutate
     } 
     
         gam_new.haplotype = hap_new;

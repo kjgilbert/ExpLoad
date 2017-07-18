@@ -91,6 +91,7 @@ class World
         void changeEnvironment(int demeID,double s0, double s1);
         vector<double> getMeanFit();
         vector<double> getDemeDensity(); // added KJG
+        vector<double> getEdgeDemes(int edgeColumn); // added KJG
         vector<double> getHeterozygosity(int loci_begin,int loci_end);
         vector<double> getAlleleFrequenciesWF(int loci_begin,int loci_end, int age);     // returns vector with allele frequencies at the wave front (demes that are "age" generations old)
         vector<double> getAlleleFrequencies(int loci_begin,int loci_end);
@@ -142,6 +143,7 @@ class Deme
         void printStat();
         double getMeanFit();
         double getDemeDensity(); // added KJG
+        double getEdgeDemes(int edgeColumn); // added KJG
         double getHeterozygosity(vector<int> a_loci, int loci_begin,int loci_end);
         vector<double> getFrequencies(int loci_begin,int loci_end);
         vector<double> getGenotypeFrequencies(int loci_begin,int loci_end,int genotype);

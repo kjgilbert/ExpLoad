@@ -233,7 +233,7 @@ double Individual::getRelativeFitness(double s)
 {
     double w = 1;
     int i;
-    float h = 0.5;
+    float h = 0.5;                  // dominance is set here
     
     // calculate fitness from genotype
     

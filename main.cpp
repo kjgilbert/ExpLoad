@@ -252,16 +252,16 @@ int main(int argc, char* argv[]) {
 
 ///*   uncomment this to debug and have hardcoded parameters
     m1 = 1;
-    m2 = 500;
+    m2 = 250;
     starting_demes = 10;
     niche_width = 10;
     capacity = 100;
-    anc_pop_size = 1000;
+    anc_pop_size = 500;
     
-    burnin_time = 100;
+    burnin_time = 50;
     expansion_start = 10;
     theta = 5;
-    generations = 100;
+    generations = 50;
     snapshot = 10;
     replicates = 2;
 

@@ -178,7 +178,6 @@ int main(int argc, char* argv[]) {
     int i,j,k;                      // other counters
     int tot_demes = m1*m2;          // total number of demes in the world
     int initial_colonized;          // number of initially colonized demes (location of demes is determined via mode)
-    int trailing_edge;              // the identity of the deme (for 1-D shifts) at the far left of the landscape, it will always be zero, as is defined below in the code
     
 //__________________________________________________________________________
 
@@ -365,7 +364,8 @@ int main(int argc, char* argv[]) {
     
     // INITIALIZE THE SIMULATION (AND ITS LANDSCAPE)
     vector<double> outdata(tot_demes);  
-    
+    vector<double> trailing_edge(m1);              // the identity of the deme (for 1-D shifts) at the far left of the landscape, it will always be zero, as is defined below in the code
+   
     World Grid2D(m1,m2,initial_colonized,anc_pop_size,burnin_time,capacity,expansionMode,mu,s,m,phi);   // initialize world: grid size (m1,m2), number of initially colonized demes, 
                                                                                                     // size of original population, burn in time of original population, capacity of demes, mode of intial colonization   
     
@@ -415,13 +415,13 @@ int main(int argc, char* argv[]) {
             {
                 Grid2D.setDemeCapacity(deme,capacity);
             }
-            trailing_edge = 0;          // the trailing edge always starts at the leftmost deme, will have to modify this for 2-D shifts
+            trailing_edge = Grid2D.getEdgeDemes(0);          // the trailing edge always starts at the leftmost deme, will have to modify this for 2-D shifts
             }
         
 // open front range shift
         if(expansionModeKim == 1){
             Grid2D.setCapacity(capacity);        // set all demes up to size
-            trailing_edge = 0;
+            trailing_edge = Grid2D.getEdgeDemes(0);
         }
         
         //Grid2D.startExpansion((m1/2)*m2+(initial_colonized/m1)+1,0);  // old version for starting the expansion  
@@ -481,11 +481,20 @@ int main(int argc, char* argv[]) {
 
             if (i % theta == 0)             // move the 'patch' carrying capacity for a 1-D shift, it moves one deme at a time
             {
-                Grid2D.setDemeCapacity(trailing_edge,0);
-                if(expansionModeKim == 2) Grid2D.setDemeCapacity(trailing_edge+niche_width,capacity); // comment this out for open front expansion, include it for controlled expansion
-                if(trailing_edge < (m2 - niche_width)){     // once the trailing edge reaches the far right of the landscape, stop so can look at recovery -- CHECK IF I'M OFF BY 1 HERE AND NEED TO STOP IT SOONER?
-                    trailing_edge += 1;
+                for(int j=0; j<m1; j++)     // go through all the demes along the trailing edge and reset those capacities then move the edge up by 1
+                {
+                    Grid2D.setDemeCapacity(trailing_edge[j],0);
+                    if(expansionModeKim == 2) Grid2D.setDemeCapacity(trailing_edge[j]+niche_width,capacity);
+                    if(trailing_edge[0] < (m2 - niche_width)){     // once the trailing edge reaches the far right of the landscape, stop so can look at recovery -- CHECK IF I'M OFF BY 1 HERE AND NEED TO STOP IT SOONER?
+                        trailing_edge[j] += 1;
+                    }
                 }
+                
+//                Grid2D.setDemeCapacity(trailing_edge,0);
+//                if(expansionModeKim == 2) Grid2D.setDemeCapacity(trailing_edge+niche_width,capacity); // comment this out for open front expansion, include it for controlled expansion
+//                if(trailing_edge < (m2 - niche_width)){     // once the trailing edge reaches the far right of the landscape, stop so can look at recovery -- CHECK IF I'M OFF BY 1 HERE AND NEED TO STOP IT SOONER?
+//                    trailing_edge += 1;
+//                }
             }
 
 

@@ -409,25 +409,27 @@ int main(int argc, char* argv[]) {
 // controlled width range shift in following section
         if(expansionModeKim == 2){
             Grid2D.setCapacity(0);      // remove Migration-barrier completely (and any barrier that might've been drawn on the landscape) all are removed here
-                                       // so here we set carrying capacity to 0 for all demes
+                                        // so here we set carrying capacity to 0 for all demes
                                         // then in the next line, we put the carrying capacity back up to what we want, but only in the "niche" or shifting range we want
-            for (int deme = 0;deme<niche_width;deme++)
+            for (int row = 0; row < m1; row++)
             {
-                Grid2D.setDemeCapacity(deme,capacity);
+                int deme = row*m2;
+                for (deme; deme<(niche_width+(row*m2)); deme++)
+                {
+                    Grid2D.setDemeCapacity(deme,capacity);
+                }
             }
-            trailing_edge = Grid2D.getEdgeDemes(0);          // the trailing edge always starts at the leftmost deme, will have to modify this for 2-D shifts
-            }
+        }
         
 // open front range shift
         if(expansionModeKim == 1){
-            Grid2D.setCapacity(capacity);        // set all demes up to size
-            trailing_edge = Grid2D.getEdgeDemes(0);
+            Grid2D.setCapacity(capacity);       // set all demes up to size
         }
-        
-        //Grid2D.startExpansion((m1/2)*m2+(initial_colonized/m1)+1,0);  // old version for starting the expansion  
+                                                //Grid2D.startExpansion((m1/2)*m2+(initial_colonized/m1)+1,0);  // old version for starting the expansion  
     
-    if(expansionModeKim != 0){
+    if(expansionModeKim == 1 || expansionModeKim == 2){
 
+        trailing_edge = Grid2D.getEdgeDemes(0);    // the trailing edge always starts at the leftmost deme(s)
         for(i = 0; i< generations;i++)      // loop through all generations of the simulation
         {        
             if(i % snapshot == 0)           // write out all the data every snapshot
@@ -479,13 +481,13 @@ int main(int argc, char* argv[]) {
             }
 
 
-            if (i % theta == 0)             // move the 'patch' carrying capacity for a 1-D shift, it moves one deme at a time
+            if (i % theta == 0)             // move the 'patch' carrying capacity for a 1- or 2-D shift, it moves one deme/column of demes at a time
             {
                 for(int j=0; j<m1; j++)     // go through all the demes along the trailing edge and reset those capacities then move the edge up by 1
                 {
                     Grid2D.setDemeCapacity(trailing_edge[j],0);
                     if(expansionModeKim == 2) Grid2D.setDemeCapacity(trailing_edge[j]+niche_width,capacity);
-                    if(trailing_edge[0] < (m2 - niche_width)){     // once the trailing edge reaches the far right of the landscape, stop so can look at recovery -- CHECK IF I'M OFF BY 1 HERE AND NEED TO STOP IT SOONER?
+                    if(trailing_edge[m1-1] < (((m2*m1)-1) - niche_width)){     // once the trailing edge reaches the far right of the landscape, stop so can look at recovery -- minus 1 because m2 is intuitive size, but C goes from 0 to that size - 1, so measure in C's language
                         trailing_edge[j] += 1;
                     }
                 }

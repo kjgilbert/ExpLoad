@@ -615,10 +615,8 @@ vector<double> World::getEdgeDemes(int edgeColumn)         // returns vector wit
     vector<double> edgeDemes(m1);   // make the vector as long as the width of the landscape
     int landscapeWidth = m1;    // the "height" or "width" of the landscape - expansion happens over m2's axis
     int landscapeLength = m2;   // the length of the landscape over which expansion happens
-    
-    edgeDemes[0] = edgeColumn;  // the first one (spot 0 in vector) is just the column ID, AKA x.location of the edge
-    
-    for(int i=1; i<landscapeWidth; i++)
+        
+    for(int i=0; i<landscapeWidth; i++)
     {
         edgeDemes[i] = edgeColumn + (i * landscapeLength);
     }    

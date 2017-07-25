@@ -260,13 +260,13 @@ int main(int argc, char* argv[]) {
     burnin_time = 50;
     expansion_start = 10;
     theta = 2;
-    generations = 90;
+    generations = 10;
     snapshot = 10;
     replicates = 1;
 
     expansionMode = 0;
     expansionModeKim = 1;
-    selectionMode = 0;
+    selectionMode = 1;
     mu = 0.1;
     m = 0.05;
     s = -0.005;

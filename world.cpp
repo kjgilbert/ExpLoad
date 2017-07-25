@@ -370,7 +370,7 @@ void World::clear(int length1,int length2,int initial_colonized,int initial_pops
                     {    
                         demes[j*m2+i].addMigrant(*it);
                     }
-                     demes[j*m2+width+1].setParams(0);   
+                     demes[j*m2+width].setParams(0);   
                 }
         }  
    }

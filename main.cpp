@@ -34,7 +34,7 @@ using namespace std;
 int main(int argc, char* argv[]) {
  
  // comment his out for debug, and the part in parenthesis of main above   
- ///*
+ /*
     if ( argc != 2 )
     {                   // argc should be length 2 for correct execution
                         //spot 0 is the program name when running it in command line
@@ -46,7 +46,7 @@ int main(int argc, char* argv[]) {
     
     string fn = argv[1]; //filename for parameter inputs
     cout << fn; 
-//*/
+*/
 
       
 //    fstream file;
@@ -76,7 +76,7 @@ int main(int argc, char* argv[]) {
 // find the path of the paramfile:
 // I think this one is the more useful because then I can put the outputs wherever the paramfile is stored
    // Get the last position of '/'
-///* 
+/* 
     std::string aux(argv[1]);       // comment this out for debug
 
     // get '/' or '\\' depending on unix/mac or windows.
@@ -90,7 +90,7 @@ int main(int argc, char* argv[]) {
     std::string path = aux.substr(0,pos+1);
     std::string name = aux.substr(pos+1);
     // show results
-//*/    
+*/    
     
     
     
@@ -198,7 +198,7 @@ int main(int argc, char* argv[]) {
 
     
     // comment all this out for debug with hardcoded params
-///* 
+/* 
     double par;
     vector<double> params;          // character array to hold all the inputs from paramfile
     
@@ -247,25 +247,25 @@ int main(int argc, char* argv[]) {
     {
         cout << "\n MISSING REQUIRED NUMBER OF PARAMETERS, EXITING SIMULATION.\n";
     }
-//*/ 
+*/ 
 
-/*   uncomment this to debug and have hardcoded parameters
+///*   uncomment this to debug and have hardcoded parameters
     m1 = 5;
-    m2 = 250;
-    starting_demes = 10;
-    niche_width = 10;
+    m2 = 40;
+    starting_demes = 5;
+    niche_width = 5;
     capacity = 100;
     anc_pop_size = 500;
     
     burnin_time = 50;
     expansion_start = 10;
-    theta = 5;
-    generations = 50;
+    theta = 2;
+    generations = 90;
     snapshot = 10;
-    replicates = 2;
+    replicates = 1;
 
     expansionMode = 0;
-    expansionModeKim = 0;
+    expansionModeKim = 1;
     selectionMode = 0;
     mu = 0.1;
     m = 0.05;
@@ -274,7 +274,7 @@ int main(int argc, char* argv[]) {
 
     tot_demes = m1*m2;
     initial_colonized = starting_demes*m1;  
-*/
+//*/
     
    loci = 1000;     // right now number of loci has to be hard coded in 
     
@@ -407,29 +407,31 @@ int main(int argc, char* argv[]) {
 
         
 // controlled width range shift in following section
-        if(expansionModeKim == 2){
-            Grid2D.setCapacity(0);      // remove Migration-barrier completely (and any barrier that might've been drawn on the landscape) all are removed here
-                                        // so here we set carrying capacity to 0 for all demes
-                                        // then in the next line, we put the carrying capacity back up to what we want, but only in the "niche" or shifting range we want
-            for (int row = 0; row < m1; row++)
+    if(expansionModeKim == 2)
+    {
+        Grid2D.setCapacity(0);      // remove Migration-barrier completely (and any barrier that might've been drawn on the landscape) all are removed here
+                                    // so here we set carrying capacity to 0 for all demes
+                                    // then in the next line, we put the carrying capacity back up to what we want, but only in the "niche" or shifting range we want
+        for (int row = 0; row < m1; row++)
+        {
+            int deme = row*m2;
+            for (deme; deme<(niche_width+(row*m2)); deme++)
             {
-                int deme = row*m2;
-                for (deme; deme<(niche_width+(row*m2)); deme++)
-                {
-                    Grid2D.setDemeCapacity(deme,capacity);
-                }
+                Grid2D.setDemeCapacity(deme,capacity);
             }
         }
+    }
         
 // open front range shift
-        if(expansionModeKim == 1){
-            Grid2D.setCapacity(capacity);       // set all demes up to size
-        }
-                                                //Grid2D.startExpansion((m1/2)*m2+(initial_colonized/m1)+1,0);  // old version for starting the expansion  
+    if(expansionModeKim == 1){
+        Grid2D.setCapacity(capacity);       // set all demes up to size
+    }
+                                            //Grid2D.startExpansion((m1/2)*m2+(initial_colonized/m1)+1,0);  // old version for starting the expansion  
     
-    if(expansionModeKim == 1 || expansionModeKim == 2){
-
+    if(expansionModeKim == 1 || expansionModeKim == 2)
+    {
         trailing_edge = Grid2D.getEdgeDemes(0);    // the trailing edge always starts at the leftmost deme(s)
+        
         for(i = 0; i< generations;i++)      // loop through all generations of the simulation
         {        
             if(i % snapshot == 0)           // write out all the data every snapshot
@@ -488,7 +490,7 @@ int main(int argc, char* argv[]) {
                     Grid2D.setDemeCapacity(trailing_edge[j],0);
                     if(expansionModeKim == 2) Grid2D.setDemeCapacity(trailing_edge[j]+niche_width,capacity);
                     if(trailing_edge[m1-1] < (((m2*m1)-1) - niche_width)){     // once the trailing edge reaches the far right of the landscape, stop so can look at recovery -- minus 1 because m2 is intuitive size, but C goes from 0 to that size - 1, so measure in C's language
-                        trailing_edge[j] += 1;
+                        trailing_edge[j] += 1;                        
                     }
                 }
                 
@@ -498,7 +500,7 @@ int main(int argc, char* argv[]) {
 //                    trailing_edge += 1;
 //                }
             }
-
+                    
 
             // then normal simulation routines proceed for the rest of this generation
             Grid2D.migrate(tot_demes); // migration        
@@ -523,9 +525,12 @@ int main(int argc, char* argv[]) {
              outputfile4 << outdata[j] << " ";
         }
         outputfile4 << "\n";
-}   // end expansionModeKim 1 or 2
+    }   // end expansionModeKim 1 or 2
+        
+        
  // this is the normal range expansion setup, replace all of above from the cout before looping through generations
- if(expansionModeKim == 0){ 
+    if(expansionModeKim == 0)
+    { 
         Grid2D.setCapacity(capacity);      // remove Migration-barrier completely (and any barrier that might've been drawn on the landscape) all are removed here
 
         for(i = 0; i< (generations)/snapshot;i++)                                // loop through one set of generations to the first, 2nd, ... snapshot 
@@ -585,7 +590,7 @@ int main(int argc, char* argv[]) {
                         Grid2D.reproduce(selectionMode);                        // reproduction and selection     
                 }                  
         }
- }    // end expansionModeKim0    
+    }    // end expansionModeKim0    
 
         outputfile << "\n";
              

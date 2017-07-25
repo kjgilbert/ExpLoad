@@ -108,25 +108,27 @@ World::World(int length1,int length2,int initial_colonized,int initial_popsize,i
         }
    }
    
-   width = floor(initial_colonized/m1);
+   width = floor(initial_colonized/m1); // gives the number of columns being colonized at the left of a linear, 2D expansion
 
-   if (mode == 0)     // colonize first initial_size demes at left edge of grid, a barrier to gene flow to the right of colonized area 
-   {    
-        for(i=0;i<width;i++)
+   if (mode == 0)     // colonize first initial_size demes at left edge of grid and set a barrier to gene flow to the right of colonized area 
+   { 
+       
+        for(i=0;i<width;i++)   // iterate through columns being colonized
         {
-                for(j=0;j<m1;j++)   // m1 is the y-axis, or height of the landscape, go through each deme
+            for(j=0;j<m1;j++)   // m1 is the y-axis, or width/height (not length) of the landscape, go through each row in the column being iterated
+            {    
+                propagule = initial_population[0].sampleIndividuals(capacity);      // get a propoagule - sample K inds    
+                //demes[start+i*m2+m2/2+(j-width/2)].colonize();
+               
+                for(it = propagule.begin();it!=propagule.end();it++)                // iterate through all inds in propagule
                 {    
-                    propagule = initial_population[0].sampleIndividuals(capacity);      // sample the ancestral pop? and seed the starting demes on the landscape    
-                    //demes[start+i*m2+m2/2+(j-width/2)].colonize();
-                   
-                    for(it = propagule.begin();it!=propagule.end();it++)                // iterate again over something? along the x-axis?
-                    {    
-                        demes[j*m2+i].addMigrant(*it);
-                    }
-                    
-                    demes[j*m2+width+1].setParams(0);                                   // make the barrier of carrying cap 0 at the edge of the starting demes?
+                    demes[j*m2+i].addMigrant(*it);                                  // deme 0*300+0 = 0, 1*300+0 = 300, 2*300+0 = 600
                 }
+                
+                demes[j*m2+width].setParams(0);                                   // make the barrier of carrying cap 0 at the edge of the starting demes
+            }
         }  
+        
    }
    
    if (mode == 6)     // colonize first initial_size demes at left edge  of grid, a barrier to gene flow to the right of colonized area, barrier 5 demes-wide (to mimic sahara)
@@ -229,7 +231,7 @@ World::World(int length1,int length2,int initial_colonized,int initial_popsize,i
 
    }
    
-    if (mode == 4)     // colonize a single deme at opposing corners of the habitat
+   if (mode == 4)     // colonize a single deme at opposing corners of the habitat
    {
         propagule = initial_population[0].sampleIndividuals(capacity);    
         for(it = propagule.begin();it!=propagule.end();it++)

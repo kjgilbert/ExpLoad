@@ -33,8 +33,8 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
  
- // comment his out for debug, and the part in parenthesis of main above   
- /*
+  
+ ///*  // comment this out for debug, and the part in parenthesis of main above  
     if ( argc != 2 )
     {                   // argc should be length 2 for correct execution
                         //spot 0 is the program name when running it in command line
@@ -46,7 +46,7 @@ int main(int argc, char* argv[]) {
     
     string fn = argv[1]; //filename for parameter inputs
     cout << fn; 
-*/
+//*/
 
       
 //    fstream file;
@@ -76,8 +76,8 @@ int main(int argc, char* argv[]) {
 // find the path of the paramfile:
 // I think this one is the more useful because then I can put the outputs wherever the paramfile is stored
    // Get the last position of '/'
-/* 
-    std::string aux(argv[1]);       // comment this out for debug
+///*   // comment this out for debug
+    std::string aux(argv[1]);       
 
     // get '/' or '\\' depending on unix/mac or windows.
 #if defined(_WIN32) || defined(WIN32)
@@ -90,7 +90,7 @@ int main(int argc, char* argv[]) {
     std::string path = aux.substr(0,pos+1);
     std::string name = aux.substr(pos+1);
     // show results
-*/    
+//*/    
     
     
     
@@ -198,7 +198,7 @@ int main(int argc, char* argv[]) {
 
     
     // comment all this out for debug with hardcoded params
-/* 
+///* 
     double par;
     vector<double> params;          // character array to hold all the inputs from paramfile
     
@@ -247,9 +247,9 @@ int main(int argc, char* argv[]) {
     {
         cout << "\n MISSING REQUIRED NUMBER OF PARAMETERS, EXITING SIMULATION.\n";
     }
-*/ 
+//*/ 
 
-///*   uncomment this to debug and have hardcoded parameters
+/*   uncomment this to debug and have hardcoded parameters
     m1 = 5;
     m2 = 40;
     starting_demes = 5;
@@ -270,11 +270,11 @@ int main(int argc, char* argv[]) {
     mu = 0.1;
     m = 0.05;
     s = -0.005;
- phi = 0.9;
+    phi = 0.9;
 
     tot_demes = m1*m2;
     initial_colonized = starting_demes*m1;  
-//*/
+*/
     
    loci = 1000;     // right now number of loci has to be hard coded in 
     

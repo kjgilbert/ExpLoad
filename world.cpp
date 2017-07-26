@@ -523,11 +523,6 @@ void World::migrate(int range)
               
                 destination = (j*m2+i) + mig_distance;
               
-                cout << i << " " << j << " " << "width " << width << "   ";
-                cout << "init dest = " << destination << "  ";
-                cout << "focal deme = " << (j*m2+i) << "  ";
-                cout << "mig distance = " << mig_distance << "  ";
-                
                 // reflecting boundaries     
                 if (destination<0) {destination=(j*m2+i);}                                      // don't go negative, i.e. below deme 0 or off the top edge                        
                 if (destination>=(m1*m2)) {destination=(j*m2+i);}                               // don't go beyond last deme on landscape
@@ -535,8 +530,6 @@ void World::migrate(int range)
                 if ((((j*m2+i)%m2)==0)&&(mig_distance==-1)) {destination = (j*m2+i);}           // don't migrate from the left edge core to the right edge
                 if ((((j*m2+i)%m2)==(m2-1))&&(mig_distance==1)) {destination = i;}              // don't migrate from the right edge back into the core
 
-                cout << "final dest = " << destination << "  ";
-                cout << (j*m2+i)-destination << endl;
                 //cout << "final dest " << destination << endl;
                 ind = *m_it;
                 demes[destination].addMigrant(*m_it);

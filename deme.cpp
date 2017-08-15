@@ -348,11 +348,18 @@ void Deme::reproduceHS1(double mean_fit,int wf)		// hard selection
         expected_offspring = max(0,no_ind * (r/(1 + (double)(no_ind*(r-1))/K)));  // beverton-holt
         realized_offspring = 0;
         
+        if (r <= 1)
+        {
+            expected_offspring = no_ind * r; 
+        }   
+        
         //realized offspring is obtained from a poisson distribution
         if (expected_offspring  > 0)
         {
             realized_offspring = randpois(expected_offspring);    
         }
+        
+  
         
         
         //no stochastic fluctuations in demography

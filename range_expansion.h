@@ -80,9 +80,9 @@ class World
         ~World();
         bool isColonized(int deme);
         void clear(int length1,int length2,int initial_colonized,int initial_popsize,int burnin_time,int capacity,int mode,double mutation_rate,double s,double migration_rate,double mut_prop);
-        void reproduceBurnin(int mode);
-        void reproduceSSburnin();                     //reproduction plus soft selection
-        void reproduceHSburnin();                    // reproduction plus hard selection v1 - growth rate proportional to mean fit
+        void reproduceBurnin(int mode, double phi);
+        void reproduceSSburnin(double phi);                     //reproduction plus soft selection
+        void reproduceHSburnin(double phi);                    // reproduction plus hard selection v1 - growth rate proportional to mean fit
         void reproduce(int mode);
         void reproduceSS();                     //reproduction plus soft selection
         void reproduceSSAM(); 
@@ -137,8 +137,8 @@ class Deme
         void reproduceSS(int wf); 
         void reproduceSSAM(int wf); 
         void reproduceHS1(double mean_fit,int wf);
-        void reproduceSSburnin(int wf); 
-        void reproduceHSburnin(double mean_fit,int wf);
+        void reproduceSSburnin(int wf,double phi); 
+        void reproduceHSburnin(double mean_fit,int wf,double phi);
         void select();
         void migrate();
         void print();
@@ -198,7 +198,7 @@ class Individual
         ~Individual();
         void set_selection_dist(double s,double mut_prop);
         heritableUnit getNewGamete(double mu,double s,bool front);         // infinite sites within recombining regions
-        heritableUnit getNewGameteBurnin(double mu,double s,bool front);   // ignores beneficial mutations
+        heritableUnit getNewGameteBurnin(double mu,double s,double phi);   // ignores beneficial mutations
         heritableUnit getNewGameteMM2(double mu1,double mu2,double s);     // mutation model with 2 alleles per locus
         void setGenotype(heritableUnit g1,heritableUnit g2);
         double getFitness(double s);

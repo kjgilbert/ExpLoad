@@ -140,7 +140,7 @@ heritableUnit Individual::getNewGamete(double mu,double s,bool front)           
 }
 
 
-heritableUnit Individual::getNewGameteBurnin(double mu,double s,bool front)           // this function adds mutations to the genome. mutations and backmutations occur at the same rate. (this will have an effect on the DFE, need to investigate this)
+heritableUnit Individual::getNewGameteBurnin(double mu,double s,double phi)           // this function adds mutations to the genome. mutations and backmutations occur at the same rate. (this will have an effect on the DFE, need to investigate this)
 {
     Loci hap_new;
     double rec_rate = rrate; 
@@ -171,19 +171,15 @@ heritableUnit Individual::getNewGameteBurnin(double mu,double s,bool front)     
            hap_new[i]=haplotypes[site][i]; 
        } 
    }
-  
-//   if(randreal(0,1) < 0.01)
-//   {
-//       hap_new[loci] = !hap_new[loci];
-//   }
    
     nmutations = 0;
-    if (mu > 0) {nmutations = randpois(mu); }       // draw poisson distributed number of mutations around mean mu
+    double scaledMu = mu/phi;
+    if (scaledMu > 0) {nmutations = randpois(scaledMu); }       // draw poisson distributed number of mutations around mean mu that is scaled down by the number of loci that are deleterious
                                                     // this is the number of mutations per gamete, so mu is indeed U, the genome-wide mutation rate per generation
     
     for(i = 0; i < nmutations; i++)
     {   
-        site = randint(0,loci-1); 
+        site = randint(0,(phi*loci)-1); 
         hap_new[site] = 1;//!hap_new[site]; // this is where back-mutation happens, to get rid of it, set it as 1 so it doens't back mutate
     } 
     

@@ -427,17 +427,17 @@ void World::clear(int length1,int length2,int initial_colonized,int initial_pops
 }
 
 
-void World::reproduceBurnin(int mode)
+void World::reproduceBurnin(int mode, double phi)
 {
     vector<Deme>::iterator it;
     //updateWaveFront();
     if (mode == 0)
     {
-        reproduceSSburnin(); 
+        reproduceSSburnin(phi); 
     }
     else
     {   
-        reproduceHSburnin();
+        reproduceHSburnin(phi);
     }
    
     
@@ -494,17 +494,17 @@ void World::reproduceHS1()
     }
 }
 
-void World::reproduceSSburnin()
+void World::reproduceSSburnin(double phi)
 {
     vector<Deme>::iterator it;
     //updateWaveFront();
 
     for(it = demes.begin();it!=demes.end();it++)  
     {
-        it->reproduceSSburnin(wavefrontID); 
+        it->reproduceSSburnin(wavefrontID, phi); 
     }
 }
-void World::reproduceHSburnin()
+void World::reproduceHSburnin(double phi)
 {
     vector<Deme>::iterator it;
     double mean_fit;
@@ -512,7 +512,7 @@ void World::reproduceHSburnin()
     for(it = demes.begin();it!=demes.end();it++)  
     {
         mean_fit = it->getMeanFit();
-        it->reproduceHSburnin(mean_fit,wavefrontID); 
+        it->reproduceHSburnin(mean_fit,wavefrontID, phi); 
     }
 }
 

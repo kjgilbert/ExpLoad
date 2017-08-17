@@ -406,7 +406,7 @@ void Deme::reproduceHS1(double mean_fit,int wf)		// hard selection
 }
 
 
-void Deme::reproduceSSburnin(int wf)
+void Deme::reproduceSSburnin(int wf, double phi)
 {
     int no_ind,i;
     double expected_offspring;
@@ -471,7 +471,7 @@ void Deme::reproduceSSburnin(int wf)
                     it=this_generation.begin();
                     advance(it,mom);
                     mom_fit = it->getRelativeFitness(s);
-                    gamete_mom = it->getNewGameteBurnin(mutation_rate,s,front);
+                    gamete_mom = it->getNewGameteBurnin(mutation_rate,s, phi);
                     
                 }while( mom_fit < randreal(0,max_fit));
 
@@ -481,7 +481,7 @@ void Deme::reproduceSSburnin(int wf)
                     it=this_generation.begin();
                     advance(it,dad);
                     dad_fit = it->getRelativeFitness(s);
-                    gamete_dad = it->getNewGameteBurnin(mutation_rate,s,front);
+                    gamete_dad = it->getNewGameteBurnin(mutation_rate,s, phi);
                     
                 }while( dad_fit < randreal(0,max_fit));
         
@@ -499,7 +499,7 @@ void Deme::reproduceSSburnin(int wf)
     }
 }
 
-void Deme::reproduceHSburnin(double mean_fit,int wf)		// hard selection
+void Deme::reproduceHSburnin(double mean_fit,int wf, double phi)		// hard selection
 {
     int no_ind,i;
     double expected_offspring;
@@ -572,7 +572,7 @@ void Deme::reproduceHSburnin(double mean_fit,int wf)		// hard selection
                 
                 mom_fit = it->getRelativeFitness(s);
                 
-                gamete_mom = it->getNewGameteBurnin(mutation_rate,s,front); //getNewGameteMM2(mutation_rate,mutation_rate,s); 
+                gamete_mom = it->getNewGameteBurnin(mutation_rate,s,phi); //getNewGameteMM2(mutation_rate,mutation_rate,s); 
     
         
                 it=this_generation.begin();
@@ -580,7 +580,7 @@ void Deme::reproduceHSburnin(double mean_fit,int wf)		// hard selection
                 
                 dad_fit = it->getRelativeFitness(s);
                 
-                gamete_dad = it->getNewGameteBurnin(mutation_rate,s,front);//getNewGameteMM2(mutation_rate,mutation_rate,s); 
+                gamete_dad = it->getNewGameteBurnin(mutation_rate,s,phi);//getNewGameteMM2(mutation_rate,mutation_rate,s); 
                 
                 //create new individual
                 ind.setGenotype(gamete_mom,gamete_dad);

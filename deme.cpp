@@ -406,28 +406,6 @@ void Deme::reproduceHS1(double mean_fit,int wf)		// hard selection
 }
 
 
-void Deme::select()			// old function for viability seln
-{
-    list<Individual>::iterator it;
-    double fitness=1;
-    double mean_fit = 1;
-     
- 
-    for (it = this_generation.begin();it!=this_generation.end();)
-    {
-        fitness = it->getFitness(s);
-        
-        if (fitness < randreal(0,1)) 
-        {
-            it = this_generation.erase(it);
-        }
-        else
-        {
-            it++;
-        }
-    }
-}
-
 void Deme::reproduceSSburnin(int wf)
 {
     int no_ind,i;
@@ -493,7 +471,7 @@ void Deme::reproduceSSburnin(int wf)
                     it=this_generation.begin();
                     advance(it,mom);
                     mom_fit = it->getRelativeFitness(s);
-                    gamete_mom = it->getNewGamete(mutation_rate,s,front);
+                    gamete_mom = it->getNewGameteBurnin(mutation_rate,s,front);
                     
                 }while( mom_fit < randreal(0,max_fit));
 
@@ -503,7 +481,7 @@ void Deme::reproduceSSburnin(int wf)
                     it=this_generation.begin();
                     advance(it,dad);
                     dad_fit = it->getRelativeFitness(s);
-                    gamete_dad = it->getNewGamete(mutation_rate,s,front);
+                    gamete_dad = it->getNewGameteBurnin(mutation_rate,s,front);
                     
                 }while( dad_fit < randreal(0,max_fit));
         
@@ -594,7 +572,7 @@ void Deme::reproduceHSburnin(double mean_fit,int wf)		// hard selection
                 
                 mom_fit = it->getRelativeFitness(s);
                 
-                gamete_mom = it->getNewGamete(mutation_rate,s,front); //getNewGameteMM2(mutation_rate,mutation_rate,s); 
+                gamete_mom = it->getNewGameteBurnin(mutation_rate,s,front); //getNewGameteMM2(mutation_rate,mutation_rate,s); 
     
         
                 it=this_generation.begin();
@@ -602,7 +580,7 @@ void Deme::reproduceHSburnin(double mean_fit,int wf)		// hard selection
                 
                 dad_fit = it->getRelativeFitness(s);
                 
-                gamete_dad = it->getNewGamete(mutation_rate,s,front);//getNewGameteMM2(mutation_rate,mutation_rate,s); 
+                gamete_dad = it->getNewGameteBurnin(mutation_rate,s,front);//getNewGameteMM2(mutation_rate,mutation_rate,s); 
                 
                 //create new individual
                 ind.setGenotype(gamete_mom,gamete_dad);
@@ -620,6 +598,27 @@ void Deme::reproduceHSburnin(double mean_fit,int wf)		// hard selection
     }
 }
 
+void Deme::select()			// old function for viability seln
+{
+    list<Individual>::iterator it;
+    double fitness=1;
+    double mean_fit = 1;
+     
+ 
+    for (it = this_generation.begin();it!=this_generation.end();)
+    {
+        fitness = it->getFitness(s);
+        
+        if (fitness < randreal(0,1)) 
+        {
+            it = this_generation.erase(it);
+        }
+        else
+        {
+            it++;
+        }
+    }
+}
 
 Migrants Deme::getMigrants()
 {

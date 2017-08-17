@@ -234,6 +234,7 @@ double Individual::getRelativeFitness(double s)
     double w = 1;
     int i;
     float h = 0.5;                  // dominance is set here
+    extern double fitnessConstant;  // this is the global variable for scaling fitness, defined in main.cpp
     
     // calculate fitness from genotype
     
@@ -258,7 +259,7 @@ double Individual::getRelativeFitness(double s)
     
 
 
-    return(w);
+    return(w / fitnessConstant); //use the global variable to scale fitness (so that we can compare across h cases)
 }
 
 

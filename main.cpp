@@ -404,7 +404,12 @@ int main(int argc, char* argv[]) {
     
         cout << "\n Burn-in finished, expansion into new territory starts.";
 
-
+// GET THE MEAN HERE TO SCALE FITNESS
+        
+        
+// ALSO BEGIN BENEFICIAL MUTATIONS HERE, and turn them off during the burn-in
+        
+        
         
 // controlled width range shift in following section
     if(expansionModeKim == 2)

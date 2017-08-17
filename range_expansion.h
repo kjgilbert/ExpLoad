@@ -80,6 +80,7 @@ class World
         ~World();
         bool isColonized(int deme);
         void clear(int length1,int length2,int initial_colonized,int initial_popsize,int burnin_time,int capacity,int mode,double mutation_rate,double s,double migration_rate,double mut_prop);
+        void reproduceBurnin(int mode);
         void reproduce(int mode);
         void reproduceSS();                     //reproduction plus soft selection
         void reproduceSSAM(); 

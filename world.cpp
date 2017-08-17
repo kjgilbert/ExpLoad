@@ -427,6 +427,21 @@ void World::clear(int length1,int length2,int initial_colonized,int initial_pops
 }
 
 
+void World::reproduceBurnin(int mode)
+{
+    vector<Deme>::iterator it;
+    //updateWaveFront();
+    if (mode == 0)
+    {
+        reproduceSS(); 
+    }
+    else
+    {   
+        reproduceHS1();
+    }
+   
+    
+}
 
 void World::reproduce(int mode)
 {

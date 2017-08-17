@@ -403,7 +403,7 @@ int main(int argc, char* argv[]) {
         for (k = 0;k<expansion_start;k++)                                      
         {                        
             Grid2D.migrate(initial_colonized);                                       // migration        
-            Grid2D.reproduce(selectionMode);                                // reproduction and selection     
+            Grid2D.reproduceBurnin(selectionMode);                                // reproduction and selection     
         }  
     
         cout << "\n Burn-in finished, expansion into new territory starts.";

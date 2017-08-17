@@ -364,6 +364,8 @@ int main(int argc, char* argv[]) {
     
     // INITIALIZE THE SIMULATION (AND ITS LANDSCAPE)
     vector<double> outdata(tot_demes);  
+    vector<double> tempdata1(tot_demes);  
+    vector<double> tempdata2(tot_demes);  
     vector<double> trailing_edge(m1);              // the identity of the deme (for 1-D shifts) at the far left of the landscape, it will always be zero, as is defined below in the code
    
     World Grid2D(m1,m2,initial_colonized,anc_pop_size,burnin_time,capacity,expansionMode,mu,s,m,phi);   // initialize world: grid size (m1,m2), number of initially colonized demes, 
@@ -407,9 +409,19 @@ int main(int argc, char* argv[]) {
         cout << "\n Burn-in finished, expansion into new territory starts.";
         
         // get mean fitness of the whole metapop at the end of the burning to scale fitness throughout the remainder of the simulation
-
-        // reset the global variable for fitness scaling to the mean fitness of the metapop at the end of the burn-in
-        //fitnessConstant;
+        // and scale mean fitness by pop size in each deme
+        tempdata1 = Grid2D.getMeanFit();
+        tempdata2 = Grid2D.getDemeDensity();
+        double fitnessSum;
+        
+        for(int it=0; it<tot_demes; it++)
+        {
+            outdata[it]=tempdata1[it] * tempdata2[it];
+            fitnessSum += outdata[it];               // this sum will include the sum of all empty, size 0 demes, but won't matter as long as I only divide by the number of occupied demes during the burnin
+        }
+        // get the average by dividing the sum by the number of occupied demes in the burnin
+        // this resets the global variable for fitness scaling to the mean fitness of the metapop at the end of the burn-in
+        fitnessConstant = fitnessSum/(starting_demes * niche_width);
 
 
 // GET THE MEAN HERE TO SCALE FITNESS

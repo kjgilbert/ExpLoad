@@ -28,7 +28,7 @@
 using namespace std;
 
 
-
+double fitnessConstant; // a global variable for scaling fitness
 
 
 int main(int argc, char* argv[]) {
@@ -394,6 +394,8 @@ int main(int argc, char* argv[]) {
         outputfile4.open(filename5);
         
 
+        // set the global variable for fitness scaling to 1 before the burn-in starts
+        fitnessConstant = 1;
      
 
         for (k = 0;k<expansion_start;k++)                                      
@@ -403,6 +405,12 @@ int main(int argc, char* argv[]) {
         }  
     
         cout << "\n Burn-in finished, expansion into new territory starts.";
+        
+        // get mean fitness of the whole metapop at the end of the burning to scale fitness throughout the remainder of the simulation
+
+        // reset the global variable for fitness scaling to the mean fitness of the metapop at the end of the burn-in
+        //fitnessConstant;
+
 
 // GET THE MEAN HERE TO SCALE FITNESS
         

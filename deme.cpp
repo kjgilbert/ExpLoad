@@ -428,6 +428,198 @@ void Deme::select()			// old function for viability seln
     }
 }
 
+void Deme::reproduceSSburnin(int wf)
+{
+    int no_ind,i;
+    double expected_offspring;
+    int realized_offspring;
+    Individual ind;
+    int mom,dad;
+    heritableUnit gamete_mom,gamete_dad;
+    list<Individual>::iterator it;
+    double r = 2;
+    double mom_fit,dad_fit;
+
+    
+    bool front;
+    
+    front = (ID >= (wf-1));
+    
+    no_ind = this_generation.size();
+    
+   
+    max_fit = 0;
+    
+    for (it = this_generation.begin();it != this_generation.end();it++)
+    {
+       max_fit = fmax(max_fit,it->getRelativeFitness(s));
+    }
+    
+    
+    //cout << "test: " <<this_generation.size() << " " << no_ind;
+    if (no_ind > 0)
+    {
+        age++;
+        
+        //calculate expected number of offspring 
+        
+        //expected_offspring = capacity;   //demes are filled immediately
+    
+        expected_offspring = no_ind * (r/(1 + (double)(no_ind*(r-1))/capacity));  // beverton-holt
+        
+        
+        //realized offspring is obtained from a poisson distribution
+        if (expected_offspring > 0)
+        {
+                realized_offspring = randpois(expected_offspring);   
+        }
+        
+        else 
+        {
+            realized_offspring = 0;
+        }
+        
+    
+        next_generation.clear();
+   
+        for (i = 0;i<realized_offspring;)
+        {
+                // generate new individual
+
+                // create new gametes from parents
+                do
+                {
+                    mom = randint(0,this_generation.size()-1);    // draw parents with prob proportional to their fitnesses
+                    it=this_generation.begin();
+                    advance(it,mom);
+                    mom_fit = it->getRelativeFitness(s);
+                    gamete_mom = it->getNewGamete(mutation_rate,s,front);
+                    
+                }while( mom_fit < randreal(0,max_fit));
+
+                do
+                {                   
+                    dad = randint(0,this_generation.size()-1); 
+                    it=this_generation.begin();
+                    advance(it,dad);
+                    dad_fit = it->getRelativeFitness(s);
+                    gamete_dad = it->getNewGamete(mutation_rate,s,front);
+                    
+                }while( dad_fit < randreal(0,max_fit));
+        
+              
+                //create new individual
+                ind.setGenotype(gamete_mom,gamete_dad);
+               
+///                ind.setWFID(wf_cum);
+
+                next_generation.push_back(ind);
+                i++;    
+        }
+        // replace old generation by new
+        this_generation = next_generation;
+    }
+}
+
+void Deme::reproduceHSburnin(double mean_fit,int wf)		// hard selection
+{
+    int no_ind,i;
+    double expected_offspring;
+    int realized_offspring;
+    Individual ind;
+    int mom,dad;
+    heritableUnit gamete_mom,gamete_dad;
+    list<Individual>::iterator it;
+    double r = 2;
+    double K = capacity;
+    double mom_fit,dad_fit;
+    bool front;
+    
+    front = (ID >= (wf-1));
+    
+    r = r * mean_fit;
+    
+    K = min((double)2*capacity,capacity * mean_fit);
+    
+    
+    max_fit = 0;
+    
+    for (it = this_generation.begin();it != this_generation.end();it++)
+    {
+       max_fit = fmax(max_fit,it->getRelativeFitness(s));
+    }
+    
+
+    
+    no_ind = this_generation.size();
+    //cout << "test: " <<this_generation.size() << " " << no_ind;
+    if (no_ind > 0)
+    {
+    
+        //calculate expected number of offspring 
+        
+        //expected_offspring = capacity;   //demes are filled immediately
+    
+        expected_offspring = max(0,no_ind * (r/(1 + (double)(no_ind*(r-1))/K)));  // beverton-holt
+        realized_offspring = 0;
+        
+        if (r <= 1)
+        {
+            expected_offspring = no_ind * r; 
+        }   
+        
+        //realized offspring is obtained from a poisson distribution
+        if (expected_offspring  > 0)
+        {
+            realized_offspring = randpois(expected_offspring);    
+        }
+        
+  
+        
+        
+        //no stochastic fluctuations in demography
+        //realized_offspring = expected_offspring;
+    
+        next_generation.clear();
+   
+        for (i = 0;i<realized_offspring;)
+        {
+                // generate new individual
+                mom = randint(0,this_generation.size()-1);    // draw parents with prob proportional to their fitnesses
+                dad = randint(0,this_generation.size()-1); 
+    
+                // create new gametes from parents
+                it=this_generation.begin();
+                advance(it,mom);
+                
+                mom_fit = it->getRelativeFitness(s);
+                
+                gamete_mom = it->getNewGamete(mutation_rate,s,front); //getNewGameteMM2(mutation_rate,mutation_rate,s); 
+    
+        
+                it=this_generation.begin();
+                advance(it,dad);
+                
+                dad_fit = it->getRelativeFitness(s);
+                
+                gamete_dad = it->getNewGamete(mutation_rate,s,front);//getNewGameteMM2(mutation_rate,mutation_rate,s); 
+                
+                //create new individual
+                ind.setGenotype(gamete_mom,gamete_dad);
+                
+                
+                
+                if (dad_fit > randreal(0,max_fit) && mom_fit > randreal(0,max_fit)) 
+                {
+                        next_generation.push_back(ind);
+                        i++;
+                }
+        }
+        // replace old generation by new
+        this_generation = next_generation;
+    }
+}
+
 
 Migrants Deme::getMigrants()
 {

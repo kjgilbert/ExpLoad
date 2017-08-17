@@ -433,11 +433,11 @@ void World::reproduceBurnin(int mode)
     //updateWaveFront();
     if (mode == 0)
     {
-        reproduceSS(); 
+        reproduceSSburnin(); 
     }
     else
     {   
-        reproduceHS1();
+        reproduceHSburnin();
     }
    
     
@@ -493,7 +493,29 @@ void World::reproduceHS1()
         it->reproduceHS1(mean_fit,wavefrontID); 
     }
 }
-       
+
+void World::reproduceSSburnin()
+{
+    vector<Deme>::iterator it;
+    //updateWaveFront();
+
+    for(it = demes.begin();it!=demes.end();it++)  
+    {
+        it->reproduceSSburnin(wavefrontID); 
+    }
+}
+void World::reproduceHSburnin()
+{
+    vector<Deme>::iterator it;
+    double mean_fit;
+    //updateWaveFront();
+    for(it = demes.begin();it!=demes.end();it++)  
+    {
+        mean_fit = it->getMeanFit();
+        it->reproduceHSburnin(mean_fit,wavefrontID); 
+    }
+}
+
 
 void World::migrate(int range)     
 { 

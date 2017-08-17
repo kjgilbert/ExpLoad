@@ -81,6 +81,8 @@ class World
         bool isColonized(int deme);
         void clear(int length1,int length2,int initial_colonized,int initial_popsize,int burnin_time,int capacity,int mode,double mutation_rate,double s,double migration_rate,double mut_prop);
         void reproduceBurnin(int mode);
+        void reproduceSSburnin();                     //reproduction plus soft selection
+        void reproduceHSburnin();                    // reproduction plus hard selection v1 - growth rate proportional to mean fit
         void reproduce(int mode);
         void reproduceSS();                     //reproduction plus soft selection
         void reproduceSSAM(); 
@@ -135,6 +137,8 @@ class Deme
         void reproduceSS(int wf); 
         void reproduceSSAM(int wf); 
         void reproduceHS1(double mean_fit,int wf);
+        void reproduceSSburnin(int wf); 
+        void reproduceHSburnin(double mean_fit,int wf);
         void select();
         void migrate();
         void print();

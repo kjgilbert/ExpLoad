@@ -66,7 +66,7 @@ World::World(int length1,int length2,int initial_colonized,int initial_popsize,i
    
    for (i = 0; i < burnin_time ; i++)
    {
-       initial_population[0].reproduceSS(wavefrontID);
+       initial_population[0].reproduceSSburnin(0, phi);
    }
    
    //bottleneck:
@@ -305,7 +305,7 @@ void World::clear(int length1,int length2,int initial_colonized,int initial_pops
    
    for (i = 0; i < burnin_time ; i++)
    {
-       initial_population[0].reproduceSS(wavefrontID);
+       initial_population[0].reproduceSSburnin(0, phi);    // make the ancestral burnin time also have no beneficial mutations (and it's always soft selection)
    }
    
    //bottleneck:

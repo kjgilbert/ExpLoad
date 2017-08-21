@@ -274,7 +274,7 @@ int main(int argc, char* argv[]) {
 
     tot_demes = m1*m2;
     initial_colonized = starting_demes*m1;  
-//*/
+*/
     
    loci = 1000;     // right now number of loci has to be hard coded in 
     

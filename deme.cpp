@@ -417,6 +417,8 @@ void Deme::reproduceSSburnin(int wf, double phi)
     list<Individual>::iterator it;
     double r = 2;
     double mom_fit,dad_fit;
+    extern double fitnessConstant;
+    fitnessConstant = 1;
 
     
     bool front;

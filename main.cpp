@@ -265,8 +265,8 @@ int main(int argc, char* argv[]) {
     replicates = 1;
 
     expansionMode = 0;
-    expansionModeKim = 1;
-    selectionMode = 1;
+    expansionModeKim = 1;   // 0 = full expand, 1 = open front, 2 = controlled
+    selectionMode = 0;      // 0 = soft, 1 = hard
     mu = 0.1;
     m = 0.05;
     s = -0.005;
@@ -359,9 +359,12 @@ int main(int argc, char* argv[]) {
     
     cout << endl;
  
+   
     
-    
-    
+    // set the global variable for fitness scaling to 1 before the burn-in starts
+    // NO!! doesn't work here, it's been set in deme where reproduce SS burnin happens because the ancestral pop only ever reproduces with that function
+    //    fitnessConstant = 1;
+     
     // INITIALIZE THE SIMULATION (AND ITS LANDSCAPE)
     vector<double> outdata(tot_demes);  
     vector<double> tempdata1(tot_demes);  
@@ -370,7 +373,6 @@ int main(int argc, char* argv[]) {
    
     World Grid2D(m1,m2,initial_colonized,anc_pop_size,burnin_time,capacity,expansionMode,mu,s,m,phi);   // initialize world: grid size (m1,m2), number of initially colonized demes, 
                                                                                                     // size of original population, burn in time of original population, capacity of demes, mode of intial colonization   
-    
 
     //srand(time(NULL));  // add back in, maybe this was what made reps different
     
@@ -395,16 +397,14 @@ int main(int argc, char* argv[]) {
         outputfile3.open(filename3);
         outputfile4.open(filename5);
         
-
-        // set the global variable for fitness scaling to 1 before the burn-in starts
-        fitnessConstant = 1;
-     
+    
 
         for (k = 0;k<expansion_start;k++)                                      
         {                        
             Grid2D.migrate(initial_colonized);                                       // migration        
             Grid2D.reproduceBurnin(selectionMode, phi);                                // reproduction and selection     
-        }  
+        } 
+        
     
         cout << "\n Burn-in finished, expansion into new territory starts.";
         
@@ -413,16 +413,19 @@ int main(int argc, char* argv[]) {
         tempdata1 = Grid2D.getMeanFit();
         tempdata2 = Grid2D.getDemeDensity();
         double fitnessSum;
+        double popSizeSum;
         
         for(int it=0; it<tot_demes; it++)
         {
             outdata[it]=tempdata1[it] * tempdata2[it];
             fitnessSum += outdata[it];               // this sum will include the sum of all empty, size 0 demes, but won't matter as long as I only divide by the number of occupied demes during the burnin
+            popSizeSum += tempdata2[it];
         }
+
         // get the average by dividing the sum by the number of occupied demes in the burnin
         // this resets the global variable for fitness scaling to the mean fitness of the metapop at the end of the burn-in
-        fitnessConstant = fitnessSum/(starting_demes * niche_width);
-
+        fitnessConstant = fitnessSum/popSizeSum;
+        
 
 // GET THE MEAN HERE TO SCALE FITNESS
         

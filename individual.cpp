@@ -422,16 +422,15 @@ void Individual::set_selection_dist(double s,double mut_prop)   // here we set t
     Individual::s_coeff.resize(loci);
     int i;
     
-    for (i = 0;i<int(loci*mut_prop);i++)
+    for (i = 0;i<int(loci*mut_prop);i++)       // these are the deleterious mutations
     {
         s_coeff[i] = s;    
     }
     
-    for (i = int(loci*mut_prop) + 1;i<loci;i++)
+    for (i = int(loci*mut_prop) + 1;i<loci;i++) // these are the beneficials
     {
         s_coeff[i] = -s;    
-    }
-
+    } 
     
 //    THIS IS THE OLD CODE FOR MAKING THE DISTRIBUTION OF MUTATION EFFECTS EXPONENTIAL
 //    for (i = 1;i<loci;i++)

@@ -254,19 +254,19 @@ int main(int argc, char* argv[]) {
     m2 = 40;
     starting_demes = 5;
     niche_width = 5;
-    capacity = 100;
-    anc_pop_size = 500;
+    capacity = 20;
+    anc_pop_size = 5000;
     
-    burnin_time = 50;
-    expansion_start = 10;
-    theta = 2;
+    burnin_time = 10;
+    expansion_start = 4000;
+    theta = 5;
     generations = 10;
     snapshot = 10;
     replicates = 1;
 
     expansionMode = 0;
     expansionModeKim = 1;   // 0 = full expand, 1 = open front, 2 = controlled
-    selectionMode = 0;      // 0 = soft, 1 = hard
+    selectionMode = 1;      // 0 = soft, 1 = hard
     mu = 0.1;
     m = 0.05;
     s = -0.005;

@@ -282,7 +282,8 @@ double Individual::getRelativeFitness(double s)
 {
     double w = 1;
     int i;
-    float h = 0.5;                  // dominance is set here
+//    float h = 0.5;                  // dominance is set here
+    float h;
     extern double fitnessConstant;  // this is the global variable for scaling fitness, defined in main.cpp
     
     // calculate fitness from genotype
@@ -292,6 +293,8 @@ double Individual::getRelativeFitness(double s)
        
        if ((haplotypes[0][i] && !haplotypes[1][i])||(!haplotypes[0][i] && haplotypes[1][i]))                              // completely recessive mutations
        { 
+           h = 1/((1/0.5)-(2500*s_coeff[i])); // make h depend on the mutational effect size, params approx from Huber et al 2017 would be 0.99 and 20,000 but I changed to 0.5 because then neutral things are additive, and 2500 because then s-0.0005 gives h=0.307 and s=-0.005 gives h=0.068
+           if(s_coeff[i] > 0) h = 0.5;        // make all beneficials additive
            w *= (1 + h*s_coeff[i]);  
        }
        else if (haplotypes[0][i] && haplotypes[1][i])                              // completely recessive mutations

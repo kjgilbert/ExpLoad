@@ -423,18 +423,22 @@ unsigned long Individual::getNumberMutations()
 void Individual::set_selection_dist(double s,double mut_prop)   // here we set the distribution of effect sizes for loci (bens and dels)
 {       
     Individual::s_coeff.resize(loci);
-    int i;
+    int i, j;
     
     for (i = 0;i<int(loci*mut_prop);i++)       // these are the deleterious mutations
     {
-        s_coeff[i] = s;    
+        s_coeff[i] = s * (-log( 1 - ((float)i/(loci*mut_prop)) )); // delet muts are now a negative exponential
     }
     
+    j=0; // because we'll iterate i through the remaining loci that are bens, but j from 0 to number ben loci to get the correct quantile
     for (i = int(loci*mut_prop) + 1;i<loci;i++) // these are the beneficials
     {
-        s_coeff[i] = -s;    
+        s_coeff[i] = -(s * (-log( 1 - ((float)j/(loci - (loci*mut_prop))) )));    // make beneficials reverse exponentially distributed from the negative s
+        j=j+1;
     } 
-    
+ 
+}
+
 //    THIS IS THE OLD CODE FOR MAKING THE DISTRIBUTION OF MUTATION EFFECTS EXPONENTIAL
 //    for (i = 1;i<loci;i++)
 //    {
@@ -442,4 +446,3 @@ void Individual::set_selection_dist(double s,double mut_prop)   // here we set t
 //    }
 //    
 //    s_coeff[loci-1] = s;//s*(-log(1-((float)loci-1)/loci));
-}

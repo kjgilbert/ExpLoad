@@ -303,7 +303,8 @@ double Individual::getRelativeFitness(double s)
        }
 ////                                                                                // mutliplicative effects  
 //        if(haplotypes[0][i]) w *= (1-s);
-//        if(haplotypes[1][i]) w *= (1-s);
+//        if(haplotypes[1][i]) w *= (1-s); <- 
+       
         
         
 //         w *= (1-( (haplotypes[1][i]+haplotypes[0][i])* s_coeff[i]/2 ) );                       // additive effects
@@ -431,7 +432,7 @@ void Individual::set_selection_dist(double s,double mut_prop)   // here we set t
     }
     
     j=0; // because we'll iterate i through the remaining loci that are bens, but j from 0 to number ben loci to get the correct quantile
-    for (i = int(loci*mut_prop) + 1;i<loci;i++) // these are the beneficials
+    for (i = int(loci*mut_prop); i<loci; i++) // these are the beneficials
     {
         s_coeff[i] = -(s * (-log( 1 - ((float)j/(loci - (loci*mut_prop))) )));    // make beneficials reverse exponentially distributed from the negative s
         j=j+1;

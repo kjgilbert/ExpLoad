@@ -10,24 +10,24 @@ A range shift, unlike an expansion, has extinction at the trailing edge of the m
 
 All parameters are as follows, and must be provided in this exact order with no other preceding text in the input file. All text after the last parameter is ignored by the program.
 
-m1 = width of the landscape (set to 1 for a linear stepping stone model)
-m2 = length of the landscape
-starting_demes = the number of demes to be colonized from the ancestral population
-niche_width = the width of the metapopulation during a range shift, ignored during a standard expansion
-capacity = carrying capacity per deme
-anc_pop_size = the size of the ancestral population
-burnin_time = the number of generations to burn in the ancestral population
-expansion_start = the number of generations to burn in the initial colonized populations (starting_demes) on the landscape before the expansion/shift begins
-theta = the number of generations between each successive shift of the metapopulation forward during a range shift
-generations = the total number of generations to run the simulation from when the expansion/shift begins; if the landscape is fully crossed, the simulation will continue and shifting populations will exist in a niche_width by m1 sized grid of demes for the duration of the siimulation
-snapshot = output simulation results at every generation that is a multiple of this number
-replicates = the number of simulation replicates to perform
-expansionMode = set equal to 0 for a linear expansion across the length of the landscape, all other modes are deprecated in this version of the code
-expansionModeKim = set to 0 for a standard full expansion, 1 for an open-front shift, and 2 for a shift controlled at both the front and trailing edges
-selectionMode = 0 for soft selection, 1 for hard selection
-mu = genome-wide mutation rate
-m = migration rate
-s = mean effect size of deleterious mutations (effect sizes are fixed, but code can be modified to an exponential distribution with this set as mean)
-phi = the proportion of loci which are unconditionally deleterious mutations, all others are then given the opposite s as set above, i.e. a mean of -0.1 makes all deleterious mutations have s = -0.1 and all beneficial mutations s = +0.1
+* m1 = width of the landscape (set to 1 for a linear stepping stone model)
+* m2 = length of the landscape
+* starting_demes = the number of demes to be colonized from the ancestral population
+* niche_width = the width of the metapopulation during a range shift, ignored during a standard expansion
+* capacity = carrying capacity per deme
+* anc_pop_size = the size of the ancestral population
+* burnin_time = the number of generations to burn in the ancestral population
+* expansion_start = the number of generations to burn in the initial colonized populations (starting_demes) on the landscape before the expansion/shift begins
+* theta = the number of generations between each successive shift of the metapopulation forward during a range shift
+* generations = the total number of generations to run the simulation from when the expansion/shift begins; if the landscape is fully crossed, the simulation will continue and shifting populations will exist in a niche_width by m1 sized grid of demes for the duration of the siimulation
+* snapshot = output simulation results at every generation that is a multiple of this number
+* replicates = the number of simulation replicates to perform
+* expansionMode = set equal to 0 for a linear expansion across the length of the landscape, all other modes are deprecated in this version of the code
+* expansionModeKim = set to 0 for a standard full expansion, 1 for an open-front shift, and 2 for a shift controlled at both the front and trailing edges
+* selectionMode = 0 for soft selection, 1 for hard selection
+* mu = genome-wide mutation rate
+* m = migration rate
+* s = mean effect size of deleterious mutations (effect sizes are fixed, but code can be modified to an exponential distribution with this set as mean)
+* phi = the proportion of loci which are unconditionally deleterious mutations, all others are then given the opposite s as set above, i.e. a mean of -0.1 makes all deleterious mutations have s = -0.1 and all beneficial mutations s = +0.1
 
 More details or description of the function of the code are found in [Gilbert *et al. In prep.*]().

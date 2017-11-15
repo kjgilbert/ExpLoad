@@ -30,4 +30,4 @@ All parameters are as follows, and must be provided in this exact order with no 
 * `s` = mean effect size of deleterious mutations (effect sizes are fixed, but code can be modified to an exponential distribution with this set as mean)
 * `phi` = the proportion of loci which are unconditionally deleterious mutations, all others are then given the opposite s as set above, i.e. a mean of -0.1 makes all deleterious mutations have s = -0.1 and all beneficial mutations s = +0.1
 
-More details or description of the function of the code are found in [Gilbert *et al. In prep.*]().
+More details or description of the function and application of the code are found in [Gilbert *et al. In prep.*]().

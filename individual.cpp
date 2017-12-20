@@ -12,7 +12,7 @@
 
 using namespace std;
 
-int Individual::loci = 1000;
+int Individual::loci = 2000;
 double Individual::rrate = 0.5; 
 vector<int> Individual::used_loci;
 vector<float> Individual::s_coeff;
@@ -288,7 +288,7 @@ double Individual::getRelativeFitness(double s)
     
     // calculate fitness from genotype
     
-    for (i=0;i<loci;i++)                                                    // add up the effects of deleterious mutations        
+    for (i=0;i<loci/2;i++)                                                    // add up the effects of deleterious mutations        
     {
        
        if ((haplotypes[0][i] && !haplotypes[1][i])||(!haplotypes[0][i] && haplotypes[1][i]))                              // completely recessive mutations

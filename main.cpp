@@ -258,7 +258,7 @@ int main(int argc, char* argv[]) {
     anc_pop_size = 5000;
     
     burnin_time = 10;
-    expansion_start = 4000;
+    expansion_start = 400;
     theta = 5;
     generations = 10;
     snapshot = 10;
@@ -276,7 +276,7 @@ int main(int argc, char* argv[]) {
     initial_colonized = starting_demes*m1;  
 */
     
-   loci = 1000;     // right now number of loci has to be hard coded in 
+   loci = 2000;     // right now number of loci has to be hard coded in 
     
 /*
  * This code works, but I have yet to figure out how to parse it when it contains both text and integers, so for now sticking to Stephan's original implementation for input files

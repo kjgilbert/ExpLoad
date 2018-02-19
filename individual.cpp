@@ -173,7 +173,7 @@ heritableUnit Individual::getNewGameteBurnin(double mu,double s,double phi)     
    }
    
     nmutations = 0;
-    double scaledMu = mu/phi;
+    double scaledMu = mu/(phi*2);   // IMPORTANT - ONLY FOR 2000 LOCI VERSION - because in those inputs I halved phi, so here need to double it
     if (scaledMu > 0) {nmutations = randpois(scaledMu); }       // draw poisson distributed number of mutations around mean mu that is scaled down by the number of loci that are deleterious
                                                     // this is the number of mutations per gamete, so mu is indeed U, the genome-wide mutation rate per generation
     

@@ -173,7 +173,7 @@ heritableUnit Individual::getNewGameteBurnin(double mu,double s,double phi)     
    }
    
     nmutations = 0;
-    double scaledMu = mu/(phi*2);   // IMPORTANT - ONLY FOR 2000 LOCI VERSION - because in those inputs I halved phi, so here need to double it
+    double scaledMu = mu/(phi*4);   // IMPORTANT - ONLY FOR 2000 LOCI VERSION - because in those inputs I halved phi AND doubled U, so here need to quadruple it to make same expected U just for 900 delet muts of 0.1111  (U/phi = 0.1/0.9 = 0.1111)
     if (scaledMu > 0) {nmutations = randpois(scaledMu); }       // draw poisson distributed number of mutations around mean mu that is scaled down by the number of loci that are deleterious
                                                     // this is the number of mutations per gamete, so mu is indeed U, the genome-wide mutation rate per generation
     
@@ -428,13 +428,15 @@ void Individual::set_selection_dist(double s,double mut_prop)   // here we set t
     
     for (i = 0;i<int(loci*mut_prop);i++)       // these are the deleterious mutations
     {
-        s_coeff[i] = s * (-log( 1 - ((float)i/(loci*mut_prop)) )); // delet muts are now a negative exponential
+        s_coeff[i] = s;                                               // for constant fitness effects
+        // s_coeff[i] = s * (-log( 1 - ((float)i/(loci*mut_prop)) )); // delet muts are now a negative exponential
     }
     
     j=0; // because we'll iterate i through the remaining loci that are bens, but j from 0 to number ben loci to get the correct quantile
     for (i = int(loci*mut_prop); i<loci; i++) // these are the beneficials
     {
-        s_coeff[i] = -(s * (-log( 1 - ((float)j/(loci - (loci*mut_prop))) )));    // make beneficials reverse exponentially distributed from the negative s
+        s_coeff[i] = -s;                                                            // for constant fitness effects
+        //s_coeff[i] = -(s * (-log( 1 - ((float)j/(loci - (loci*mut_prop))) )));    // make beneficials reverse exponentially distributed from the negative s
         j=j+1;
     } 
  

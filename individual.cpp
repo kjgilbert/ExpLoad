@@ -173,13 +173,16 @@ heritableUnit Individual::getNewGameteBurnin(double mu,double s,double phi)     
    }
    
     nmutations = 0;
-    double scaledMu = mu/(phi*4);   // IMPORTANT - ONLY FOR 2000 LOCI VERSION - because in those inputs I halved phi AND doubled U, so here need to quadruple it to make same expected U just for 900 delet muts of 0.1111  (U/phi = 0.1/0.9 = 0.1111)
+    //double scaledMu = mu/(phi*4);   // IMPORTANT - ONLY FOR 2000 LOCI VERSION - because in those inputs I halved phi AND doubled U, so here need to quadruple it to make same expected U just for 900 delet muts of 0.1111  (U/phi = 0.1/0.9 = 0.1111)
+    double scaledMu = mu/((phi*2)+1);     // VERSION WITH NEUTRALS IN THE BURNIN PHASE - I want U=0.1 everywhere for 1000 loci, so U=0.2 for 2000 loci, so for 1900 loci, U=0.19 (U/phi = 0.2/0.9 = 0.1111) -- these rescalings may actually be wrong? because I want to downscale mu when I don't have as much of the genome that is mutating. But I don't htink it's an issue in general since it's only the burnin phase, and upping the mutation rate then helps to get to equil faster
     if (scaledMu > 0) {nmutations = randpois(scaledMu); }       // draw poisson distributed number of mutations around mean mu that is scaled down by the number of loci that are deleterious
                                                     // this is the number of mutations per gamete, so mu is indeed U, the genome-wide mutation rate per generation
     
     for(i = 0; i < nmutations; i++)
     {   
-        site = randint(0,(phi*loci)-1); 
+        // site = randint(0,(phi*loci)-1); // original for only counting delets during the burnin
+        site = randint(0,((phi*loci)+(loci/2))-1);
+        if(site > (phi*loci-1)) site = site + 100;
         hap_new[site] = 1;//!hap_new[site]; // this is where back-mutation happens, to get rid of it, set it as 1 so it doens't back mutate
     } 
     

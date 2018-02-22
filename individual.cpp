@@ -131,7 +131,12 @@ heritableUnit Individual::getNewGamete(double mu,double s,bool front)           
     for(i = 0; i < nmutations; i++)
     {   
         site = randint(0,loci-1); 
-        hap_new[site] = 1;//!hap_new[site]; // this is where back-mutation happens, to get rid of it, set it as 1 so it doens't back mutate
+        if(site < loci/2){
+            hap_new[site] = 1; // when 2000 loci (last 1000 neutral), selected loci have no back mutation but neutral do
+        }else{
+            !hap_new[site];    // when 2000 loci (last 1000 neutral), neutral muts have back-mut
+        }
+        //hap_new[site] = 1;//!hap_new[site]; // this is where back-mutation happens, to get rid of it, set it as 1 so it doens't back mutate
     } 
     
         gam_new.haplotype = hap_new;
@@ -183,7 +188,13 @@ heritableUnit Individual::getNewGameteBurnin(double mu,double s,double phi)     
         // site = randint(0,(phi*loci)-1); // original for only counting delets during the burnin
         site = randint(0,((phi*loci)+(loci/2))-1);
         if(site > (phi*loci-1)) site = site + 100;
-        hap_new[site] = 1;//!hap_new[site]; // this is where back-mutation happens, to get rid of it, set it as 1 so it doens't back mutate
+        
+        if(site < loci/2){
+            hap_new[site] = 1; // when 2000 loci (last 1000 neutral), selected loci have no back mutation but neutral do
+        }else{
+            !hap_new[site];    // when 2000 loci (last 1000 neutral), neutral muts have back-mut
+        }
+        //hap_new[site] = 1;//!hap_new[site]; // this is where back-mutation happens, to get rid of it, set it as 1 so it doens't back mutate
     } 
     
         gam_new.haplotype = hap_new;

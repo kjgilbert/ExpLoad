@@ -387,14 +387,13 @@ int main(int argc, char* argv[]) {
 // orig        sprintf(filename3,"%s%s%d",base,"_het_rep_",rep);
         sprintf(filename,"%s%s%d%s%d%s%d",base,"wid",niche_width,"_speed",theta,"_rep_",rep);
         sprintf(filename2,"%s%s%d%s%d%s%d",base,"hom-mut_wid",niche_width,"_speed",theta,"_rep_",rep);
-        sprintf(filename3,"%s%s%d%s%d%s%d",base,"het_wid",niche_width,"_speed",theta,"_rep_",rep);
+        sprintf(filename3,"%s%s%d%s%d%s%d",base,"het_wid",niche_width,"_speed",theta,"_rep_",rep); // this is just making a filename that is appended to and used later as filename 4, so don't need to open it at the moment
         sprintf(filename5,"%s%s%d%s%d%s%d",base,"popdens_wid",niche_width,"_speed",theta,"_rep_",rep);
 
  
         outputfile.open(filename);
         cout << " filename:" <<filename;
         outputfile2.open(filename2);
-        outputfile3.open(filename3);
         outputfile4.open(filename5);
         
     
@@ -475,6 +474,7 @@ int main(int argc, char* argv[]) {
                 outdata = Grid2D.getGenotypeFrequencies(0, loci, 1); // get  heterozygotes
 
                 sprintf(filename4, "%s%s%d", filename3, "_gen_", (i));
+                
                 outputfile3.open(filename4);
 
                 for (j = 0; j < (tot_demes); j++) {
@@ -654,7 +654,6 @@ int main(int argc, char* argv[]) {
 
         outputfile.close();
         outputfile2.close();
-        outputfile3.close();
         outputfile4.close();
      
 

@@ -136,7 +136,6 @@ heritableUnit Individual::getNewGamete(double mu,double s,bool front)           
         }else{
             hap_new[site] = 1 - hap_new[site];  // when 2000 loci (last 1000 neutral), neutral muts have back-mut
             //!hap_new[site];    // doesn't seem to properly work for back mutations?t
-            cout << hap_new[site] << " ";
        }
         //hap_new[site] = 1;//!hap_new[site]; // this is where back-mutation happens, to get rid of it, set it as 1 so it doens't back mutate
     } 

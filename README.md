@@ -1,6 +1,6 @@
 # Expansion Load Simulation Code
 
-C++ code modified from [Peischl & Excoffier 2015](http://onlinelibrary.wiley.com/doi/10.1111/mec.13154/abstract). If you use this code, please cite [Gilbert *et al. In prep.*]().
+C++ code modified from [Peischl & Excoffier 2015](http://onlinelibrary.wiley.com/doi/10.1111/mec.13154/abstract). If you use this code, please cite [Gilbert *et al. Submitted*](https://www.biorxiv.org/content/early/2018/05/29/333252).
 
 This code simulates either a range expansion or a range shift over space, whereby a total of 1000 loci of deleterious or beneficial effects mutate to impact fitness. The code can be compiled without any dependencies. Simulations are run in the command line by invoking `./expload input_file.txt`, where input_file.txt is a plain text file containing the input parameters for a simulation.
 
@@ -30,4 +30,4 @@ All parameters are as follows, and must be provided in this exact order with no 
 * `s` = mean effect size of deleterious mutations (effect sizes are fixed, but code can be modified to an exponential distribution with this set as mean)
 * `phi` = the proportion of loci which are unconditionally deleterious mutations, all others are then given the opposite s as set above, i.e. a mean of -0.1 makes all deleterious mutations have s = -0.1 and all beneficial mutations s = +0.1
 
-More details or description of the function and application of the code are found in [Gilbert *et al. In prep.*]().
+More details or description of the function and application of the code are found in [Gilbert *et al. Submitted*](https://www.biorxiv.org/content/early/2018/05/29/333252).

@@ -3,7 +3,7 @@
 # Expansion Load Simulation Code
 
 
-C++ code modified from [Peischl & Excoffier 2015](http://onlinelibrary.wiley.com/doi/10.1111/mec.13154/abstract). If you use this code, please cite [Gilbert *et al. Submitted*](https://www.biorxiv.org/content/early/2018/05/29/333252).
+C++ code modified from [Peischl & Excoffier 2015](http://onlinelibrary.wiley.com/doi/10.1111/mec.13154/abstract). If you use this code, please cite [Gilbert *et al.* 2018](https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1007450).
 
 This code simulates either a range expansion or a range shift over space, whereby a total of 1000 loci of deleterious or beneficial effects mutate to impact fitness. The code can be compiled without any dependencies. Simulations are run in the command line by invoking `./expload input_file.txt`, where input_file.txt is a plain text file containing the input parameters for a simulation. The latest version on GitHub as of the 20 Dec 2017 commit uses 2000 loci, of which 1000 are under selection and 1000 are neutral; please note that the behavior of phi in this version as described below in the input parameters. Also note that the dominance parameter *h* can only currently be modified by editing the code in line 301 in Individual.cpp and recompiling the program (or see line 312 to model an *h-s* trade-off). The same is true for whether the selection coefficient of selected loci, *s*, is desired to be fixed or follow an exponential distribution (see lines 448 and 455 in Individual.cpp).
 
@@ -33,4 +33,4 @@ All parameters are as follows, and must be provided in this exact order with no 
 * `s` = mean effect size of deleterious mutations (effect sizes are fixed, but code can be modified to an exponential distribution with this set as mean)
 * `phi` = the proportion of loci which are unconditionally deleterious mutations, all others are then given the opposite s as set above, i.e. a mean of -0.1 makes all deleterious mutations have s = -0.1 and all beneficial mutations s = +0.1  When the 2000-loci version of the program is used, phi is a proportion of these 2000 loci, but the last 1000 loci are always neutral regardless of the value of phi, e.g. for 900 deleterious loci, 100 beneficial loci, and 1000 neutral loci, phi should be set to 0.45 and *s* to -0.1.
 
-More details or description of the function and application of the code are found in [Gilbert *et al. Submitted*](https://www.biorxiv.org/content/early/2018/05/29/333252).
+More details or description of the function and application of the code are found in [Gilbert *et al.* 2018](https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1007450).

@@ -1,9 +1,6 @@
-<h1>
-<div>
-	<span>Expansion Load Simulation Code <br></span>
-	<img style="vertical-align:middle" src="ExpLoad_Logo.png">
-</div>
-</h1>
+# Expansion Load Simulation Code
+
+![logo](ExpLoad_Logo.png)
 
 C++ code modified from [Peischl & Excoffier 2015](http://onlinelibrary.wiley.com/doi/10.1111/mec.13154/abstract). If you use this code, please cite [Gilbert *et al. Submitted*](https://www.biorxiv.org/content/early/2018/05/29/333252).
 

@@ -1,6 +1,6 @@
 <h1>
 <div>
-	<span>Expansion Load Simulation Code</span>
+	<span>Expansion Load Simulation Code <br></span>
 	<img style="vertical-align:middle" src="ExpLoad_Logo.png">
 </div>
 </h1>
